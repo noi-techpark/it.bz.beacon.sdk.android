@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Info {
+public class Beacon {
 
     static final String LOCATION_OUTDOOR = "OUTDOOR";
     static final String LOCATION_INDOOR = "INDOOR";
@@ -29,7 +29,7 @@ public class Info {
     private String uuid;
     private String website;
 
-    public Info() {
+    public Beacon() {
     }
 
     @NonNull

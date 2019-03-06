@@ -5,12 +5,12 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import it.bz.beacon.beaconsuedtirolsdk.data.dao.InfoDao;
-import it.bz.beacon.beaconsuedtirolsdk.data.entity.Info;
+import it.bz.beacon.beaconsuedtirolsdk.data.dao.BeaconDao;
+import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
 
 @Database(
         entities = {
-                Info.class
+                Beacon.class
         },
         version = 1, exportSchema = false)
 
@@ -19,7 +19,7 @@ public abstract class BeaconDatabase extends RoomDatabase {
     private static BeaconDatabase INSTANCE;
     public static String DB_NAME = "beacon_db";
 
-    public abstract InfoDao infoDao();
+    public abstract BeaconDao infoDao();
 
     public static BeaconDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
