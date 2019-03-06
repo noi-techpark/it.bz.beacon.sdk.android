@@ -1,0 +1,46 @@
+*.iml
+.gradle/
+local.properties
+
+.idea/
+*.iml
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+/*/build/
+/build
+/captures
+.signing/
+.externalNativeBuild
+/swagger/build
+
+# Bundler
+/.bundle
+/vendor
+
+# fastlane specific
+fastlane/report.xml
+
+# deliver temporary files
+fastlane/Preview.html
+
+# snapshot generated screenshots
+fastlane/screenshots
+
+# scan temporary files
+fastlane/test_output
+
+# exclude configuration files
+/keystore.keystore
+keystore.jks
+app/src/debug/res/values/beacon_suedtirol_api.xml
+app/src/debug/res/values/google_maps_api.xml
+app/src/release/res/values/beacon_suedtirol_api.xml
+app/src/release/res/values/google_maps_api.xml
+app/google-services.json
