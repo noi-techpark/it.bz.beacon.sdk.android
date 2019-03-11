@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/beacon_instance_id"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="4dp"
+        android:textStyle="bold"
+        tools:text="Beacon Instance ID"
+        android:textIsSelectable="true"
+        tools:context=".BeaconDetailFragment" />
+
+    <TextView
+        android:id="@+id/beacon_id"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        tools:text="Beacon ID"
+        android:textColor="@color/accent"
+        android:textIsSelectable="true"
+        tools:context=".BeaconDetailFragment" />
+
+    <TextView
+        android:id="@+id/beacon_major"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:text="Beacon Major"
+        android:textIsSelectable="true"
+        tools:context=".BeaconDetailFragment" />
+
+    <TextView
+        android:id="@+id/beacon_minor"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:text="Beacon Minor"
+        android:textIsSelectable="true"
+        tools:context=".BeaconDetailFragment" />
+
+</LinearLayout>

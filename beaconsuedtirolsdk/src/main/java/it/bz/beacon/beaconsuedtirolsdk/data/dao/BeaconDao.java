@@ -25,6 +25,9 @@ public abstract class BeaconDao {
     @Query("SELECT * FROM Beacon WHERE id = :id")
     public abstract Beacon getById(String id);
 
+    @Query("SELECT * FROM Beacon WHERE major = :major AND minor = :minor")
+    public abstract Beacon getByMajorMinor(int major, int minor);
+
     @Query("SELECT * FROM Beacon WHERE instanceId = :instanceId")
     public abstract Beacon getByInstanceId(String instanceId);
 

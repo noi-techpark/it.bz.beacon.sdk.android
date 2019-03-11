@@ -23,7 +23,6 @@ import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadBeaconEvent;
 public class BeaconRepository {
 
     private final static String LAST_REFRESH = "LAST_REFRESH";
-    private final static String LOG_TAG = "Beacon SDK";
 
     private BeaconDao beaconDao;
     private int synchronizationInterval;
@@ -31,28 +30,17 @@ public class BeaconRepository {
 
     public BeaconRepository(Context context) {
         BeaconDatabase db = BeaconDatabase.getDatabase(context);
-        beaconDao = db.infoDao();
+        beaconDao = db.beaconDao();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         synchronizationInterval = context.getResources().getInteger(R.integer.synchronization_interval);
-    }
-// TODO: decide if give back LiveData, otherwise move in AsyncTask
-    public List<Beacon> getAll() {
-        if (shouldSynchronize()) {
-            refreshBeacons(null);
-        }
-        return beaconDao.getAll();
-    }
-
-    public void getById(String id, LoadBeaconEvent loadEvent) {
-        new LoadByIdTask(beaconDao, loadEvent).execute(id);
     }
 
     public void getByInstanceId(String instanceId, LoadBeaconEvent loadEvent) {
         new LoadByInstanceIdTask(beaconDao, loadEvent).execute(instanceId);
     }
 
-    public void getManyByInstanceIds(String[] instanceIds, LoadBeaconEvent loadEvent) {
-        new LoadManyByInstanceIdsTask(beaconDao, loadEvent).execute(instanceIds);
+    public void getByMajorMinor(int major, int minor, LoadBeaconEvent loadEvent) {
+        new LoadByMajorMinorTask(beaconDao, loadEvent).execute(major, minor);
     }
 
     private boolean shouldSynchronize() {
@@ -97,30 +85,29 @@ public class BeaconRepository {
             if (dataUpdateEvent != null) {
                 dataUpdateEvent.onError();
             }
-            Log.e(LOG_TAG, e.getMessage());
         }
     }
 
-    private void saveInfo(io.swagger.client.model.Info remoteInfo) {
-        Beacon info;
-        info = new Beacon();
-        info.setId(remoteInfo.getId());
-        info.setAddress(remoteInfo.getAddress());
-        info.setBeaconId(remoteInfo.getBeaconId());
-        info.setCap(remoteInfo.getCap());
-        info.setFloor(remoteInfo.getFloor());
-        info.setInstanceId(remoteInfo.getInstanceId());
-        info.setLatitude(remoteInfo.getLatitude());
-        info.setLongitude(remoteInfo.getLongitude());
-        info.setLocation(remoteInfo.getLocation());
-        info.setMajor(remoteInfo.getMajor());
-        info.setMinor(remoteInfo.getMinor());
-        info.setName(remoteInfo.getName());
-        info.setNamespace(remoteInfo.getNamespace());
-        info.setOpenDataPoiId(remoteInfo.getOpenDataPoiId());
-        info.setUuid(remoteInfo.getUuid().toString());
-        info.setWebsite(remoteInfo.getWebsite());
-        insert(info, null);
+    private void saveInfo(io.swagger.client.model.Info info) {
+        Beacon beacon;
+        beacon = new Beacon();
+        beacon.setId(info.getId());
+        beacon.setAddress(info.getAddress());
+        beacon.setBeaconId(info.getBeaconId());
+        beacon.setCap(info.getCap());
+        beacon.setFloor(info.getFloor());
+        beacon.setInstanceId(info.getInstanceId());
+        beacon.setLatitude(info.getLatitude());
+        beacon.setLongitude(info.getLongitude());
+        beacon.setLocation(info.getLocation());
+        beacon.setMajor(info.getMajor());
+        beacon.setMinor(info.getMinor());
+        beacon.setName(info.getName());
+        beacon.setNamespace(info.getNamespace());
+        beacon.setOpenDataPoiId(info.getOpenDataPoiId());
+        beacon.setUuid(info.getUuid().toString());
+        beacon.setWebsite(info.getWebsite());
+        insert(beacon, null);
     }
 
     public void insert(Beacon info, InsertEvent event) {
@@ -161,19 +148,19 @@ public class BeaconRepository {
         }
     }
 
-    private static class LoadByIdTask extends AsyncTask<String, Void, Beacon> {
+    private static class LoadByMajorMinorTask extends AsyncTask<Integer, Void, Beacon> {
 
         private BeaconDao asyncTaskDao;
         private LoadBeaconEvent loadEvent;
 
-        LoadByIdTask(BeaconDao dao, LoadBeaconEvent event) {
+        LoadByMajorMinorTask(BeaconDao dao, LoadBeaconEvent event) {
             asyncTaskDao = dao;
             loadEvent = event;
         }
 
         @Override
-        protected Beacon doInBackground(String... ids) {
-            return asyncTaskDao.getById(ids[0]);
+        protected Beacon doInBackground(Integer... ids) {
+            return asyncTaskDao.getByMajorMinor(ids[0], ids[1]);
         }
 
         @Override
@@ -209,34 +196,6 @@ public class BeaconRepository {
             if (loadEvent != null) {
                 if (beacon != null) {
                     loadEvent.onSuccess(beacon);
-                }
-                else {
-                    loadEvent.onError();
-                }
-            }
-        }
-    }
-
-    private static class LoadManyByInstanceIdsTask extends AsyncTask<String, Void, List<Beacon>> {
-
-        private BeaconDao asyncTaskDao;
-        private LoadBeaconEvent loadEvent;
-
-        LoadManyByInstanceIdsTask(BeaconDao dao, LoadBeaconEvent event) {
-            asyncTaskDao = dao;
-            loadEvent = event;
-        }
-
-        @Override
-        protected List<Beacon> doInBackground(String... instanceIds) {
-            return asyncTaskDao.getManyByInstanceIds(instanceIds);
-        }
-
-        @Override
-        protected void onPostExecute(List<Beacon> beacons) {
-            if (loadEvent != null) {
-                if (beacons != null) {
-                    loadEvent.onSuccess(beacons);
                 }
                 else {
                     loadEvent.onError();

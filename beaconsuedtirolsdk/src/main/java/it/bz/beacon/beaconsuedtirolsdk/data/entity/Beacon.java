@@ -1,14 +1,27 @@
 package it.bz.beacon.beaconsuedtirolsdk.data.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Beacon {
+public class Beacon implements Parcelable {
 
-    static final String LOCATION_OUTDOOR = "OUTDOOR";
-    static final String LOCATION_INDOOR = "INDOOR";
+    public static final String LOCATION_OUTDOOR = "OUTDOOR";
+    public static final String LOCATION_INDOOR = "INDOOR";
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Beacon createFromParcel(Parcel in) {
+            return new Beacon(in);
+        }
+
+        public Beacon[] newArray(int size) {
+            return new Beacon[size];
+        }
+    };
 
     @NonNull
     @PrimaryKey
@@ -159,5 +172,49 @@ public class Beacon {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public Beacon(Parcel in){
+        this.id = in.readString();
+        this.address = in.readString();
+        this.beaconId = in.readString();
+        this.cap = in.readString();
+        this.floor = in.readString();
+        this.instanceId = in.readString();
+        this.latitude = in.readFloat();
+        this.longitude = in.readFloat();
+        this.location = in.readString();
+        this.major = in.readInt();
+        this.minor = in.readInt();
+        this.name = in.readString();
+        this.namespace = in.readString();
+        this.openDataPoiId = in.readString();
+        this.uuid = in.readString();
+        this.website = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.address);
+        dest.writeString(this.beaconId);
+        dest.writeString(this.cap);
+        dest.writeString(this.floor);
+        dest.writeString(this.instanceId);
+        dest.writeFloat(this.latitude);
+        dest.writeFloat(this.longitude);
+        dest.writeString(this.location);
+        dest.writeInt(this.major);
+        dest.writeInt(this.minor);
+        dest.writeString(this.name);
+        dest.writeString(this.namespace);
+        dest.writeString(this.openDataPoiId);
+        dest.writeString(this.uuid);
+        dest.writeString(this.website);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }
