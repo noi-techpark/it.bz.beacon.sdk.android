@@ -1,10 +1,7 @@
 package it.bz.beacon.beaconsuedtirolsdk.data.dao;
 
-import android.text.TextUtils;
-
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -30,7 +27,4 @@ public abstract class BeaconDao {
 
     @Query("SELECT * FROM Beacon WHERE instanceId = :instanceId")
     public abstract Beacon getByInstanceId(String instanceId);
-
-    @Query("SELECT * FROM Beacon WHERE instanceId IN (:instanceIds)")
-    public abstract List<Beacon> getManyByInstanceIds(String[] instanceIds);
 }

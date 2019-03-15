@@ -4,20 +4,22 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import io.swagger.client.ApiCallback;
+import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.api.InfoControllerApi;
+import io.swagger.client.model.Info;
 import it.bz.beacon.beaconsuedtirolsdk.R;
 import it.bz.beacon.beaconsuedtirolsdk.data.BeaconDatabase;
 import it.bz.beacon.beaconsuedtirolsdk.data.dao.BeaconDao;
 import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
-import it.bz.beacon.beaconsuedtirolsdk.data.event.DataUpdateEvent;
 import it.bz.beacon.beaconsuedtirolsdk.data.event.InsertEvent;
+import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadAllBeaconsEvent;
 import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadBeaconEvent;
 
 public class BeaconRepository {
@@ -25,48 +27,44 @@ public class BeaconRepository {
     private final static String LAST_REFRESH = "LAST_REFRESH";
 
     private BeaconDao beaconDao;
-    private int synchronizationInterval;
-    private SharedPreferences sharedPreferences;
+    private InfoControllerApi infoControllerApi;
+    private int timeout;
+    private int reduced_timeout;
 
     public BeaconRepository(Context context) {
         BeaconDatabase db = BeaconDatabase.getDatabase(context);
         beaconDao = db.beaconDao();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        synchronizationInterval = context.getResources().getInteger(R.integer.synchronization_interval);
+        timeout = context.getResources().getInteger(R.integer.timeout);
+        reduced_timeout = context.getResources().getInteger(R.integer.reduced_timeout);
+
+        ApiClient apiClient = new ApiClient();
+        apiClient.setConnectTimeout(timeout);
+        apiClient.setReadTimeout(timeout);
+        io.swagger.client.Configuration.setDefaultApiClient(apiClient);
+        infoControllerApi = new InfoControllerApi();
     }
 
-    public void getByInstanceId(String instanceId, LoadBeaconEvent loadEvent) {
-        new LoadByInstanceIdTask(beaconDao, loadEvent).execute(instanceId);
-    }
-
-    public void getByMajorMinor(int major, int minor, LoadBeaconEvent loadEvent) {
-        new LoadByMajorMinorTask(beaconDao, loadEvent).execute(major, minor);
-    }
-
-    private boolean shouldSynchronize() {
-        long lastRefresh = sharedPreferences.getLong(LAST_REFRESH, 0L);
-        return (lastRefresh + synchronizationInterval * 60000L < System.currentTimeMillis());
-    }
-
-    private void refreshBeacons(final DataUpdateEvent dataUpdateEvent) {
+    public void getByInstanceId(final String instanceId, final LoadBeaconEvent loadEvent) {
         try {
-            InfoControllerApi infoControllerApi = new InfoControllerApi();
-            infoControllerApi.getListUsingGET2Async(new ApiCallback<List<io.swagger.client.model.Info>>() {
+            infoControllerApi.getApiClient().setConnectTimeout(reduced_timeout);
+            infoControllerApi.getApiClient().setReadTimeout(reduced_timeout);
+            infoControllerApi.getEddyStoneUsingGETAsync(instanceId, new ApiCallback<Info>() {
                 @Override
                 public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
-                    dataUpdateEvent.onError();
+                    loadFromCacheByInstanceId(loadEvent, instanceId);
                 }
 
                 @Override
-                public void onSuccess(List<io.swagger.client.model.Info> result, int statusCode, Map<String, List<String>> responseHeaders) {
-                    if (result != null) {
-                        for (int i = 0; i < result.size(); i++) {
-                            saveInfo(result.get(i));
+                public void onSuccess(Info result, int statusCode, Map<String, List<String>> responseHeaders) {
+                    Beacon beacon = Beacon.fromInfo(result);
+                    if (beacon != null) {
+                        if (loadEvent != null) {
+                            loadEvent.onSuccess(beacon);
                         }
-                        if (dataUpdateEvent != null) {
-                            dataUpdateEvent.onSuccess();
-                        }
-                        sharedPreferences.edit().putLong(LAST_REFRESH, System.currentTimeMillis()).apply();
+                        insert(beacon, null);
+                    }
+                    else {
+                        loadFromCacheByInstanceId(loadEvent, instanceId);
                     }
                 }
 
@@ -82,32 +80,120 @@ public class BeaconRepository {
             });
         }
         catch (ApiException e) {
-            if (dataUpdateEvent != null) {
-                dataUpdateEvent.onError();
-            }
+            e.printStackTrace();
+            loadFromCacheByInstanceId(loadEvent, instanceId);
         }
     }
 
-    private void saveInfo(io.swagger.client.model.Info info) {
-        Beacon beacon;
-        beacon = new Beacon();
-        beacon.setId(info.getId());
-        beacon.setAddress(info.getAddress());
-        beacon.setBeaconId(info.getBeaconId());
-        beacon.setCap(info.getCap());
-        beacon.setFloor(info.getFloor());
-        beacon.setInstanceId(info.getInstanceId());
-        beacon.setLatitude(info.getLatitude());
-        beacon.setLongitude(info.getLongitude());
-        beacon.setLocation(info.getLocation());
-        beacon.setMajor(info.getMajor());
-        beacon.setMinor(info.getMinor());
-        beacon.setName(info.getName());
-        beacon.setNamespace(info.getNamespace());
-        beacon.setOpenDataPoiId(info.getOpenDataPoiId());
-        beacon.setUuid(info.getUuid().toString());
-        beacon.setWebsite(info.getWebsite());
-        insert(beacon, null);
+    public void getById(final String id, final LoadBeaconEvent loadEvent) {
+         loadFromCacheById(loadEvent, id);
+    }
+
+    public void getByMajorMinor(final int major, final int minor, final LoadBeaconEvent loadEvent) {
+
+        try {
+            infoControllerApi.getApiClient().setConnectTimeout(reduced_timeout);
+            infoControllerApi.getApiClient().setReadTimeout(reduced_timeout);
+            infoControllerApi.getiBeaconUsingGETAsync(major, minor, new ApiCallback<Info>() {
+                @Override
+                public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
+                    loadFromCacheByMajorMinor(loadEvent, major, minor);
+                }
+
+                @Override
+                public void onSuccess(Info result, int statusCode, Map<String, List<String>> responseHeaders) {
+                    Beacon beacon = Beacon.fromInfo(result);
+                    if (beacon != null) {
+                        if (loadEvent != null) {
+                            loadEvent.onSuccess(beacon);
+                        }
+                        insert(beacon, null);
+                    }
+                    else {
+                        loadFromCacheByMajorMinor(loadEvent, major, minor);
+                    }
+                }
+
+                @Override
+                public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+
+                }
+
+                @Override
+                public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+
+                }
+            });
+        }
+        catch (ApiException e) {
+            e.printStackTrace();
+            loadFromCacheByMajorMinor(loadEvent, major, minor);
+        }
+    }
+
+    private void loadFromCacheByInstanceId(LoadBeaconEvent loadEvent, String instanceId) {
+        new LoadByInstanceIdTask(beaconDao, loadEvent).execute(instanceId);
+    }
+
+    private void loadFromCacheById(LoadBeaconEvent loadEvent, String id) {
+        new LoadByIdTask(beaconDao, loadEvent).execute(id);
+    }
+
+    private void loadFromCacheByMajorMinor(LoadBeaconEvent loadEvent, int major, int minor) {
+        new LoadByMajorMinorTask(beaconDao, loadEvent).execute(major, minor);
+    }
+
+    private void loadAllFromCache(LoadAllBeaconsEvent loadEvent) {
+        new LoadAllTask(beaconDao, loadEvent).execute();
+    }
+
+    public void getAll(LoadAllBeaconsEvent loadEvent) {
+        refreshBeacons(loadEvent);
+    }
+
+    private void refreshBeacons(final LoadAllBeaconsEvent loadAllBeaconsEvent) {
+        try {
+            infoControllerApi.getApiClient().setConnectTimeout(timeout);
+            infoControllerApi.getApiClient().setReadTimeout(timeout);
+            infoControllerApi.getListUsingGET2Async(new ApiCallback<List<io.swagger.client.model.Info>>() {
+                @Override
+                public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
+                    if (loadAllBeaconsEvent != null) {
+                        loadAllFromCache(loadAllBeaconsEvent);
+                    }
+                }
+
+                @Override
+                public void onSuccess(List<io.swagger.client.model.Info> result, int statusCode, Map<String, List<String>> responseHeaders) {
+                    if (result != null) {
+                        List<Beacon> beacons = new ArrayList<>();
+                        for (int i = 0; i < result.size(); i++) {
+                            Beacon beacon = Beacon.fromInfo(result.get(i));
+                            insert(beacon, null);
+                            beacons.add(beacon);
+                        }
+                        if (loadAllBeaconsEvent != null) {
+                            loadAllBeaconsEvent.onSuccess(beacons);
+                        }
+                    }
+                }
+
+                @Override
+                public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+
+                }
+
+                @Override
+                public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+
+                }
+            });
+        }
+        catch (ApiException e) {
+            if (loadAllBeaconsEvent != null) {
+                loadAllFromCache(loadAllBeaconsEvent);
+            }
+        }
     }
 
     public void insert(Beacon info, InsertEvent event) {
@@ -196,6 +282,62 @@ public class BeaconRepository {
             if (loadEvent != null) {
                 if (beacon != null) {
                     loadEvent.onSuccess(beacon);
+                }
+                else {
+                    loadEvent.onError();
+                }
+            }
+        }
+    }
+
+    private static class LoadByIdTask extends AsyncTask<String, Void, Beacon> {
+
+        private BeaconDao asyncTaskDao;
+        private LoadBeaconEvent loadEvent;
+
+        LoadByIdTask(BeaconDao dao, LoadBeaconEvent event) {
+            asyncTaskDao = dao;
+            loadEvent = event;
+        }
+
+        @Override
+        protected Beacon doInBackground(String... ids) {
+            return asyncTaskDao.getById(ids[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Beacon beacon) {
+            if (loadEvent != null) {
+                if (beacon != null) {
+                    loadEvent.onSuccess(beacon);
+                }
+                else {
+                    loadEvent.onError();
+                }
+            }
+        }
+    }
+
+    private static class LoadAllTask extends AsyncTask<Void, Void, List<Beacon>> {
+
+        private BeaconDao asyncTaskDao;
+        private LoadAllBeaconsEvent loadEvent;
+
+        LoadAllTask(BeaconDao dao, LoadAllBeaconsEvent event) {
+            asyncTaskDao = dao;
+            loadEvent = event;
+        }
+
+        @Override
+        protected List<Beacon> doInBackground(Void... voids) {
+            return asyncTaskDao.getAll();
+        }
+
+        @Override
+        protected void onPostExecute(List<Beacon> beacons) {
+            if (loadEvent != null) {
+                if (beacons != null) {
+                    loadEvent.onSuccess(beacons);
                 }
                 else {
                     loadEvent.onError();

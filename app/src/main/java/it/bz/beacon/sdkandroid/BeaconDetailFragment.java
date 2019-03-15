@@ -3,15 +3,20 @@ package it.bz.beacon.sdkandroid;
 import android.app.Activity;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -50,10 +55,44 @@ public class BeaconDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.beacon_detail, container, false);
 
         if (beacon != null) {
-            ((TextView) rootView.findViewById(R.id.beacon_instance_id)).setText(beacon.getInstanceId());
-            ((TextView) rootView.findViewById(R.id.beacon_id)).setText(beacon.getId());
+            ((TextView) rootView.findViewById(R.id.beacon_name)).setText(beacon.getName());
+            ((TextView) rootView.findViewById(R.id.beacon_address)).setText(beacon.getAddress());
+            ((TextView) rootView.findViewById(R.id.beacon_location)).setText(beacon.getCap() + " " + beacon.getLocation());
             ((TextView) rootView.findViewById(R.id.beacon_major)).setText("Major: " + beacon.getMajor());
             ((TextView) rootView.findViewById(R.id.beacon_minor)).setText("Minor: " + beacon.getMinor());
+
+            FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+            if (beacon.getLatitude() == 0 || beacon.getLongitude() == 0) {
+                fab.hide();
+            }
+            else {
+                fab.show();
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                Uri.parse("http://maps.google.com/maps?daddr=" + beacon.getLatitude() + "," + beacon.getLongitude()));
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            Button btn = rootView.findViewById(R.id.btn_website);
+            if (TextUtils.isEmpty(beacon.getWebsite())) {
+                btn.setVisibility(View.GONE);
+            }
+            else {
+                btn.setVisibility(View.VISIBLE);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String url = beacon.getWebsite();
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                });
+            }
         }
 
         return rootView;

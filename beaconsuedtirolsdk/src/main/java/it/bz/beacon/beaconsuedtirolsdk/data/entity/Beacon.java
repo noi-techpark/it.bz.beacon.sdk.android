@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import io.swagger.client.model.Info;
 
 @Entity
 public class Beacon implements Parcelable {
@@ -43,6 +44,28 @@ public class Beacon implements Parcelable {
     private String website;
 
     public Beacon() {
+    }
+
+    public static Beacon fromInfo(Info info) {
+        Beacon beacon;
+        beacon = new Beacon();
+        beacon.setId(info.getId());
+        beacon.setAddress(info.getAddress());
+        beacon.setBeaconId(info.getBeaconId());
+        beacon.setCap(info.getCap());
+        beacon.setFloor(info.getFloor());
+        beacon.setInstanceId(info.getInstanceId());
+        beacon.setLatitude(info.getLatitude());
+        beacon.setLongitude(info.getLongitude());
+        beacon.setLocation(info.getLocation());
+        beacon.setMajor(info.getMajor());
+        beacon.setMinor(info.getMinor());
+        beacon.setName(info.getName());
+        beacon.setNamespace(info.getNamespace());
+        beacon.setOpenDataPoiId(info.getOpenDataPoiId());
+        beacon.setUuid(info.getUuid().toString());
+        beacon.setWebsite(info.getWebsite());
+        return beacon;
     }
 
     @NonNull

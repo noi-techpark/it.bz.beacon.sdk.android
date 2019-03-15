@@ -4,8 +4,8 @@ import java.util.List;
 
 import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
 
-public interface LoadBeaconEvent {
-    void onSuccess(Beacon beacon);
+public interface LoadAllBeaconsEvent {
+    void onSuccess(List<Beacon> beacons);
 
     void onError();
 }

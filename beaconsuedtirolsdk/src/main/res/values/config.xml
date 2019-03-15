@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="connection_timeout">30000</integer>
-    <integer name="read_timeout">30000</integer>
+    <integer name="timeout">30000</integer>
+    <integer name="reduced_timeout">1000</integer>
     <!--interval for beacon synchronization in minutes-->
     <integer name="synchronization_interval">10</integer>
 </resources>

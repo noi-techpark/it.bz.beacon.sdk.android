@@ -1,14 +1,18 @@
 package it.bz.beacon.sdkandroid;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
+import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
@@ -30,19 +34,21 @@ import it.bz.beacon.sdkandroid.adapter.BeaconAdapter;
  */
 public class BeaconListActivity extends AppCompatActivity implements IBeaconListener, EddystoneListener {
 
+    private static final int LOCATION_PERMISSION_REQUEST = 1;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
      */
     private boolean isTablet;
     private BeaconAdapter adapter;
     private NearbyBeaconManager manager;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon_list);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
@@ -67,7 +73,31 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
     @Override
     protected void onResume() {
         super.onResume();
-        tryStartScanning();
+        startScanningIfLocationPermissionGranted();
+    }
+
+    private void startScanningIfLocationPermissionGranted() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST);
+        }
+        else {
+            tryStartScanning();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    tryStartScanning();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     private void tryStartScanning() {
@@ -102,13 +132,13 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
     }
 
     @Override
-    public void onEddystoneDiscovered(Beacon beacon) {
-        adapter.addItem(beacon);
-    }
-
-    @Override
-    public void onEddystonesUpdated(List<Beacon> beacons) {
-       // TODO: refresh list with updated beacons
+    public void onEddystoneDiscovered(final Beacon beacon) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                adapter.addItem(beacon);
+                setTitle();
+            }
+        });
     }
 
     @Override
@@ -117,17 +147,21 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
     }
 
     @Override
-    public void onIBeaconDiscovered(Beacon beacon) {
-        adapter.addItem(beacon);
-    }
-
-    @Override
-    public void onIBeaconsUpdated(List<Beacon> beacons) {
-        // TODO: refresh list with updated beacons
+    public void onIBeaconDiscovered(final Beacon beacon) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                adapter.addItem(beacon);
+                setTitle();
+            }
+        });
     }
 
     @Override
     public void onIBeaconLost(Beacon beacon) {
         // TODO: remove lost beacon from list
+    }
+
+    private void setTitle() {
+        toolbar.setTitle(String.format(Locale.getDefault(), "%s (%d)", getString(R.string.app_name), adapter.getItemCount()));
     }
 }

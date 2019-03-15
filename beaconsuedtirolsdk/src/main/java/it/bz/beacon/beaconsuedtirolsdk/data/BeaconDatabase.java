@@ -23,7 +23,7 @@ import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
 public abstract class BeaconDatabase extends RoomDatabase {
 
     private static BeaconDatabase INSTANCE;
-    public static String DB_NAME = "beacon_db";
+    public static String DB_NAME = "info_db";
 
     public abstract BeaconDao beaconDao();
 
@@ -53,7 +53,7 @@ public abstract class BeaconDatabase extends RoomDatabase {
                 @Override
                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                     super.onCreate(db);
-                    new PopulateDbTask(INSTANCE).execute();
+//                    new PopulateDbTask(INSTANCE).execute();
                 }
             };
 
@@ -73,7 +73,7 @@ public abstract class BeaconDatabase extends RoomDatabase {
             Beacon beacon = new Beacon();
             beacon.setId("ME123#FshHDf");
             beacon.setUuid(UUID.randomUUID().toString().replace("-", "").toUpperCase());
-            beacon.setInstanceId("FshHDf");
+            beacon.setInstanceId("49786c64324d");
             beacon.setName("Bozner Dom");
             beacon.setMajor(6553);
             beacon.setMinor(56);
@@ -90,7 +90,7 @@ public abstract class BeaconDatabase extends RoomDatabase {
             beacon = new Beacon();
             beacon.setId("BZ456#Fsojta");
             beacon.setUuid(UUID.randomUUID().toString().replace("-", "").toUpperCase());
-            beacon.setInstanceId("Fsojta");
+            beacon.setInstanceId("356679395345");
             beacon.setName("Waltherplatz");
             beacon.setMajor(128);
             beacon.setMinor(24);
@@ -107,7 +107,7 @@ public abstract class BeaconDatabase extends RoomDatabase {
             beacon = new Beacon();
             beacon.setId("BX987#ctG9jM");
             beacon.setUuid(UUID.randomUUID().toString().replace("-", "").toUpperCase());
-            beacon.setInstanceId("ctG9jM");
+            beacon.setInstanceId("336e68625034");
             beacon.setName("Eiswelle");
             beacon.setMajor(31921);
             beacon.setMinor(47792);

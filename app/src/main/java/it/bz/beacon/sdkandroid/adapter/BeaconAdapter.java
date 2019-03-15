@@ -56,7 +56,13 @@ public class BeaconAdapter
     }
 
     public void setItems(List<Beacon> beacons) {
-        Collections.sort(beacons, new Comparator<Beacon>() {
+        this.beacons = beacons;
+        sortItems();
+        notifyDataSetChanged();
+    }
+
+    private void sortItems() {
+        Collections.sort(this.beacons, new Comparator<Beacon>() {
             public int compare(Beacon obj1, Beacon obj2) {
                 if ((obj1 != null) && (obj2 != null) && (obj1.getName() != null) && (obj2.getName() != null)) {
                     return obj1.getName().compareTo(obj2.getName());
@@ -66,13 +72,23 @@ public class BeaconAdapter
                 }
             }
         });
-        this.beacons = beacons;
-        notifyDataSetChanged();
     }
 
     public void addItem(Beacon beacon) {
-        this.beacons.add(0, beacon);
+        if (!isBeaconInList(beacon)) {
+            this.beacons.add(beacon);
+        }
+        sortItems();
         notifyDataSetChanged();
+    }
+
+    private boolean isBeaconInList(Beacon newBeacon) {
+        for (Beacon beacon : this.beacons) {
+            if (beacon.getId().equals(newBeacon.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
