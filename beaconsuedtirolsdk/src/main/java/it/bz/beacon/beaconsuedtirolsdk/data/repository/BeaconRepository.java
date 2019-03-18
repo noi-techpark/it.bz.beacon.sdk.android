@@ -1,9 +1,7 @@
 package it.bz.beacon.beaconsuedtirolsdk.data.repository;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +22,6 @@ import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadBeaconEvent;
 
 public class BeaconRepository {
 
-    private final static String LAST_REFRESH = "LAST_REFRESH";
-
     private BeaconDao beaconDao;
     private InfoControllerApi infoControllerApi;
     private int timeout;
@@ -42,6 +38,8 @@ public class BeaconRepository {
         apiClient.setReadTimeout(timeout);
         io.swagger.client.Configuration.setDefaultApiClient(apiClient);
         infoControllerApi = new InfoControllerApi();
+
+        refreshBeacons(null);
     }
 
     public void getByInstanceId(final String instanceId, final LoadBeaconEvent loadEvent) {
@@ -85,8 +83,49 @@ public class BeaconRepository {
         }
     }
 
+//    public void getById(final String id, final LoadBeaconEvent loadEvent) {
+//        try {
+//            infoControllerApi.getApiClient().setConnectTimeout(reduced_timeout);
+//            infoControllerApi.getApiClient().setReadTimeout(reduced_timeout);
+//            infoControllerApi.getUsingGET1Async(id, new ApiCallback<Info>() {
+//                @Override
+//                public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
+//                    loadFromCacheById(loadEvent, id);
+//                }
+//
+//                @Override
+//                public void onSuccess(Info result, int statusCode, Map<String, List<String>> responseHeaders) {
+//                    Beacon beacon = Beacon.fromInfo(result);
+//                    if (beacon != null) {
+//                        if (loadEvent != null) {
+//                            loadEvent.onSuccess(beacon);
+//                        }
+//                        insert(beacon, null);
+//                    }
+//                    else {
+//                        loadFromCacheById(loadEvent, id);
+//                    }
+//                }
+//
+//                @Override
+//                public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+//
+//                }
+//
+//                @Override
+//                public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+//
+//                }
+//            });
+//        }
+//        catch (ApiException e) {
+//            e.printStackTrace();
+//            loadFromCacheById(loadEvent, id);
+//        }
+//    }
+
     public void getById(final String id, final LoadBeaconEvent loadEvent) {
-         loadFromCacheById(loadEvent, id);
+        loadFromCacheById(loadEvent, id);
     }
 
     public void getByMajorMinor(final int major, final int minor, final LoadBeaconEvent loadEvent) {

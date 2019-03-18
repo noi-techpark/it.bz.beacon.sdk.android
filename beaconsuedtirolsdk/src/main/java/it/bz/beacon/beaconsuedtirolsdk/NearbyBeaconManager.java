@@ -162,13 +162,13 @@ public class NearbyBeaconManager {
 
                     @Override
                     public void onError() {
-                        if (iBeaconListener != null) {
-                            Beacon beacon = new Beacon();
-                            beacon.setMajor(ibeacon.getMajor());
-                            beacon.setMinor(ibeacon.getMinor());
-                            beacon.setUuid(region.getProximity().toString());
-                            iBeaconListener.onIBeaconDiscovered(beacon);
-                        }
+//                        if (iBeaconListener != null) {
+//                            Beacon beacon = new Beacon();
+//                            beacon.setMajor(ibeacon.getMajor());
+//                            beacon.setMinor(ibeacon.getMinor());
+//                            beacon.setUuid(region.getProximity().toString());
+//                            iBeaconListener.onIBeaconDiscovered(beacon);
+//                        }
                     }
                 });
                 super.onIBeaconDiscovered(ibeacon, region);
@@ -186,13 +186,13 @@ public class NearbyBeaconManager {
 
                     @Override
                     public void onError() {
-                        if (iBeaconListener != null) {
-                            Beacon beacon = new Beacon();
-                            beacon.setMajor(ibeacon.getMajor());
-                            beacon.setMinor(ibeacon.getMinor());
-                            beacon.setUuid(region.getProximity().toString());
-                            iBeaconListener.onIBeaconLost(beacon);
-                        }
+//                        if (iBeaconListener != null) {
+//                            Beacon beacon = new Beacon();
+//                            beacon.setMajor(ibeacon.getMajor());
+//                            beacon.setMinor(ibeacon.getMinor());
+//                            beacon.setUuid(region.getProximity().toString());
+//                            iBeaconListener.onIBeaconLost(beacon);
+//                        }
                     }
                 });
                 super.onIBeaconLost(ibeacon, region);
@@ -214,12 +214,12 @@ public class NearbyBeaconManager {
 
                     @Override
                     public void onError() {
-                        if (eddystoneListener != null) {
-                            Beacon beacon = new Beacon();
-                            beacon.setInstanceId(eddystone.getInstanceId());
-                            beacon.setNamespace(namespace.getNamespace());
-                            eddystoneListener.onEddystoneDiscovered(beacon);
-                        }
+//                        if (eddystoneListener != null) {
+//                            Beacon beacon = new Beacon();
+//                            beacon.setInstanceId(eddystone.getInstanceId());
+//                            beacon.setNamespace(namespace.getNamespace());
+//                            eddystoneListener.onEddystoneDiscovered(beacon);
+//                        }
                     }
                 });
                 super.onEddystoneDiscovered(eddystone, namespace);
@@ -237,12 +237,12 @@ public class NearbyBeaconManager {
 
                     @Override
                     public void onError() {
-                        if (eddystoneListener != null) {
-                            Beacon beacon = new Beacon();
-                            beacon.setInstanceId(eddystone.getInstanceId());
-                            beacon.setNamespace(namespace.getNamespace());
-                            eddystoneListener.onEddystoneLost(beacon);
-                        }
+//                        if (eddystoneListener != null) {
+//                            Beacon beacon = new Beacon();
+//                            beacon.setInstanceId(eddystone.getInstanceId());
+//                            beacon.setNamespace(namespace.getNamespace());
+//                            eddystoneListener.onEddystoneLost(beacon);
+//                        }
                     }
                 });
                 super.onEddystoneLost(eddystone, namespace);

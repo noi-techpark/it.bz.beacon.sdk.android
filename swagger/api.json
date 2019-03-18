@@ -198,9 +198,6 @@
         "address": {
           "type": "string"
         },
-        "beaconId": {
-          "type": "string"
-        },
         "cap": {
           "type": "string"
         },
@@ -215,14 +212,14 @@
         },
         "latitude": {
           "type": "number",
-          "format": "float"
+          "format": "double"
         },
         "location": {
           "type": "string"
         },
         "longitude": {
           "type": "number",
-          "format": "float"
+          "format": "double"
         },
         "major": {
           "type": "integer",
@@ -236,9 +233,6 @@
           "type": "string"
         },
         "namespace": {
-          "type": "string"
-        },
-        "openDataPoiId": {
           "type": "string"
         },
         "uuid": {

@@ -32,9 +32,6 @@ public class Info {
   @SerializedName("address")
   private String address = null;
 
-  @SerializedName("beaconId")
-  private String beaconId = null;
-
   @SerializedName("cap")
   private String cap = null;
 
@@ -48,13 +45,13 @@ public class Info {
   private String instanceId = null;
 
   @SerializedName("latitude")
-  private Float latitude = null;
+  private Double latitude = null;
 
   @SerializedName("location")
   private String location = null;
 
   @SerializedName("longitude")
-  private Float longitude = null;
+  private Double longitude = null;
 
   @SerializedName("major")
   private Integer major = null;
@@ -67,9 +64,6 @@ public class Info {
 
   @SerializedName("namespace")
   private String namespace = null;
-
-  @SerializedName("openDataPoiId")
-  private String openDataPoiId = null;
 
   @SerializedName("uuid")
   private UUID uuid = null;
@@ -93,24 +87,6 @@ public class Info {
 
   public void setAddress(String address) {
     this.address = address;
-  }
-
-  public Info beaconId(String beaconId) {
-    this.beaconId = beaconId;
-    return this;
-  }
-
-   /**
-   * Get beaconId
-   * @return beaconId
-  **/
-  @ApiModelProperty(value = "")
-  public String getBeaconId() {
-    return beaconId;
-  }
-
-  public void setBeaconId(String beaconId) {
-    this.beaconId = beaconId;
   }
 
   public Info cap(String cap) {
@@ -185,7 +161,7 @@ public class Info {
     this.instanceId = instanceId;
   }
 
-  public Info latitude(Float latitude) {
+  public Info latitude(Double latitude) {
     this.latitude = latitude;
     return this;
   }
@@ -195,11 +171,11 @@ public class Info {
    * @return latitude
   **/
   @ApiModelProperty(value = "")
-  public Float getLatitude() {
+  public Double getLatitude() {
     return latitude;
   }
 
-  public void setLatitude(Float latitude) {
+  public void setLatitude(Double latitude) {
     this.latitude = latitude;
   }
 
@@ -221,7 +197,7 @@ public class Info {
     this.location = location;
   }
 
-  public Info longitude(Float longitude) {
+  public Info longitude(Double longitude) {
     this.longitude = longitude;
     return this;
   }
@@ -231,11 +207,11 @@ public class Info {
    * @return longitude
   **/
   @ApiModelProperty(value = "")
-  public Float getLongitude() {
+  public Double getLongitude() {
     return longitude;
   }
 
-  public void setLongitude(Float longitude) {
+  public void setLongitude(Double longitude) {
     this.longitude = longitude;
   }
 
@@ -311,24 +287,6 @@ public class Info {
     this.namespace = namespace;
   }
 
-  public Info openDataPoiId(String openDataPoiId) {
-    this.openDataPoiId = openDataPoiId;
-    return this;
-  }
-
-   /**
-   * Get openDataPoiId
-   * @return openDataPoiId
-  **/
-  @ApiModelProperty(value = "")
-  public String getOpenDataPoiId() {
-    return openDataPoiId;
-  }
-
-  public void setOpenDataPoiId(String openDataPoiId) {
-    this.openDataPoiId = openDataPoiId;
-  }
-
   public Info uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
@@ -376,7 +334,6 @@ public class Info {
     }
     Info info = (Info) o;
     return Objects.equals(this.address, info.address) &&
-        Objects.equals(this.beaconId, info.beaconId) &&
         Objects.equals(this.cap, info.cap) &&
         Objects.equals(this.floor, info.floor) &&
         Objects.equals(this.id, info.id) &&
@@ -388,14 +345,13 @@ public class Info {
         Objects.equals(this.minor, info.minor) &&
         Objects.equals(this.name, info.name) &&
         Objects.equals(this.namespace, info.namespace) &&
-        Objects.equals(this.openDataPoiId, info.openDataPoiId) &&
         Objects.equals(this.uuid, info.uuid) &&
         Objects.equals(this.website, info.website);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(address, beaconId, cap, floor, id, instanceId, latitude, location, longitude, major, minor, name, namespace, openDataPoiId, uuid, website);
+    return Objects.hash(address, cap, floor, id, instanceId, latitude, location, longitude, major, minor, name, namespace, uuid, website);
   }
 
 
@@ -405,7 +361,6 @@ public class Info {
     sb.append("class Info {\n");
     
     sb.append("    address: ").append(toIndentedString(address)).append("\n");
-    sb.append("    beaconId: ").append(toIndentedString(beaconId)).append("\n");
     sb.append("    cap: ").append(toIndentedString(cap)).append("\n");
     sb.append("    floor: ").append(toIndentedString(floor)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
@@ -417,7 +372,6 @@ public class Info {
     sb.append("    minor: ").append(toIndentedString(minor)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    namespace: ").append(toIndentedString(namespace)).append("\n");
-    sb.append("    openDataPoiId: ").append(toIndentedString(openDataPoiId)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    website: ").append(toIndentedString(website)).append("\n");
     sb.append("}");

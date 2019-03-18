@@ -28,18 +28,16 @@ public class Beacon implements Parcelable {
     @PrimaryKey
     private String id;
     private String address;
-    private String beaconId;
     private String cap;
     private String floor;
     private String instanceId;
-    private Float latitude;
-    private Float longitude;
+    private Double latitude;
+    private Double longitude;
     private String location;
     private Integer major;
     private Integer minor;
     private String name;
     private String namespace;
-    private String openDataPoiId;
     private String uuid;
     private String website;
 
@@ -51,7 +49,6 @@ public class Beacon implements Parcelable {
         beacon = new Beacon();
         beacon.setId(info.getId());
         beacon.setAddress(info.getAddress());
-        beacon.setBeaconId(info.getBeaconId());
         beacon.setCap(info.getCap());
         beacon.setFloor(info.getFloor());
         beacon.setInstanceId(info.getInstanceId());
@@ -62,7 +59,6 @@ public class Beacon implements Parcelable {
         beacon.setMinor(info.getMinor());
         beacon.setName(info.getName());
         beacon.setNamespace(info.getNamespace());
-        beacon.setOpenDataPoiId(info.getOpenDataPoiId());
         beacon.setUuid(info.getUuid().toString());
         beacon.setWebsite(info.getWebsite());
         return beacon;
@@ -83,14 +79,6 @@ public class Beacon implements Parcelable {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getBeaconId() {
-        return beaconId;
-    }
-
-    public void setBeaconId(String beaconId) {
-        this.beaconId = beaconId;
     }
 
     public String getCap() {
@@ -117,19 +105,19 @@ public class Beacon implements Parcelable {
         this.instanceId = instanceId;
     }
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -173,14 +161,6 @@ public class Beacon implements Parcelable {
         this.namespace = namespace;
     }
 
-    public String getOpenDataPoiId() {
-        return openDataPoiId;
-    }
-
-    public void setOpenDataPoiId(String openDataPoiId) {
-        this.openDataPoiId = openDataPoiId;
-    }
-
     public String getUuid() {
         return uuid;
     }
@@ -200,18 +180,16 @@ public class Beacon implements Parcelable {
     public Beacon(Parcel in){
         this.id = in.readString();
         this.address = in.readString();
-        this.beaconId = in.readString();
         this.cap = in.readString();
         this.floor = in.readString();
         this.instanceId = in.readString();
-        this.latitude = in.readFloat();
-        this.longitude = in.readFloat();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
         this.location = in.readString();
         this.major = in.readInt();
         this.minor = in.readInt();
         this.name = in.readString();
         this.namespace = in.readString();
-        this.openDataPoiId = in.readString();
         this.uuid = in.readString();
         this.website = in.readString();
     }
@@ -220,18 +198,16 @@ public class Beacon implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
         dest.writeString(this.address);
-        dest.writeString(this.beaconId);
         dest.writeString(this.cap);
         dest.writeString(this.floor);
         dest.writeString(this.instanceId);
-        dest.writeFloat(this.latitude);
-        dest.writeFloat(this.longitude);
+        dest.writeDouble(this.latitude);
+        dest.writeDouble(this.longitude);
         dest.writeString(this.location);
         dest.writeInt(this.major);
         dest.writeInt(this.minor);
         dest.writeString(this.name);
         dest.writeString(this.namespace);
-        dest.writeString(this.openDataPoiId);
         dest.writeString(this.uuid);
         dest.writeString(this.website);
     }
