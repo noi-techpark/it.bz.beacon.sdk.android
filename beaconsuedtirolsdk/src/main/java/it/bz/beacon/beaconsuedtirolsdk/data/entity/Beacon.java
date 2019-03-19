@@ -59,7 +59,9 @@ public class Beacon implements Parcelable {
         beacon.setMinor(info.getMinor());
         beacon.setName(info.getName());
         beacon.setNamespace(info.getNamespace());
-        beacon.setUuid(info.getUuid().toString());
+        if (info.getUuid() != null) {
+            beacon.setUuid(info.getUuid().toString());
+        }
         beacon.setWebsite(info.getWebsite());
         return beacon;
     }
