@@ -156,19 +156,15 @@ public class NearbyBeaconManager {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (iBeaconListener != null) {
-                            iBeaconListener.onIBeaconDiscovered(beacon);
+                            iBeaconListener.onIBeaconDiscovered(ibeacon, beacon);
                         }
                     }
 
                     @Override
                     public void onError() {
-//                        if (iBeaconListener != null) {
-//                            Beacon beacon = new Beacon();
-//                            beacon.setMajor(ibeacon.getMajor());
-//                            beacon.setMinor(ibeacon.getMinor());
-//                            beacon.setUuid(region.getProximity().toString());
-//                            iBeaconListener.onIBeaconDiscovered(beacon);
-//                        }
+                        if (iBeaconListener != null) {
+                            iBeaconListener.onIBeaconDiscovered(ibeacon, null);
+                        }
                     }
                 });
                 super.onIBeaconDiscovered(ibeacon, region);
@@ -180,19 +176,15 @@ public class NearbyBeaconManager {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (iBeaconListener != null) {
-                            iBeaconListener.onIBeaconLost(beacon);
+                            iBeaconListener.onIBeaconLost(ibeacon, beacon);
                         }
                     }
 
                     @Override
                     public void onError() {
-//                        if (iBeaconListener != null) {
-//                            Beacon beacon = new Beacon();
-//                            beacon.setMajor(ibeacon.getMajor());
-//                            beacon.setMinor(ibeacon.getMinor());
-//                            beacon.setUuid(region.getProximity().toString());
-//                            iBeaconListener.onIBeaconLost(beacon);
-//                        }
+                        if (iBeaconListener != null) {
+                            iBeaconListener.onIBeaconDiscovered(ibeacon, null);
+                        }
                     }
                 });
                 super.onIBeaconLost(ibeacon, region);
@@ -208,18 +200,15 @@ public class NearbyBeaconManager {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (eddystoneListener != null) {
-                            eddystoneListener.onEddystoneDiscovered(beacon);
+                            eddystoneListener.onEddystoneDiscovered(eddystone, beacon);
                         }
                     }
 
                     @Override
                     public void onError() {
-//                        if (eddystoneListener != null) {
-//                            Beacon beacon = new Beacon();
-//                            beacon.setInstanceId(eddystone.getInstanceId());
-//                            beacon.setNamespace(namespace.getNamespace());
-//                            eddystoneListener.onEddystoneDiscovered(beacon);
-//                        }
+                        if (eddystoneListener != null) {
+                            eddystoneListener.onEddystoneDiscovered(eddystone, null);
+                        }
                     }
                 });
                 super.onEddystoneDiscovered(eddystone, namespace);
@@ -231,18 +220,15 @@ public class NearbyBeaconManager {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (eddystoneListener != null) {
-                            eddystoneListener.onEddystoneLost(beacon);
+                            eddystoneListener.onEddystoneLost(eddystone, beacon);
                         }
                     }
 
                     @Override
                     public void onError() {
-//                        if (eddystoneListener != null) {
-//                            Beacon beacon = new Beacon();
-//                            beacon.setInstanceId(eddystone.getInstanceId());
-//                            beacon.setNamespace(namespace.getNamespace());
-//                            eddystoneListener.onEddystoneLost(beacon);
-//                        }
+                        if (eddystoneListener != null) {
+                            eddystoneListener.onEddystoneDiscovered(eddystone, null);
+                        }
                     }
                 });
                 super.onEddystoneLost(eddystone, namespace);

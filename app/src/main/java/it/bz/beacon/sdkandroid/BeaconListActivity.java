@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.kontakt.sdk.android.ble.device.EddystoneDevice;
+import com.kontakt.sdk.android.common.profile.IBeaconDevice;
+import com.kontakt.sdk.android.common.profile.IEddystoneDevice;
 
 import java.util.Locale;
 
@@ -132,7 +135,7 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
     }
 
     @Override
-    public void onEddystoneDiscovered(final Beacon beacon) {
+    public void onEddystoneDiscovered(IEddystoneDevice eddystone, final Beacon beacon) {
         runOnUiThread(new Runnable() {
             public void run() {
                 adapter.addItem(beacon);
@@ -142,12 +145,12 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
     }
 
     @Override
-    public void onEddystoneLost(Beacon beacon) {
+    public void onEddystoneLost(IEddystoneDevice eddystone, Beacon beacon) {
         // TODO: remove lost beacon from list
     }
 
     @Override
-    public void onIBeaconDiscovered(final Beacon beacon) {
+    public void onIBeaconDiscovered(IBeaconDevice ibeacon, final Beacon beacon) {
         runOnUiThread(new Runnable() {
             public void run() {
                 adapter.addItem(beacon);
@@ -157,7 +160,7 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
     }
 
     @Override
-    public void onIBeaconLost(Beacon beacon) {
+    public void onIBeaconLost(IBeaconDevice ibeacon, Beacon beacon) {
         // TODO: remove lost beacon from list
     }
 
