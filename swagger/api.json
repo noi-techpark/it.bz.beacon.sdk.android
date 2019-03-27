@@ -1451,7 +1451,7 @@
         },
         "security": [
           {
-            "Basic": []
+            "TrustedAuth": []
           }
         ],
         "deprecated": false
@@ -1459,15 +1459,13 @@
     }
   },
   "securityDefinitions": {
-    "Basic": {
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header"
-    },
     "JWT": {
       "type": "apiKey",
       "name": "Authorization",
       "in": "header"
+    },
+    "TrustedAuth": {
+      "type": "basic"
     }
   },
   "definitions": {
