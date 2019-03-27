@@ -147,34 +147,37 @@ public class NearbyBeaconManager implements SecureProfileListener {
     public void onProfileDiscovered(ISecureProfile profile) {
         if (trustedAuth != null) {
             try {
-                BeaconBatteryLevelUpdate update = new BeaconBatteryLevelUpdate();
-                update.setBatteryLevel(profile.getBatteryLevel());
-                String[] nameParts = profile.getName().split("#");
-                trustedApi.updateUsingPATCH1Async(update, nameParts[1], new ApiCallback<it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon>() {
-                    @Override
-                    public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
+                if (profile.getBatteryLevel() > 0) {
+                    BeaconBatteryLevelUpdate update = new BeaconBatteryLevelUpdate();
+                    update.setBatteryLevel(profile.getBatteryLevel());
+                    String[] nameParts = profile.getName().split("#");
+                    trustedApi.updateUsingPATCH1Async(update, nameParts[1], new ApiCallback<it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon>() {
+                        @Override
+                        public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onSuccess(it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon result, int statusCode, Map<String, List<String>> responseHeaders) {
+                        @Override
+                        public void onSuccess(it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon result, int statusCode, Map<String, List<String>> responseHeaders) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+                        @Override
+                        public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+                        @Override
+                        public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
 
-                    }
-                }).execute();
+                        }
+                    }).execute();
+                }
             } catch (Exception e) {
                 //
             }
         }
+
     }
 
     @Override
