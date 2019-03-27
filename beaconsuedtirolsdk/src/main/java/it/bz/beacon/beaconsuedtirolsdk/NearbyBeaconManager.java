@@ -145,6 +145,22 @@ public class NearbyBeaconManager implements SecureProfileListener {
 
     @Override
     public void onProfileDiscovered(ISecureProfile profile) {
+        updateBatteryStatus(profile);
+    }
+
+    @Override
+    public void onProfilesUpdated(List<ISecureProfile> profiles) {
+        for (ISecureProfile profile : profiles) {
+            updateBatteryStatus(profile);
+        }
+    }
+
+    @Override
+    public void onProfileLost(ISecureProfile profile) {
+
+    }
+
+    private void updateBatteryStatus(ISecureProfile profile) {
         if (trustedAuth != null) {
             try {
                 if (profile.getBatteryLevel() > 0) {
@@ -177,17 +193,6 @@ public class NearbyBeaconManager implements SecureProfileListener {
                 //
             }
         }
-
-    }
-
-    @Override
-    public void onProfilesUpdated(List<ISecureProfile> profiles) {
-
-    }
-
-    @Override
-    public void onProfileLost(ISecureProfile profile) {
-
     }
 
     private boolean isBluetoothEnabled() {
