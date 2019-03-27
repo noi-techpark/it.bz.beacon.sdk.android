@@ -150,9 +150,7 @@ public class NearbyBeaconManager implements SecureProfileListener {
 
     @Override
     public void onProfilesUpdated(List<ISecureProfile> profiles) {
-        for (ISecureProfile profile : profiles) {
-            updateBatteryStatus(profile);
-        }
+
     }
 
     @Override
