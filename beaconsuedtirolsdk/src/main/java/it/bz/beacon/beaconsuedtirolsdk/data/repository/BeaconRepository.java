@@ -7,11 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import io.swagger.client.ApiCallback;
-import io.swagger.client.ApiClient;
-import io.swagger.client.ApiException;
-import io.swagger.client.api.InfoControllerApi;
-import io.swagger.client.model.Info;
 import it.bz.beacon.beaconsuedtirolsdk.R;
 import it.bz.beacon.beaconsuedtirolsdk.data.BeaconDatabase;
 import it.bz.beacon.beaconsuedtirolsdk.data.dao.BeaconDao;
@@ -19,6 +14,12 @@ import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
 import it.bz.beacon.beaconsuedtirolsdk.data.event.InsertEvent;
 import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadAllBeaconsEvent;
 import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadBeaconEvent;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiCallback;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiClient;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiException;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.Configuration;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.api.InfoControllerApi;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Info;
 
 public class BeaconRepository {
 
@@ -36,7 +37,7 @@ public class BeaconRepository {
         ApiClient apiClient = new ApiClient();
         apiClient.setConnectTimeout(timeout);
         apiClient.setReadTimeout(timeout);
-        io.swagger.client.Configuration.setDefaultApiClient(apiClient);
+        Configuration.setDefaultApiClient(apiClient);
         infoControllerApi = new InfoControllerApi();
 
         refreshBeacons(null);
@@ -194,7 +195,7 @@ public class BeaconRepository {
         try {
             infoControllerApi.getApiClient().setConnectTimeout(timeout);
             infoControllerApi.getApiClient().setReadTimeout(timeout);
-            infoControllerApi.getListUsingGET2Async(new ApiCallback<List<io.swagger.client.model.Info>>() {
+            infoControllerApi.getListUsingGET2Async(new ApiCallback<List<Info>>() {
                 @Override
                 public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
                     if (loadAllBeaconsEvent != null) {
@@ -203,7 +204,7 @@ public class BeaconRepository {
                 }
 
                 @Override
-                public void onSuccess(List<io.swagger.client.model.Info> result, int statusCode, Map<String, List<String>> responseHeaders) {
+                public void onSuccess(List<Info> result, int statusCode, Map<String, List<String>> responseHeaders) {
                     if (result != null) {
                         List<Beacon> beacons = new ArrayList<>();
                         for (int i = 0; i < result.size(); i++) {
