@@ -30,6 +30,8 @@ import it.bz.beacon.beaconsuedtirolsdk.exception.NoBluetoothException;
 import it.bz.beacon.beaconsuedtirolsdk.exception.NotInitializedException;
 import it.bz.beacon.beaconsuedtirolsdk.listener.EddystoneListener;
 import it.bz.beacon.beaconsuedtirolsdk.listener.IBeaconListener;
+import it.bz.beacon.beaconsuedtirolsdk.result.Eddystone;
+import it.bz.beacon.beaconsuedtirolsdk.result.IBeacon;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiCallback;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiClient;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiException;
@@ -37,6 +39,7 @@ import it.bz.beacon.beaconsuedtirolsdk.swagger.client.api.TrustedBeaconControlle
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.BeaconBatteryLevelUpdate;
 import it.bz.beacon.beaconsuedtirolsdk.workmanager.SynchronizationWorker;
 
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -238,43 +241,47 @@ public class NearbyBeaconManager implements SecureProfileListener {
     private com.kontakt.sdk.android.ble.manager.listeners.IBeaconListener createIBeaconListener() {
         return new SimpleIBeaconListener() {
             @Override
-            public void onIBeaconDiscovered(final IBeaconDevice ibeacon, final IBeaconRegion region) {
-                repository.getByMajorMinor(ibeacon.getMajor(), ibeacon.getMinor(), new LoadBeaconEvent() {
+            public void onIBeaconDiscovered(final IBeaconDevice device, final IBeaconRegion region) {
+                super.onIBeaconDiscovered(device, region);
+                repository.getByMajorMinor(device.getMajor(), device.getMinor(), new LoadBeaconEvent() {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (iBeaconListener != null) {
-                            iBeaconListener.onIBeaconDiscovered(ibeacon, beacon);
+                            iBeaconListener.onIBeaconDiscovered(new IBeacon(device.getProximityUUID(),
+                                    device.getMajor(), device.getMinor(), beacon));
                         }
                     }
 
                     @Override
                     public void onError() {
                         if (iBeaconListener != null) {
-                            iBeaconListener.onIBeaconDiscovered(ibeacon, null);
+                            iBeaconListener.onIBeaconDiscovered(new IBeacon(device.getProximityUUID(),
+                                    device.getMajor(), device.getMinor(), null));
                         }
                     }
                 });
-                super.onIBeaconDiscovered(ibeacon, region);
             }
 
             @Override
-            public void onIBeaconLost(final IBeaconDevice ibeacon, final IBeaconRegion region) {
-                repository.getByMajorMinor(ibeacon.getMajor(), ibeacon.getMinor(), new LoadBeaconEvent() {
+            public void onIBeaconLost(final IBeaconDevice device, final IBeaconRegion region) {
+                super.onIBeaconLost(device, region);
+                repository.getByMajorMinor(device.getMajor(), device.getMinor(), new LoadBeaconEvent() {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (iBeaconListener != null) {
-                            iBeaconListener.onIBeaconLost(ibeacon, beacon);
+                            iBeaconListener.onIBeaconLost(new IBeacon(device.getProximityUUID(),
+                                    device.getMajor(), device.getMinor(), beacon));
                         }
                     }
 
                     @Override
                     public void onError() {
                         if (iBeaconListener != null) {
-                            iBeaconListener.onIBeaconDiscovered(ibeacon, null);
+                            iBeaconListener.onIBeaconDiscovered(new IBeacon(device.getProximityUUID(),
+                                    device.getMajor(), device.getMinor(), null));
                         }
                     }
                 });
-                super.onIBeaconLost(ibeacon, region);
             }
         };
     }
@@ -282,43 +289,51 @@ public class NearbyBeaconManager implements SecureProfileListener {
     private com.kontakt.sdk.android.ble.manager.listeners.EddystoneListener createEddystoneListener() {
         return new SimpleEddystoneListener() {
             @Override
-            public void onEddystoneDiscovered(final IEddystoneDevice eddystone, final IEddystoneNamespace namespace) {
-                repository.getByInstanceId(eddystone.getInstanceId(), new LoadBeaconEvent() {
+            public void onEddystoneDiscovered(final IEddystoneDevice device, final IEddystoneNamespace namespace) {
+                super.onEddystoneDiscovered(device, namespace);
+                repository.getByInstanceId(device.getInstanceId(), new LoadBeaconEvent() {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (eddystoneListener != null) {
-                            eddystoneListener.onEddystoneDiscovered(eddystone, beacon);
+                            eddystoneListener.onEddystoneDiscovered(new Eddystone(device.getNamespace(),
+                                    device.getInstanceId(), device.getUrl(), device.getEid(),
+                                    device.getEncryptedTelemetry(), device.getTelemetry(), beacon));
                         }
                     }
 
                     @Override
                     public void onError() {
                         if (eddystoneListener != null) {
-                            eddystoneListener.onEddystoneDiscovered(eddystone, null);
+                            eddystoneListener.onEddystoneDiscovered(new Eddystone(device.getNamespace(),
+                                    device.getInstanceId(), device.getUrl(), device.getEid(),
+                                    device.getEncryptedTelemetry(), device.getTelemetry(), null));
                         }
                     }
                 });
-                super.onEddystoneDiscovered(eddystone, namespace);
             }
 
             @Override
-            public void onEddystoneLost(final IEddystoneDevice eddystone, final IEddystoneNamespace namespace) {
-                repository.getByInstanceId(eddystone.getInstanceId(), new LoadBeaconEvent() {
+            public void onEddystoneLost(final IEddystoneDevice device, final IEddystoneNamespace namespace) {
+                super.onEddystoneLost(device, namespace);
+                repository.getByInstanceId(device.getInstanceId(), new LoadBeaconEvent() {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (eddystoneListener != null) {
-                            eddystoneListener.onEddystoneLost(eddystone, beacon);
+                            eddystoneListener.onEddystoneLost(new Eddystone(device.getNamespace(),
+                                    device.getInstanceId(), device.getUrl(), device.getEid(),
+                                    device.getEncryptedTelemetry(), device.getTelemetry(), beacon));
                         }
                     }
 
                     @Override
                     public void onError() {
                         if (eddystoneListener != null) {
-                            eddystoneListener.onEddystoneDiscovered(eddystone, null);
+                            eddystoneListener.onEddystoneDiscovered(new Eddystone(device.getNamespace(),
+                                    device.getInstanceId(), device.getUrl(), device.getEid(),
+                                    device.getEncryptedTelemetry(), device.getTelemetry(), null));
                         }
                     }
                 });
-                super.onEddystoneLost(eddystone, namespace);
             }
         };
     }

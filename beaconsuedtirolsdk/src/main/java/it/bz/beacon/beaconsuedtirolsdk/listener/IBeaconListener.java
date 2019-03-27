@@ -1,10 +1,6 @@
 package it.bz.beacon.beaconsuedtirolsdk.listener;
 
-import com.kontakt.sdk.android.common.profile.IBeaconDevice;
-
-import java.util.List;
-
-import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
+import it.bz.beacon.beaconsuedtirolsdk.result.IBeacon;
 
 /**
  * Listener used to report iBeacons scanning results.
@@ -15,17 +11,15 @@ public interface IBeaconListener {
      * Called when a iBeacon is discovered for the first time.
      * This will be called only once per scan or after beacon is reported lost.
      *
-     * @param ibeacon the original IBeaconDevice package from the discovered beacon
-     * @param beacon the Beacon Südtirol SDK beacon
+     * @param iBeacon the iBeacon
      */
-    void onIBeaconDiscovered(IBeaconDevice ibeacon, Beacon beacon);
+    void onIBeaconDiscovered(IBeacon iBeacon);
 
     /**
      * Called when a iBeacon gets out of range.
      * {@code onBeaconDiscovered} will be called when beacon is back in range.
      *
-     * @param ibeacon the original IBeaconDevice package from the discovered beacon
-     * @param beacon the Beacon Südtirol SDK beacon
+     * @param iBeacon the iBeacon
      */
-    void onIBeaconLost(IBeaconDevice ibeacon, Beacon beacon);
+    void onIBeaconLost(IBeacon iBeacon);
 }
