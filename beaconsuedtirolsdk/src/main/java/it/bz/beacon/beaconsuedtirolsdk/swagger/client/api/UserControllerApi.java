@@ -539,7 +539,7 @@ public class UserControllerApi {
         return call;
     }
     /**
-     * Build call for updateUsingPATCH3
+     * Build call for updateUsingPATCH2
      * @param id id (required)
      * @param userUpdate userUpdate (required)
      * @param progressListener Progress listener
@@ -547,7 +547,7 @@ public class UserControllerApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call updateUsingPATCH3Call(Long id, UserUpdate userUpdate, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call updateUsingPATCH2Call(Long id, UserUpdate userUpdate, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = userUpdate;
 
         // create path and map variables
@@ -590,20 +590,20 @@ public class UserControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call updateUsingPATCH3ValidateBeforeCall(Long id, UserUpdate userUpdate, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call updateUsingPATCH2ValidateBeforeCall(Long id, UserUpdate userUpdate, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'id' is set
         if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling updateUsingPATCH3(Async)");
+            throw new ApiException("Missing the required parameter 'id' when calling updateUsingPATCH2(Async)");
         }
         
         // verify the required parameter 'userUpdate' is set
         if (userUpdate == null) {
-            throw new ApiException("Missing the required parameter 'userUpdate' when calling updateUsingPATCH3(Async)");
+            throw new ApiException("Missing the required parameter 'userUpdate' when calling updateUsingPATCH2(Async)");
         }
         
 
-        com.squareup.okhttp.Call call = updateUsingPATCH3Call(id, userUpdate, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updateUsingPATCH2Call(id, userUpdate, progressListener, progressRequestListener);
         return call;
 
     }
@@ -616,8 +616,8 @@ public class UserControllerApi {
      * @return User
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public User updateUsingPATCH3(Long id, UserUpdate userUpdate) throws ApiException {
-        ApiResponse<User> resp = updateUsingPATCH3WithHttpInfo(id, userUpdate);
+    public User updateUsingPATCH2(Long id, UserUpdate userUpdate) throws ApiException {
+        ApiResponse<User> resp = updateUsingPATCH2WithHttpInfo(id, userUpdate);
         return resp.getData();
     }
 
@@ -629,8 +629,8 @@ public class UserControllerApi {
      * @return ApiResponse&lt;User&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<User> updateUsingPATCH3WithHttpInfo(Long id, UserUpdate userUpdate) throws ApiException {
-        com.squareup.okhttp.Call call = updateUsingPATCH3ValidateBeforeCall(id, userUpdate, null, null);
+    public ApiResponse<User> updateUsingPATCH2WithHttpInfo(Long id, UserUpdate userUpdate) throws ApiException {
+        com.squareup.okhttp.Call call = updateUsingPATCH2ValidateBeforeCall(id, userUpdate, null, null);
         Type localVarReturnType = new TypeToken<User>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -644,7 +644,7 @@ public class UserControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call updateUsingPATCH3Async(Long id, UserUpdate userUpdate, final ApiCallback<User> callback) throws ApiException {
+    public com.squareup.okhttp.Call updateUsingPATCH2Async(Long id, UserUpdate userUpdate, final ApiCallback<User> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -665,7 +665,7 @@ public class UserControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = updateUsingPATCH3ValidateBeforeCall(id, userUpdate, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updateUsingPATCH2ValidateBeforeCall(id, userUpdate, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<User>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

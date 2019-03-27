@@ -443,7 +443,7 @@
           "beacon-controller"
         ],
         "summary": "Update a beacon",
-        "operationId": "updateUsingPATCH_1",
+        "operationId": "updateUsingPATCH",
         "consumes": [
           "application/json"
         ],
@@ -458,62 +458,6 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/BeaconUpdate"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Beacon"
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ],
-        "deprecated": false
-      }
-    },
-    "/v1/admin/beacons/{id}/batteryLevel": {
-      "patch": {
-        "tags": [
-          "beacon-controller"
-        ],
-        "summary": "Update a beacon",
-        "operationId": "updateUsingPATCH",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "batteryLevelUpdate",
-            "description": "batteryLevelUpdate",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/BeaconBatteryLevelUpdate"
             }
           },
           {
@@ -1097,7 +1041,7 @@
           "user-controller"
         ],
         "summary": "Update a user",
-        "operationId": "updateUsingPATCH_3",
+        "operationId": "updateUsingPATCH_2",
         "consumes": [
           "application/json"
         ],
@@ -1407,7 +1351,7 @@
           "trusted-beacon-controller"
         ],
         "summary": "Update battery level of beacon",
-        "operationId": "updateUsingPATCH_2",
+        "operationId": "updateUsingPATCH_1",
         "consumes": [
           "application/json"
         ],

@@ -56,7 +56,7 @@ public class TrustedBeaconControllerApi {
     }
 
     /**
-     * Build call for updateUsingPATCH2
+     * Build call for updateUsingPATCH1
      * @param batteryLevelUpdate batteryLevelUpdate (required)
      * @param id id (required)
      * @param progressListener Progress listener
@@ -64,7 +64,7 @@ public class TrustedBeaconControllerApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call updateUsingPATCH2Call(BeaconBatteryLevelUpdate batteryLevelUpdate, String id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call updateUsingPATCH1Call(BeaconBatteryLevelUpdate batteryLevelUpdate, String id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = batteryLevelUpdate;
 
         // create path and map variables
@@ -107,20 +107,20 @@ public class TrustedBeaconControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call updateUsingPATCH2ValidateBeforeCall(BeaconBatteryLevelUpdate batteryLevelUpdate, String id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call updateUsingPATCH1ValidateBeforeCall(BeaconBatteryLevelUpdate batteryLevelUpdate, String id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'batteryLevelUpdate' is set
         if (batteryLevelUpdate == null) {
-            throw new ApiException("Missing the required parameter 'batteryLevelUpdate' when calling updateUsingPATCH2(Async)");
+            throw new ApiException("Missing the required parameter 'batteryLevelUpdate' when calling updateUsingPATCH1(Async)");
         }
         
         // verify the required parameter 'id' is set
         if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling updateUsingPATCH2(Async)");
+            throw new ApiException("Missing the required parameter 'id' when calling updateUsingPATCH1(Async)");
         }
         
 
-        com.squareup.okhttp.Call call = updateUsingPATCH2Call(batteryLevelUpdate, id, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updateUsingPATCH1Call(batteryLevelUpdate, id, progressListener, progressRequestListener);
         return call;
 
     }
@@ -133,8 +133,8 @@ public class TrustedBeaconControllerApi {
      * @return Beacon
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Beacon updateUsingPATCH2(BeaconBatteryLevelUpdate batteryLevelUpdate, String id) throws ApiException {
-        ApiResponse<Beacon> resp = updateUsingPATCH2WithHttpInfo(batteryLevelUpdate, id);
+    public Beacon updateUsingPATCH1(BeaconBatteryLevelUpdate batteryLevelUpdate, String id) throws ApiException {
+        ApiResponse<Beacon> resp = updateUsingPATCH1WithHttpInfo(batteryLevelUpdate, id);
         return resp.getData();
     }
 
@@ -146,8 +146,8 @@ public class TrustedBeaconControllerApi {
      * @return ApiResponse&lt;Beacon&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Beacon> updateUsingPATCH2WithHttpInfo(BeaconBatteryLevelUpdate batteryLevelUpdate, String id) throws ApiException {
-        com.squareup.okhttp.Call call = updateUsingPATCH2ValidateBeforeCall(batteryLevelUpdate, id, null, null);
+    public ApiResponse<Beacon> updateUsingPATCH1WithHttpInfo(BeaconBatteryLevelUpdate batteryLevelUpdate, String id) throws ApiException {
+        com.squareup.okhttp.Call call = updateUsingPATCH1ValidateBeforeCall(batteryLevelUpdate, id, null, null);
         Type localVarReturnType = new TypeToken<Beacon>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -161,7 +161,7 @@ public class TrustedBeaconControllerApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call updateUsingPATCH2Async(BeaconBatteryLevelUpdate batteryLevelUpdate, String id, final ApiCallback<Beacon> callback) throws ApiException {
+    public com.squareup.okhttp.Call updateUsingPATCH1Async(BeaconBatteryLevelUpdate batteryLevelUpdate, String id, final ApiCallback<Beacon> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -182,7 +182,7 @@ public class TrustedBeaconControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = updateUsingPATCH2ValidateBeforeCall(batteryLevelUpdate, id, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updateUsingPATCH1ValidateBeforeCall(batteryLevelUpdate, id, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Beacon>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
