@@ -78,6 +78,10 @@ public class NearbyBeaconManager implements SecureProfileListener {
         KontaktSDK.initialize(" ");
         proximityManager = ProximityManagerFactory.create(application);
         trustedApi = new TrustedBeaconControllerApi();
+        if (this.trustedAuth != null) {
+            trustedApi.getApiClient().setUsername(this.trustedAuth.getUsername());
+            trustedApi.getApiClient().setPassword(this.trustedAuth.getPassword());
+        }
         createPeriodicWorkRequest();
     }
 
@@ -146,8 +150,6 @@ public class NearbyBeaconManager implements SecureProfileListener {
                 BeaconBatteryLevelUpdate update = new BeaconBatteryLevelUpdate();
                 update.setBatteryLevel(profile.getBatteryLevel());
                 String[] nameParts = profile.getName().split("#");
-                trustedApi.getApiClient().setUsername(trustedAuth.getUsername());
-                trustedApi.getApiClient().setPassword(trustedAuth.getPassword());
                 trustedApi.updateUsingPATCH2Async(update, nameParts[1], new ApiCallback<it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon>() {
                     @Override
                     public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
