@@ -31,6 +31,7 @@ import it.bz.beacon.beaconsuedtirolsdk.exception.NotInitializedException;
 import it.bz.beacon.beaconsuedtirolsdk.listener.EddystoneListener;
 import it.bz.beacon.beaconsuedtirolsdk.listener.IBeaconListener;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiCallback;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiClient;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiException;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.api.TrustedBeaconControllerApi;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.BeaconBatteryLevelUpdate;
@@ -77,7 +78,7 @@ public class NearbyBeaconManager implements SecureProfileListener {
         repository = new BeaconRepository(application);
         KontaktSDK.initialize(" ");
         proximityManager = ProximityManagerFactory.create(application);
-        trustedApi = new TrustedBeaconControllerApi();
+        trustedApi = new TrustedBeaconControllerApi(new ApiClient());
         if (this.trustedAuth != null) {
             trustedApi.getApiClient().setUsername(this.trustedAuth.getUsername());
             trustedApi.getApiClient().setPassword(this.trustedAuth.getPassword());
