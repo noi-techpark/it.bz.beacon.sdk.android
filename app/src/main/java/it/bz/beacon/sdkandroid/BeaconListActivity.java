@@ -4,14 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
-
-import com.google.android.material.snackbar.Snackbar;
-import com.kontakt.sdk.android.ble.device.EddystoneDevice;
-import com.kontakt.sdk.android.common.profile.IBeaconDevice;
-import com.kontakt.sdk.android.common.profile.IEddystoneDevice;
-
-import java.util.Locale;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,6 +11,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
+import com.google.android.material.snackbar.Snackbar;
+import com.kontakt.sdk.android.common.profile.IBeaconDevice;
+import com.kontakt.sdk.android.common.profile.IEddystoneDevice;
 import it.bz.beacon.beaconsuedtirolsdk.NearbyBeaconManager;
 import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
 import it.bz.beacon.beaconsuedtirolsdk.exception.MissingLocationPermissionException;
@@ -26,6 +21,8 @@ import it.bz.beacon.beaconsuedtirolsdk.exception.NoBluetoothException;
 import it.bz.beacon.beaconsuedtirolsdk.listener.EddystoneListener;
 import it.bz.beacon.beaconsuedtirolsdk.listener.IBeaconListener;
 import it.bz.beacon.sdkandroid.adapter.BeaconAdapter;
+
+import java.util.Locale;
 
 /**
  * An activity representing a list of Beacons. This activity
@@ -43,7 +40,6 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
      */
     private boolean isTablet;
     private BeaconAdapter adapter;
-    private NearbyBeaconManager manager;
     private Toolbar toolbar;
 
     @Override
@@ -68,9 +64,9 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
         if (animator instanceof SimpleItemAnimator) {
             ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
         }
-        manager = new NearbyBeaconManager(this);
-        manager.setIBeaconListener(this);
-        manager.setEddystoneListener(this);
+
+        NearbyBeaconManager.getInstance().setIBeaconListener(this);
+        NearbyBeaconManager.getInstance().setEddystoneListener(this);
     }
 
     @Override
@@ -105,7 +101,7 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
 
     private void tryStartScanning() {
         try {
-            manager.startScanning();
+            NearbyBeaconManager.getInstance().startScanning();
         }
         catch (NoBluetoothException e) {
             e.printStackTrace();
@@ -131,7 +127,7 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
     @Override
     protected void onPause() {
         super.onPause();
-        manager.stopScanning();
+        NearbyBeaconManager.getInstance().stopScanning();
     }
 
     @Override
