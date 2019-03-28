@@ -7,12 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import androidx.recyclerview.widget.RecyclerView;
 import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
 import it.bz.beacon.sdkandroid.BeaconDetailActivity;
@@ -20,11 +14,16 @@ import it.bz.beacon.sdkandroid.BeaconDetailFragment;
 import it.bz.beacon.sdkandroid.BeaconListActivity;
 import it.bz.beacon.sdkandroid.R;
 
-public class BeaconAdapter
-        extends RecyclerView.Adapter<BeaconAdapter.ViewHolder> {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class InfoAdapter
+        extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {
 
     private final BeaconListActivity parentActivity;
-    private List<Beacon> beacons;
+    private List<Beacon> infos;
     private final boolean isTablet;
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -49,20 +48,20 @@ public class BeaconAdapter
         }
     };
 
-    public BeaconAdapter(BeaconListActivity parent, boolean twoPane) {
+    public InfoAdapter(BeaconListActivity parent, boolean twoPane) {
         parentActivity = parent;
-        this.beacons = new ArrayList<>();
+        this.infos = new ArrayList<>();
         this.isTablet = twoPane;
     }
 
     public void setItems(List<Beacon> beacons) {
-        this.beacons = beacons;
+        this.infos = beacons;
         sortItems();
         notifyDataSetChanged();
     }
 
     private void sortItems() {
-        Collections.sort(this.beacons, new Comparator<Beacon>() {
+        Collections.sort(this.infos, new Comparator<Beacon>() {
             public int compare(Beacon obj1, Beacon obj2) {
                 if ((obj1 != null) && (obj2 != null) && (obj1.getName() != null) && (obj2.getName() != null)) {
                     return obj1.getName().compareTo(obj2.getName());
@@ -76,15 +75,23 @@ public class BeaconAdapter
 
     public void addItem(Beacon beacon) {
         if (!isBeaconInList(beacon)) {
-            this.beacons.add(beacon);
+            this.infos.add(beacon);
         }
         sortItems();
         notifyDataSetChanged();
     }
 
-    private boolean isBeaconInList(Beacon newBeacon) {
-        for (Beacon beacon : this.beacons) {
-            if (beacon.getId().equals(newBeacon.getId())) {
+    public void removeItem(Beacon beacon) {
+        if (isBeaconInList(beacon)) {
+            this.infos.remove(beacon);
+        }
+        sortItems();
+        notifyDataSetChanged();
+    }
+
+    private boolean isBeaconInList(Beacon newInfo) {
+        for (Beacon info : this.infos) {
+            if (info.getId().equals(newInfo.getId())) {
                 return true;
             }
         }
@@ -100,16 +107,16 @@ public class BeaconAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mIdView.setText(beacons.get(position).getName());
-        holder.mContentView.setText(beacons.get(position).getInstanceId());
+        holder.mIdView.setText(infos.get(position).getName());
+        holder.mContentView.setText(infos.get(position).getInstanceId());
 
-        holder.itemView.setTag(beacons.get(position));
+        holder.itemView.setTag(infos.get(position));
         holder.itemView.setOnClickListener(mOnClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return beacons.size();
+        return infos.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -12,15 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.google.android.material.snackbar.Snackbar;
-import com.kontakt.sdk.android.common.profile.IBeaconDevice;
-import com.kontakt.sdk.android.common.profile.IEddystoneDevice;
 import it.bz.beacon.beaconsuedtirolsdk.NearbyBeaconManager;
-import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
 import it.bz.beacon.beaconsuedtirolsdk.exception.MissingLocationPermissionException;
 import it.bz.beacon.beaconsuedtirolsdk.exception.NoBluetoothException;
 import it.bz.beacon.beaconsuedtirolsdk.listener.EddystoneListener;
 import it.bz.beacon.beaconsuedtirolsdk.listener.IBeaconListener;
-import it.bz.beacon.sdkandroid.adapter.BeaconAdapter;
+import it.bz.beacon.beaconsuedtirolsdk.result.Eddystone;
+import it.bz.beacon.beaconsuedtirolsdk.result.IBeacon;
+import it.bz.beacon.sdkandroid.adapter.InfoAdapter;
 
 import java.util.Locale;
 
@@ -39,7 +38,7 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
      */
     private boolean isTablet;
-    private BeaconAdapter adapter;
+    private InfoAdapter adapter;
     private Toolbar toolbar;
 
     @Override
@@ -57,7 +56,7 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
 
         RecyclerView recyclerView = findViewById(R.id.beacon_list);
         assert recyclerView != null;
-        adapter = new BeaconAdapter(this, isTablet);
+        adapter = new InfoAdapter(this, isTablet);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
@@ -131,33 +130,43 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
     }
 
     @Override
-    public void onEddystoneDiscovered(IEddystoneDevice eddystone, final Beacon beacon) {
+    public void onEddystoneDiscovered(final Eddystone eddystone) {
         runOnUiThread(new Runnable() {
             public void run() {
-                adapter.addItem(beacon);
+                adapter.addItem(eddystone.getInfo());
                 setTitle();
             }
         });
     }
 
     @Override
-    public void onEddystoneLost(IEddystoneDevice eddystone, Beacon beacon) {
-        // TODO: remove lost beacon from list
+    public void onEddystoneLost(final Eddystone eddystone) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.removeItem(eddystone.getInfo());
+            }
+        });
     }
 
     @Override
-    public void onIBeaconDiscovered(IBeaconDevice ibeacon, final Beacon beacon) {
+    public void onIBeaconDiscovered(final IBeacon iBeacon) {
         runOnUiThread(new Runnable() {
             public void run() {
-                adapter.addItem(beacon);
+                adapter.addItem(iBeacon.getInfo());
                 setTitle();
             }
         });
     }
 
     @Override
-    public void onIBeaconLost(IBeaconDevice ibeacon, Beacon beacon) {
-        // TODO: remove lost beacon from list
+    public void onIBeaconLost(final IBeacon iBeacon) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.removeItem(iBeacon.getInfo());
+            }
+        });
     }
 
     private void setTitle() {

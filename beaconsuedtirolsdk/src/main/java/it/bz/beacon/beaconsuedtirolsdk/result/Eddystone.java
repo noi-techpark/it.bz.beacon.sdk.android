@@ -13,7 +13,8 @@ public class Eddystone implements IBeaconInfo {
     private URL url;
     private String eid;
     private String encryptedTelemetry;
-    private Telemetry telemetry;
+    private Double batteryVoltage;
+    private Double temperature;
     private Beacon info;
 
     public Eddystone(String namespace, String instanceId, String url, String eid, String encryptedTelemetry, Telemetry telemetry, Beacon info) {
@@ -22,11 +23,13 @@ public class Eddystone implements IBeaconInfo {
         try {
             this.url = new URL(url);
         } catch (MalformedURLException e) {
-
         }
         this.eid = eid;
         this.encryptedTelemetry = encryptedTelemetry;
-        this.telemetry = telemetry;
+        if (telemetry != null) {
+            this.temperature = telemetry.getTemperature();
+            this.batteryVoltage = telemetry.getBatteryVoltage();
+        }
         this.info = info;
     }
 
@@ -50,8 +53,12 @@ public class Eddystone implements IBeaconInfo {
         return encryptedTelemetry;
     }
 
-    public Telemetry getTelemetry() {
-        return telemetry;
+    public Double getBatteryVoltage() {
+        return batteryVoltage;
+    }
+
+    public Double getTemperature() {
+        return temperature;
     }
 
     @Override
