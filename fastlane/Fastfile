@@ -13,14 +13,14 @@ platform :android do
     )
   end
 
-  desc "Publish the package"
-  lane :publish do
+  desc "Release the package"
+  lane :release do
     gradle(task: "clean")
 
     gradle(task: "test")
 
     gradle(
-      task: ":beaconsuedtirolsdk:assemble",
+      task: ":beaconsuedtirolsdk:release",
       build_type: "Release"
     )
   end

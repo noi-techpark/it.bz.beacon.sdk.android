@@ -1,0 +1,31 @@
+pipeline {
+    agent {
+        node {
+            label 'mac'
+        }
+    }
+
+    environment {
+        S3_REPO_ID = 'maven-repo.opendatahub.bz.it'
+        S3_REPO_USERNAME = credentials('s3_repo_username')
+        S3_REPO_PASSWORD = credentials('s3_repo_password')
+    }
+
+    stages {
+        stage('Dependencies') {
+            steps {
+                ansiColor('xterm') {
+                    sh 'bundle install --path=vendor/bundle'
+                    sh 'bundle update'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                ansiColor('xterm') {
+                    sh 'bundle exec fastlane release'
+                }
+            }
+        }
+    }
+}
