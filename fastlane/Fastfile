@@ -1,0 +1,27 @@
+default_platform(:android)
+
+platform :android do
+  desc "Test the package"
+  lane :test do
+    gradle(task: "clean")
+
+    gradle(task: "test")
+
+    gradle(
+      task: ":beaconsuedtirolsdk:assemble",
+      build_type: "Release",
+    )
+  end
+
+  desc "Publish the package"
+  lane :publish do
+    gradle(task: "clean")
+
+    gradle(task: "test")
+
+    gradle(
+      task: ":beaconsuedtirolsdk:assemble",
+      build_type: "Release"
+    )
+  end
+end
