@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/fab_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/beacon_name"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:textIsSelectable="true"
+            android:textStyle="bold"
+            tools:context=".BeaconDetailFragment"
+            tools:text="Beacon Instance ID" />
+
+        <TextView
+            android:id="@+id/beacon_address"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:textIsSelectable="true"
+            tools:context=".BeaconDetailFragment"
+            tools:text="Beacon ID" />
+
+        <TextView
+            android:id="@+id/beacon_location"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:textIsSelectable="true"
+            tools:context=".BeaconDetailFragment"
+            tools:text="Beacon Major" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/beacon_major"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:textIsSelectable="true"
+            tools:context=".BeaconDetailFragment"
+            tools:text="Beacon Major" />
+
+        <TextView
+            android:id="@+id/beacon_minor"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            tools:context=".BeaconDetailFragment"
+            tools:text="Beacon Minor" />
+
+        <Button
+            android:id="@+id/btn_website"
+            android:layout_marginTop="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/open_website"
+            android:background="@color/primary"
+            android:textColor="@android:color/white"
+            android:drawableLeft="@drawable/ic_open_in_browser"
+            android:drawablePadding="@dimen/fab_margin"
+            android:padding="@dimen/fab_margin"/>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
