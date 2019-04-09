@@ -15,6 +15,7 @@ buildscript {
 }
 
 plugins {
+    id 'java'
     id 'maven-publish'
 }
 
@@ -28,16 +29,4 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-publishing {
-    repositories {
-        maven {
-            url "s3://it.bz.opendatahub"
-            credentials(AwsCredentials) {
-                accessKey "${System.getenv('S3_REPO_USERNAME')}"
-                secretKey "${System.getenv('S3_REPO_PASSWORD')}"
-            }
-        }
-    }
 }

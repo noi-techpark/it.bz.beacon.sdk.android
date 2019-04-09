@@ -20,7 +20,12 @@ platform :android do
     gradle(task: "test")
 
     gradle(
-      task: ":beaconsuedtirolsdk:release",
+      task: ":beaconsuedtirolsdk:assemble",
+      build_type: "Release",
+    )
+
+    gradle(
+      task: ":beaconsuedtirolsdk:publish",
       build_type: "Release"
     )
   end

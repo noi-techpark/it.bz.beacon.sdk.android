@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 28
@@ -45,11 +46,28 @@ dependencies {
     implementation "androidx.work:work-runtime:2.0.0-rc01"
 }
 
-publishing {
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier "sources"
+}
 
+publishing {
     publications {
-        mavenJava(MavenPublication) {
-            from components.java
+        bar(MavenPublication) {
+            groupId 'xxx.test'
+            artifactId 'sdk'
+            version '0.1'
+            artifact(sourceJar)
+            artifact("$buildDir/outputs/aar/beaconsuedtirolsdk-release.aar")
+        }
+    }
+    repositories {
+        maven {
+            url "s3://it.bz.opendatahub"
+            credentials(AwsCredentials) {
+                accessKey "${System.getenv('S3_REPO_USERNAME')}"
+                secretKey "${System.getenv('S3_REPO_PASSWORD')}"
+            }
         }
     }
 }
