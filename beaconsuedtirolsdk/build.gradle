@@ -54,16 +54,16 @@ task sourceJar(type: Jar) {
 publishing {
     publications {
         bar(MavenPublication) {
-            groupId 'xxx.test'
+            groupId 'it.bz.beacon'
             artifactId 'sdk'
-            version '0.1'
+            version "${System.getenv('params.TAG')}"
             artifact(sourceJar)
             artifact("$buildDir/outputs/aar/beaconsuedtirolsdk-release.aar")
         }
     }
     repositories {
         maven {
-            url "s3://it.bz.opendatahub"
+            url "s3://it.bz.opendatahub/yyy"
             credentials(AwsCredentials) {
                 accessKey "${System.getenv('S3_REPO_USERNAME')}"
                 secretKey "${System.getenv('S3_REPO_PASSWORD')}"
