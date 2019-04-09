@@ -16,7 +16,6 @@ buildscript {
 
 plugins {
     id 'java'
-    id 'maven-publish'
 }
 
 allprojects {
