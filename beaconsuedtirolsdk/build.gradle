@@ -56,7 +56,7 @@ publishing {
         bar(MavenPublication) {
             groupId 'it.bz.beacon'
             artifactId 'sdk'
-            version "${System.getenv('params.TAG')}"
+            version "${System.getenv('TAG')}"
             artifact(sourceJar)
             artifact("$buildDir/outputs/aar/beaconsuedtirolsdk-release.aar")
         }
