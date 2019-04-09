@@ -63,7 +63,7 @@ publishing {
     }
     repositories {
         maven {
-            url "s3://it.bz.opendatahub/yyy"
+            url "s3://it.bz.opendatahub/release"
             credentials(AwsCredentials) {
                 accessKey "${System.getenv('S3_REPO_USERNAME')}"
                 secretKey "${System.getenv('S3_REPO_PASSWORD')}"
