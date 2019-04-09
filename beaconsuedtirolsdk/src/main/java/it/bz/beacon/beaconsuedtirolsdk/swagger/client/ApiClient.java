@@ -52,7 +52,7 @@ import it.bz.beacon.beaconsuedtirolsdk.swagger.client.auth.OAuth;
 
 public class ApiClient {
 
-    private String basePath = "https://api.beacon-dev.it";
+    private String basePath = "https://api.beacon.bz.it";
     private boolean debugging = false;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
     private String tempFolderPath = null;
@@ -107,7 +107,7 @@ public class ApiClient {
     /**
      * Set base path
      *
-     * @param basePath Base path of the URL (e.g https://api.beacon-dev.it
+     * @param basePath Base path of the URL (e.g https://api.beacon.bz.it
      * @return An instance of OkHttpClient
      */
     public ApiClient setBasePath(String basePath) {
