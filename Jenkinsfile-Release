@@ -25,7 +25,7 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('Release') {
             steps {
                 ansiColor('xterm') {
                     sh "TAG='${params.TAG}' bundle exec fastlane release"
