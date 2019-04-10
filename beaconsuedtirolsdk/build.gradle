@@ -43,7 +43,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0"
     // WorkManager for background tasks
-    implementation "androidx.work:work-runtime:2.0.0-rc01"
+    implementation "androidx.work:work-runtime:2.0.1-rc01"
 }
 
 task sourceJar(type: Jar) {
@@ -59,6 +59,17 @@ publishing {
             version "${System.getenv('TAG')}"
             artifact(sourceJar)
             artifact("$buildDir/outputs/aar/beaconsuedtirolsdk-release.aar")
+
+            //generate pom nodes for dependencies
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.allDependencies.each { dependency ->
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', dependency.group)
+                    dependencyNode.appendNode('artifactId', dependency.name)
+                    dependencyNode.appendNode('version', dependency.version)
+                }
+            }
         }
     }
     repositories {
