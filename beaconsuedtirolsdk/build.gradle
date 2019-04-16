@@ -57,6 +57,7 @@ publishing {
             groupId 'it.bz.beacon'
             artifactId 'sdk'
             version "${System.getenv('TAG')}"
+            from components.java
             artifact(sourceJar)
             artifact("$buildDir/outputs/aar/beaconsuedtirolsdk-release.aar")
 
