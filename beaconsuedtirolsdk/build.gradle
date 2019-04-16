@@ -53,11 +53,11 @@ task sourceJar(type: Jar) {
 
 publishing {
     publications {
-        bar(MavenPublication) {
+        mavenAar(MavenPublication) {
+            from components.android
             groupId 'it.bz.beacon'
             artifactId 'sdk'
             version "${System.getenv('TAG')}"
-            from components.android
             artifact(sourceJar)
             artifact("$buildDir/outputs/aar/beaconsuedtirolsdk-release.aar")
 
