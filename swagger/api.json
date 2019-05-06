@@ -6,7 +6,7 @@
     "contact": {},
     "license": {}
   },
-  "host": "api.beacon-dev.it",
+  "host": "api.beacon.bz.it",
   "basePath": "/",
   "tags": [
     {
