@@ -27,4 +27,7 @@ public abstract class BeaconDao {
 
     @Query("SELECT * FROM Beacon WHERE instanceId = :instanceId")
     public abstract Beacon getByInstanceId(String instanceId);
+
+    @Query("SELECT MAX(updatedAt) FROM Beacon")
+    public abstract long getMaxUpdatedAt();
 }

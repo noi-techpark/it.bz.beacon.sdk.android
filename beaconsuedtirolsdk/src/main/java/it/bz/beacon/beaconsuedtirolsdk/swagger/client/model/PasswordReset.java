@@ -24,50 +24,29 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * AuthenticationRequest
+ * PasswordReset
  */
 
-public class AuthenticationRequest {
-  @SerializedName("password")
-  private String password = null;
+public class PasswordReset {
+  @SerializedName("newPassword")
+  private String newPassword = null;
 
-  @SerializedName("username")
-  private String username = null;
-
-  public AuthenticationRequest password(String password) {
-    this.password = password;
+  public PasswordReset newPassword(String newPassword) {
+    this.newPassword = newPassword;
     return this;
   }
 
    /**
-   * Get password
-   * @return password
+   * Get newPassword
+   * @return newPassword
   **/
   @ApiModelProperty(required = true, value = "")
-  public String getPassword() {
-    return password;
+  public String getNewPassword() {
+    return newPassword;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public AuthenticationRequest username(String username) {
-    this.username = username;
-    return this;
-  }
-
-   /**
-   * Get username
-   * @return username
-  **/
-  @ApiModelProperty(required = true, value = "")
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
+  public void setNewPassword(String newPassword) {
+    this.newPassword = newPassword;
   }
 
 
@@ -79,24 +58,22 @@ public class AuthenticationRequest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AuthenticationRequest authenticationRequest = (AuthenticationRequest) o;
-    return Objects.equals(this.password, authenticationRequest.password) &&
-        Objects.equals(this.username, authenticationRequest.username);
+    PasswordReset passwordReset = (PasswordReset) o;
+    return Objects.equals(this.newPassword, passwordReset.newPassword);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(password, username);
+    return Objects.hash(newPassword);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AuthenticationRequest {\n");
+    sb.append("class PasswordReset {\n");
     
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    username: ").append(toIndentedString(username)).append("\n");
+    sb.append("    newPassword: ").append(toIndentedString(newPassword)).append("\n");
     sb.append("}");
     return sb.toString();
   }

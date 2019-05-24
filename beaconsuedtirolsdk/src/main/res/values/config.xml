@@ -3,5 +3,5 @@
     <integer name="timeout">30000</integer>
     <integer name="reduced_timeout">1000</integer>
     <!--interval for beacon synchronization in minutes-->
-    <integer name="synchronization_interval">10</integer>
+    <integer name="synchronization_interval">30</integer>
 </resources>
