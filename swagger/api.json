@@ -2,7 +2,9 @@
   "swagger": "2.0",
   "info": {
     "description": "The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.",
-    "title": "Beacon Suedtirol API TEST",
+    "version": "0.1",
+    "title": "Beacon Suedtirol API",
+    "termsOfService": "https://opendatahub.readthedocs.io/en/latest/licenses.html",
     "contact": {},
     "license": {}
   },
@@ -1092,6 +1094,120 @@
         "deprecated": false
       }
     },
+    "/v1/admin/users/{id}/change-password": {
+      "patch": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Update a user",
+        "operationId": "changePasswordUsingPATCH",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "passwordChange",
+            "description": "passwordChange",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PasswordChange"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseMessage"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "deprecated": false
+      }
+    },
+    "/v1/admin/users/{id}/reset-password": {
+      "patch": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Update a user",
+        "operationId": "resetPasswordUsingPATCH",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "passwordReset",
+            "description": "passwordReset",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PasswordReset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseMessage"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "deprecated": false
+      }
+    },
     "/v1/checkToken": {
       "post": {
         "tags": [
@@ -1148,6 +1264,16 @@
         "operationId": "getListUsingGET_2",
         "produces": [
           "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "updatedAfter",
+            "in": "query",
+            "description": "updatedAfter",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
         ],
         "responses": {
           "200": {
@@ -1932,6 +2058,10 @@
         "namespace": {
           "type": "string"
         },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        },
         "uuid": {
           "type": "string",
           "format": "uuid"
@@ -1999,6 +2129,40 @@
         }
       },
       "title": "ManufacturerOrder"
+    },
+    "PasswordChange": {
+      "type": "object",
+      "required": [
+        "newPassword",
+        "oldPassword"
+      ],
+      "properties": {
+        "newPassword": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 32,
+          "pattern": ".*[$&+,:;=\\\\?@#|/'<>.^*()%!-].*"
+        },
+        "oldPassword": {
+          "type": "string"
+        }
+      },
+      "title": "PasswordChange"
+    },
+    "PasswordReset": {
+      "type": "object",
+      "required": [
+        "newPassword"
+      ],
+      "properties": {
+        "newPassword": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 32,
+          "pattern": ".*[$&+,:;=\\\\?@#|/'<>.^*()%!-].*"
+        }
+      },
+      "title": "PasswordReset"
     },
     "PendingConfiguration": {
       "type": "object",
@@ -2188,6 +2352,9 @@
     "User": {
       "type": "object",
       "properties": {
+        "admin": {
+          "type": "boolean"
+        },
         "email": {
           "type": "string"
         },
@@ -2224,7 +2391,10 @@
           "type": "string"
         },
         "password": {
-          "type": "string"
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 32,
+          "pattern": ".*[$&+,:;=\\\\?@#|/'<>.^*()%!-].*"
         },
         "surname": {
           "type": "string"
@@ -2247,9 +2417,6 @@
           "type": "string"
         },
         "name": {
-          "type": "string"
-        },
-        "password": {
           "type": "string"
         },
         "surname": {

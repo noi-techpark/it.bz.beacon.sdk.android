@@ -6,9 +6,15 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import java.util.Date;
+
+import it.bz.beacon.beaconsuedtirolsdk.data.converter.DateConverter;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Info;
 
 @Entity
+@TypeConverters(DateConverter.class)
 public class Beacon implements Parcelable {
 
     public static final String LOCATION_OUTDOOR = "OUTDOOR";
@@ -38,6 +44,7 @@ public class Beacon implements Parcelable {
     private Integer minor;
     private String name;
     private String namespace;
+    private Date updatedAt;
     private String uuid;
     private String website;
 
@@ -59,6 +66,7 @@ public class Beacon implements Parcelable {
         beacon.setMinor(info.getMinor());
         beacon.setName(info.getName());
         beacon.setNamespace(info.getNamespace());
+        beacon.setUpdatedAt(new Date(info.getUpdatedAt()));
         if (info.getUuid() != null) {
             beacon.setUuid(info.getUuid().toString());
         }
@@ -163,6 +171,14 @@ public class Beacon implements Parcelable {
         this.namespace = namespace;
     }
 
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     public String getUuid() {
         return uuid;
     }
@@ -192,6 +208,7 @@ public class Beacon implements Parcelable {
         this.minor = in.readInt();
         this.name = in.readString();
         this.namespace = in.readString();
+        this.updatedAt = new Date(in.readLong());
         this.uuid = in.readString();
         this.website = in.readString();
     }
@@ -210,6 +227,7 @@ public class Beacon implements Parcelable {
         dest.writeInt(this.minor);
         dest.writeString(this.name);
         dest.writeString(this.namespace);
+        dest.writeLong(this.updatedAt.getTime());
         dest.writeString(this.uuid);
         dest.writeString(this.website);
     }

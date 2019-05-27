@@ -4,12 +4,14 @@ import android.Manifest;
 import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.content.pm.PackageManager;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.work.Constraints;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
+
 import com.kontakt.sdk.android.ble.connection.OnServiceReadyListener;
 import com.kontakt.sdk.android.ble.device.BeaconRegion;
 import com.kontakt.sdk.android.ble.device.EddystoneNamespace;
@@ -18,7 +20,19 @@ import com.kontakt.sdk.android.ble.manager.listeners.SecureProfileListener;
 import com.kontakt.sdk.android.ble.manager.listeners.simple.SimpleEddystoneListener;
 import com.kontakt.sdk.android.ble.manager.listeners.simple.SimpleIBeaconListener;
 import com.kontakt.sdk.android.common.KontaktSDK;
-import com.kontakt.sdk.android.common.profile.*;
+import com.kontakt.sdk.android.common.profile.IBeaconDevice;
+import com.kontakt.sdk.android.common.profile.IBeaconRegion;
+import com.kontakt.sdk.android.common.profile.IEddystoneDevice;
+import com.kontakt.sdk.android.common.profile.IEddystoneNamespace;
+import com.kontakt.sdk.android.common.profile.ISecureProfile;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 import it.bz.beacon.beaconsuedtirolsdk.auth.TrustedAuth;
 import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
 import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadAllBeaconsEvent;
@@ -38,10 +52,6 @@ import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiException;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.api.TrustedBeaconControllerApi;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.BeaconBatteryLevelUpdate;
 import it.bz.beacon.beaconsuedtirolsdk.workmanager.SynchronizationWorker;
-
-import java.net.URL;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class NearbyBeaconManager implements SecureProfileListener {
 
@@ -85,6 +95,9 @@ public class NearbyBeaconManager implements SecureProfileListener {
         if (this.trustedAuth != null) {
             trustedApi.getApiClient().setUsername(this.trustedAuth.getUsername());
             trustedApi.getApiClient().setPassword(this.trustedAuth.getPassword());
+        } else {
+            trustedApi.getApiClient().setUsername(null);
+            trustedApi.getApiClient().setPassword(null);
         }
         createPeriodicWorkRequest();
     }
@@ -169,29 +182,32 @@ public class NearbyBeaconManager implements SecureProfileListener {
                     BeaconBatteryLevelUpdate update = new BeaconBatteryLevelUpdate();
                     update.setBatteryLevel(profile.getBatteryLevel());
                     String[] nameParts = profile.getName().split("#");
-                    trustedApi.updateUsingPATCH1Async(update, nameParts[1], new ApiCallback<it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon>() {
-                        @Override
-                        public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
+                    if (nameParts.length > 1) {
+                        trustedApi.updateUsingPATCH1Async(update, nameParts[1], new ApiCallback<it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon>() {
+                            @Override
+                            public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onSuccess(it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon result, int statusCode, Map<String, List<String>> responseHeaders) {
+                            @Override
+                            public void onSuccess(it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon result, int statusCode, Map<String, List<String>> responseHeaders) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+                            @Override
+                            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+                            @Override
+                            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
 
-                        }
-                    }).execute();
+                            }
+                        }).execute();
+                    }
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 //
             }
         }

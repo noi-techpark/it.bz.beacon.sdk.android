@@ -25,7 +25,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.kontaktio:sdk:4.0.2'
+    implementation 'com.kontaktio:sdk:4.0.3'
     implementation 'io.swagger:swagger-annotations:1.5.15'
     implementation 'com.squareup.okhttp:okhttp:2.7.5'
     implementation 'com.squareup.okhttp:logging-interceptor:2.7.5'
@@ -43,7 +43,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0"
     // WorkManager for background tasks
-    implementation "androidx.work:work-runtime:2.0.1-rc01"
+    implementation "androidx.work:work-runtime:2.0.1"
 }
 
 task sourceJar(type: Jar) {
