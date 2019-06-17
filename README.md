@@ -3,9 +3,9 @@ This repository contains the mobile Android SDK that can be used in order to rea
 
 ## Integration in your Android App
 
-**URL:** s3://it.bz.opendatahub/release
-**Group ID:** it.bz.beacon
-**Artifact ID:** sdk
+**URL:** s3://it.bz.opendatahub/release  
+**Group ID:** it.bz.beacon  
+**Artifact ID:** sdk  
 
 For the configuration in the Gradle file you can use the following example:
 ```
