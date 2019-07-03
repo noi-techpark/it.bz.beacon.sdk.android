@@ -1,24 +1,6 @@
 # Beacon Suedtirol - Alto Adige SDK Android
 This repository contains the mobile Android SDK that can be used in order to read the beacons installed within the Beacon Suedtirol project.
 
-## Integration in your Android App
-
-**URL:** s3://it.bz.opendatahub/release  
-**Group ID:** it.bz.beacon  
-**Artifact ID:** sdk  
-
-For the configuration in the Gradle file you can use the following example:
-```
-repositories {
-    maven {
-        url "s3://it.bz.opendatahub/release"
-    }
-    mavenLocal()
-    jcenter()
-}
-compile('it.bz.beacon:sdk:0.2.2')
-```
-
 ## Usage
 #### 1. If you haven't already, add this to your `project build.gradle` under `repositories`:
 ```
