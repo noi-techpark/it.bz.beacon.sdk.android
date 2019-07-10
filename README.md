@@ -38,3 +38,14 @@ This repository contains the mobile Android SDK that can be used in order to rea
 
     onIBeaconLost(IBeacon iBeacon)
 ```
+
+# Inbound Licenses
+- com.kontaktio:sdk:4.0.2 - Creative Commons Attribution-NoDerivs 3.0 Unported
+- io.swagger:swagger-annotations:1.5.15 – Apache 2.0
+- com.squareup.okhttp:okhttp:2.7.5 – Apache 2.0
+- com.squareup.okhttp:logging-interceptor:2.7.5 – Apache 2.0
+- com.squareup:otto:1.3.8 – Apache 2.0
+- com.google.code.gson:gson:2.8.2 – Apache 2.0
+- org.threeten:threetenbp:1.3.5 – BSD 3-clause
+- io.gsonfire:gson-fire:1.8.0 – MIT
+
