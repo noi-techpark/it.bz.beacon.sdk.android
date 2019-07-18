@@ -1,6 +1,5 @@
-Valid-License-Identifier: LGPL-3.0
-
 ### GNU LESSER GENERAL PUBLIC LICENSE
+Valid-License-Identifier: LGPL-3.0
 
 Version 3, 29 June 2007
 
