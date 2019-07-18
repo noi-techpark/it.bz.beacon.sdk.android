@@ -49,3 +49,5 @@ This repository contains the mobile Android SDK that can be used in order to rea
 - org.threeten:threetenbp:1.3.5 – BSD 3-clause
 - io.gsonfire:gson-fire:1.8.0 – MIT
 
+# Outbound License
+See LICENSE.md
