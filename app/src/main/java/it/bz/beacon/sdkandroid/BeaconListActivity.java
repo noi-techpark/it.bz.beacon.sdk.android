@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,7 +12,11 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
+
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Locale;
+
 import it.bz.beacon.beaconsuedtirolsdk.NearbyBeaconManager;
 import it.bz.beacon.beaconsuedtirolsdk.exception.MissingLocationPermissionException;
 import it.bz.beacon.beaconsuedtirolsdk.exception.NoBluetoothException;
@@ -20,8 +25,6 @@ import it.bz.beacon.beaconsuedtirolsdk.listener.IBeaconListener;
 import it.bz.beacon.beaconsuedtirolsdk.result.Eddystone;
 import it.bz.beacon.beaconsuedtirolsdk.result.IBeacon;
 import it.bz.beacon.sdkandroid.adapter.InfoAdapter;
-
-import java.util.Locale;
 
 /**
  * An activity representing a list of Beacons. This activity
@@ -79,8 +82,7 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST);
-        }
-        else {
+        } else {
             tryStartScanning();
         }
     }
@@ -101,12 +103,10 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
     private void tryStartScanning() {
         try {
             NearbyBeaconManager.getInstance().startScanning();
-        }
-        catch (NoBluetoothException e) {
+        } catch (NoBluetoothException e) {
             e.printStackTrace();
             showSnackbarWithRetry(getString(R.string.no_bluetooth));
-        }
-        catch (MissingLocationPermissionException e) {
+        } catch (MissingLocationPermissionException e) {
             e.printStackTrace();
             showSnackbarWithRetry(getString(R.string.missing_location_permission));
         }

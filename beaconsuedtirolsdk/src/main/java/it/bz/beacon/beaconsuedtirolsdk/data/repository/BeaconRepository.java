@@ -162,7 +162,6 @@ public class BeaconRepository {
             @Override
             public void onSuccess(long date) {
                 try {
-                    Log.d("SDK", "date: " + new Date(date));
                     infoControllerApi.getApiClient().setConnectTimeout(timeout);
                     infoControllerApi.getApiClient().setReadTimeout(timeout);
                     infoControllerApi.getListUsingGET2Async(date, new ApiCallback<List<Info>>() {
@@ -177,14 +176,18 @@ public class BeaconRepository {
                         public void onSuccess(List<Info> result, int statusCode, Map<String, List<String>> responseHeaders) {
                             if (result != null) {
                                 Log.d("SDK", "number of results: " + result.size());
-                                List<Beacon> beacons = new ArrayList<>();
+                                final List<Beacon> beacons = new ArrayList<>();
                                 for (int i = 0; i < result.size(); i++) {
                                     Beacon beacon = Beacon.fromInfo(result.get(i));
-                                    insert(beacon, null);
                                     beacons.add(beacon);
                                 }
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        beaconDao.insertMultiple(beacons);
+                                    }});
                                 if (loadAllBeaconsEvent != null) {
-                                    loadAllBeaconsEvent.onSuccess(beacons);
+                                    loadAllFromCache(loadAllBeaconsEvent);
                                 }
                             }
                         }

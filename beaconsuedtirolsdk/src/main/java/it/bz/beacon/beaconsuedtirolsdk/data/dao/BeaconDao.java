@@ -1,5 +1,6 @@
 package it.bz.beacon.beaconsuedtirolsdk.data.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.room.Dao;
@@ -14,6 +15,9 @@ public abstract class BeaconDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insert(Beacon beacon);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertMultiple(List<Beacon> beacons);
 
     @Transaction
     @Query("SELECT * FROM Beacon ORDER BY name ASC")
