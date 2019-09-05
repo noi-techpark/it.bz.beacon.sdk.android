@@ -6,9 +6,9 @@ This repository contains the mobile Android SDK that can be used in order to rea
 ```
     maven { url "https://jitpack.io" }
 ```
-#### 2. Add this to your app `build.gradle` file:
+#### 2. Add this to your app `build.gradle` file (look for latest release in repository and replace "x.y.z"):
 ```
-    implementation 'com.github.noi-techpark:beacon-suedtirol-mobile-sdk-android:0.2.2'
+    implementation 'com.github.noi-techpark:beacon-suedtirol-mobile-sdk-android:x.y.z'
 ```
 #### 3. Create a custom Application class and in the `onCreate()` method, call:
 ```
