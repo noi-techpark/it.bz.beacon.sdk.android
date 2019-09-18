@@ -26,20 +26,9 @@ import it.bz.beacon.beaconsuedtirolsdk.result.Eddystone;
 import it.bz.beacon.beaconsuedtirolsdk.result.IBeacon;
 import it.bz.beacon.sdkandroid.adapter.InfoAdapter;
 
-/**
- * An activity representing a list of Beacons. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link BeaconDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 public class BeaconListActivity extends AppCompatActivity implements IBeaconListener, EddystoneListener {
 
     private static final int LOCATION_PERMISSION_REQUEST = 1;
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
-     */
     private boolean isTablet;
     private InfoAdapter adapter;
     private Toolbar toolbar;

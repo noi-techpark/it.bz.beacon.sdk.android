@@ -3,6 +3,7 @@ package it.bz.beacon.beaconsuedtirolsdk;
 import android.Manifest;
 import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
@@ -29,7 +30,6 @@ import com.kontakt.sdk.android.common.profile.ISecureProfile;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +37,7 @@ import it.bz.beacon.beaconsuedtirolsdk.auth.TrustedAuth;
 import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
 import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadAllBeaconsEvent;
 import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadBeaconEvent;
+import it.bz.beacon.beaconsuedtirolsdk.data.repository.BatteryLevelInfoRepository;
 import it.bz.beacon.beaconsuedtirolsdk.data.repository.BeaconRepository;
 import it.bz.beacon.beaconsuedtirolsdk.exception.AlreadyInitializedException;
 import it.bz.beacon.beaconsuedtirolsdk.exception.MissingLocationPermissionException;
@@ -46,11 +47,8 @@ import it.bz.beacon.beaconsuedtirolsdk.listener.EddystoneListener;
 import it.bz.beacon.beaconsuedtirolsdk.listener.IBeaconListener;
 import it.bz.beacon.beaconsuedtirolsdk.result.Eddystone;
 import it.bz.beacon.beaconsuedtirolsdk.result.IBeacon;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiCallback;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiClient;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiException;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.api.TrustedBeaconControllerApi;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.BeaconBatteryLevelUpdate;
 import it.bz.beacon.beaconsuedtirolsdk.workmanager.SynchronizationWorker;
 
 public class NearbyBeaconManager implements SecureProfileListener {
@@ -58,7 +56,8 @@ public class NearbyBeaconManager implements SecureProfileListener {
     private static volatile NearbyBeaconManager instance;
 
     private com.kontakt.sdk.android.ble.manager.ProximityManager proximityManager;
-    private BeaconRepository repository;
+    private BeaconRepository beaconRepository;
+    private BatteryLevelInfoRepository batteryLevelInfoRepository;
     private EddystoneListener eddystoneListener;
     private IBeaconListener iBeaconListener;
     private Application application;
@@ -88,7 +87,8 @@ public class NearbyBeaconManager implements SecureProfileListener {
     private NearbyBeaconManager(@NonNull Application application, @Nullable TrustedAuth trustedAuth) {
         this.application = application;
         this.trustedAuth = trustedAuth;
-        repository = new BeaconRepository(application);
+        beaconRepository = new BeaconRepository(application);
+        batteryLevelInfoRepository = new BatteryLevelInfoRepository(application, trustedAuth);
         KontaktSDK.initialize(" ");
         proximityManager = ProximityManagerFactory.create(application);
         trustedApi = new TrustedBeaconControllerApi(new ApiClient());
@@ -99,20 +99,20 @@ public class NearbyBeaconManager implements SecureProfileListener {
             trustedApi.getApiClient().setUsername(null);
             trustedApi.getApiClient().setPassword(null);
         }
-        createPeriodicWorkRequest();
+        createPeriodicWorkRequest(application);
     }
 
-    private void createPeriodicWorkRequest() {
+    private void createPeriodicWorkRequest(Context context) {
         Constraints constraints = new Constraints.Builder()
                 .setRequiresBatteryNotLow(true)
                 .build();
 
         PeriodicWorkRequest saveRequest =
-                new PeriodicWorkRequest.Builder(SynchronizationWorker.class, 20, TimeUnit.MINUTES)
+                new PeriodicWorkRequest.Builder(SynchronizationWorker.class, 30, TimeUnit.MINUTES)
                         .setConstraints(constraints)
                         .build();
 
-        WorkManager.getInstance().enqueue(saveRequest);
+        WorkManager.getInstance(context).enqueue(saveRequest);
     }
 
     public void setIBeaconListener(IBeaconListener iBeaconListener) {
@@ -176,39 +176,10 @@ public class NearbyBeaconManager implements SecureProfileListener {
     }
 
     private void updateBatteryStatus(ISecureProfile profile) {
-        if (trustedAuth != null) {
-            try {
-                if (profile.getBatteryLevel() > 0) {
-                    BeaconBatteryLevelUpdate update = new BeaconBatteryLevelUpdate();
-                    update.setBatteryLevel(profile.getBatteryLevel());
-                    String[] nameParts = profile.getName().split("#");
-                    if (nameParts.length > 1) {
-                        trustedApi.updateUsingPATCH1Async(update, nameParts[1], new ApiCallback<it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon>() {
-                            @Override
-                            public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
-
-                            }
-
-                            @Override
-                            public void onSuccess(it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon result, int statusCode, Map<String, List<String>> responseHeaders) {
-
-                            }
-
-                            @Override
-                            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
-
-                            }
-
-                            @Override
-                            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
-
-                            }
-                        }).execute();
-                    }
-                }
-            }
-            catch (Exception e) {
-                //
+        if (profile.getBatteryLevel() > 0) {
+            String[] nameParts = profile.getName().split("#");
+            if (nameParts.length > 1) {
+                batteryLevelInfoRepository.update(nameParts[1], profile.getBatteryLevel());
             }
         }
     }
@@ -217,8 +188,7 @@ public class NearbyBeaconManager implements SecureProfileListener {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
             return false;
-        }
-        else {
+        } else {
             return bluetoothAdapter.isEnabled();
         }
     }
@@ -238,20 +208,19 @@ public class NearbyBeaconManager implements SecureProfileListener {
 
     /**
      * Get all beacons from server, fall back to local cache if there is no internet connection
-     *
      * @param loadAllBeaconsEvent
      */
     public void getAllBeacons(LoadAllBeaconsEvent loadAllBeaconsEvent) {
-        repository.getAll(loadAllBeaconsEvent);
+        beaconRepository.getAll(loadAllBeaconsEvent);
     }
 
     /**
      * Get a single beacon from local cache
-     *
+     * @param id              The id of the beacon to load from cache
      * @param loadBeaconEvent
      */
     public void getBeacon(String id, LoadBeaconEvent loadBeaconEvent) {
-        repository.getById(id, loadBeaconEvent);
+        beaconRepository.getById(id, loadBeaconEvent);
     }
 
     private com.kontakt.sdk.android.ble.manager.listeners.IBeaconListener createIBeaconListener() {
@@ -259,7 +228,7 @@ public class NearbyBeaconManager implements SecureProfileListener {
             @Override
             public void onIBeaconDiscovered(final IBeaconDevice device, final IBeaconRegion region) {
                 super.onIBeaconDiscovered(device, region);
-                repository.getByMajorMinor(device.getMajor(), device.getMinor(), new LoadBeaconEvent() {
+                beaconRepository.getByMajorMinor(device.getMajor(), device.getMinor(), new LoadBeaconEvent() {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (iBeaconListener != null) {
@@ -281,7 +250,7 @@ public class NearbyBeaconManager implements SecureProfileListener {
             @Override
             public void onIBeaconLost(final IBeaconDevice device, final IBeaconRegion region) {
                 super.onIBeaconLost(device, region);
-                repository.getByMajorMinor(device.getMajor(), device.getMinor(), new LoadBeaconEvent() {
+                beaconRepository.getByMajorMinor(device.getMajor(), device.getMinor(), new LoadBeaconEvent() {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (iBeaconListener != null) {
@@ -307,7 +276,7 @@ public class NearbyBeaconManager implements SecureProfileListener {
             @Override
             public void onEddystoneDiscovered(final IEddystoneDevice device, final IEddystoneNamespace namespace) {
                 super.onEddystoneDiscovered(device, namespace);
-                repository.getByInstanceId(device.getInstanceId(), new LoadBeaconEvent() {
+                beaconRepository.getByInstanceId(device.getInstanceId(), new LoadBeaconEvent() {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (eddystoneListener != null) {
@@ -331,7 +300,7 @@ public class NearbyBeaconManager implements SecureProfileListener {
             @Override
             public void onEddystoneLost(final IEddystoneDevice device, final IEddystoneNamespace namespace) {
                 super.onEddystoneLost(device, namespace);
-                repository.getByInstanceId(device.getInstanceId(), new LoadBeaconEvent() {
+                beaconRepository.getByInstanceId(device.getInstanceId(), new LoadBeaconEvent() {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (eddystoneListener != null) {

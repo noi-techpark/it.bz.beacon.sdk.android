@@ -74,6 +74,8 @@ public class InfoAdapter
     }
 
     public void addItem(Beacon beacon) {
+        if (beacon == null)
+            return;
         if (!isBeaconInList(beacon)) {
             this.infos.add(beacon);
         }
@@ -82,6 +84,8 @@ public class InfoAdapter
     }
 
     public void removeItem(Beacon beacon) {
+        if (beacon == null)
+            return;
         if (isBeaconInList(beacon)) {
             this.infos.remove(beacon);
         }

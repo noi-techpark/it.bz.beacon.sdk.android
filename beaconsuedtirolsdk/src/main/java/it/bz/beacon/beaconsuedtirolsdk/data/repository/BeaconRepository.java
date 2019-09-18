@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -29,13 +28,11 @@ public class BeaconRepository {
     private BeaconDao beaconDao;
     private InfoControllerApi infoControllerApi;
     private int timeout;
-    private int reduced_timeout;
 
     public BeaconRepository(Context context) {
         BeaconDatabase db = BeaconDatabase.getDatabase(context);
         beaconDao = db.beaconDao();
         timeout = context.getResources().getInteger(R.integer.timeout);
-        reduced_timeout = context.getResources().getInteger(R.integer.reduced_timeout);
 
         ApiClient apiClient = new ApiClient();
         apiClient.setConnectTimeout(timeout);
@@ -47,44 +44,7 @@ public class BeaconRepository {
     }
 
     public void getByInstanceId(final String instanceId, final LoadBeaconEvent loadEvent) {
-        try {
-            infoControllerApi.getApiClient().setConnectTimeout(reduced_timeout);
-            infoControllerApi.getApiClient().setReadTimeout(reduced_timeout);
-            infoControllerApi.getEddyStoneUsingGETAsync(instanceId, new ApiCallback<Info>() {
-                @Override
-                public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
-                    loadFromCacheByInstanceId(loadEvent, instanceId);
-                }
-
-                @Override
-                public void onSuccess(Info result, int statusCode, Map<String, List<String>> responseHeaders) {
-                    Beacon beacon = Beacon.fromInfo(result);
-                    if (beacon != null) {
-                        if (loadEvent != null) {
-                            loadEvent.onSuccess(beacon);
-                        }
-                        insert(beacon, null);
-                    }
-                    else {
-                        loadFromCacheByInstanceId(loadEvent, instanceId);
-                    }
-                }
-
-                @Override
-                public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
-
-                }
-
-                @Override
-                public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
-
-                }
-            });
-        }
-        catch (ApiException e) {
-            e.printStackTrace();
-            loadFromCacheByInstanceId(loadEvent, instanceId);
-        }
+        loadFromCacheByInstanceId(loadEvent, instanceId);
     }
 
     public void getById(final String id, final LoadBeaconEvent loadEvent) {
@@ -92,45 +52,7 @@ public class BeaconRepository {
     }
 
     public void getByMajorMinor(final int major, final int minor, final LoadBeaconEvent loadEvent) {
-
-        try {
-            infoControllerApi.getApiClient().setConnectTimeout(reduced_timeout);
-            infoControllerApi.getApiClient().setReadTimeout(reduced_timeout);
-            infoControllerApi.getiBeaconUsingGETAsync(major, minor, new ApiCallback<Info>() {
-                @Override
-                public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
-                    loadFromCacheByMajorMinor(loadEvent, major, minor);
-                }
-
-                @Override
-                public void onSuccess(Info result, int statusCode, Map<String, List<String>> responseHeaders) {
-                    Beacon beacon = Beacon.fromInfo(result);
-                    if (beacon != null) {
-                        if (loadEvent != null) {
-                            loadEvent.onSuccess(beacon);
-                        }
-                        insert(beacon, null);
-                    }
-                    else {
-                        loadFromCacheByMajorMinor(loadEvent, major, minor);
-                    }
-                }
-
-                @Override
-                public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
-
-                }
-
-                @Override
-                public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
-
-                }
-            });
-        }
-        catch (ApiException e) {
-            e.printStackTrace();
-            loadFromCacheByMajorMinor(loadEvent, major, minor);
-        }
+        loadFromCacheByMajorMinor(loadEvent, major, minor);
     }
 
     private void loadFromCacheByInstanceId(LoadBeaconEvent loadEvent, String instanceId) {
@@ -175,7 +97,7 @@ public class BeaconRepository {
                         @Override
                         public void onSuccess(List<Info> result, int statusCode, Map<String, List<String>> responseHeaders) {
                             if (result != null) {
-                                Log.d("SDK", "number of results: " + result.size());
+//                                Log.d("SDK", "number of results: " + result.size());
                                 final List<Beacon> beacons = new ArrayList<>();
                                 for (int i = 0; i < result.size(); i++) {
                                     Beacon beacon = Beacon.fromInfo(result.get(i));
@@ -185,7 +107,8 @@ public class BeaconRepository {
                                     @Override
                                     public void run() {
                                         beaconDao.insertMultiple(beacons);
-                                    }});
+                                    }
+                                });
                                 if (loadAllBeaconsEvent != null) {
                                     loadAllFromCache(loadAllBeaconsEvent);
                                 }
@@ -202,8 +125,7 @@ public class BeaconRepository {
 
                         }
                     });
-                }
-                catch (ApiException e) {
+                } catch (ApiException e) {
                     if (loadAllBeaconsEvent != null) {
                         loadAllFromCache(loadAllBeaconsEvent);
                     }
@@ -212,7 +134,7 @@ public class BeaconRepository {
 
             @Override
             public void onError() {
-                Log.e("SDK", "error");
+                Log.e("Beacon SDK", "error");
             }
         });
     }
@@ -236,8 +158,7 @@ public class BeaconRepository {
             try {
                 asyncTaskDao.insert(params[0]);
                 return true;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 return false;
             }
         }
@@ -247,8 +168,7 @@ public class BeaconRepository {
             if (insertEvent != null) {
                 if (success) {
                     insertEvent.onSuccess();
-                }
-                else {
+                } else {
                     insertEvent.onError();
                 }
             }
@@ -275,8 +195,7 @@ public class BeaconRepository {
             if (loadEvent != null) {
                 if (beacon != null) {
                     loadEvent.onSuccess(beacon);
-                }
-                else {
+                } else {
                     loadEvent.onError();
                 }
             }
@@ -303,8 +222,7 @@ public class BeaconRepository {
             if (loadEvent != null) {
                 if (beacon != null) {
                     loadEvent.onSuccess(beacon);
-                }
-                else {
+                } else {
                     loadEvent.onError();
                 }
             }
@@ -331,8 +249,7 @@ public class BeaconRepository {
             if (loadEvent != null) {
                 if (beacon != null) {
                     loadEvent.onSuccess(beacon);
-                }
-                else {
+                } else {
                     loadEvent.onError();
                 }
             }
@@ -359,8 +276,7 @@ public class BeaconRepository {
             if (loadEvent != null) {
                 if (date != null) {
                     loadEvent.onSuccess(date);
-                }
-                else {
+                } else {
                     loadEvent.onError();
                 }
             }
@@ -387,8 +303,7 @@ public class BeaconRepository {
             if (loadEvent != null) {
                 if (beacons != null) {
                     loadEvent.onSuccess(beacons);
-                }
-                else {
+                } else {
                     loadEvent.onError();
                 }
             }
