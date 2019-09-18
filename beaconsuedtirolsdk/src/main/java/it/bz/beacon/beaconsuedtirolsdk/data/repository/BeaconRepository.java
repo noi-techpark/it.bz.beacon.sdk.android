@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -64,8 +63,7 @@ public class BeaconRepository {
                             loadEvent.onSuccess(beacon);
                         }
                         insert(beacon, null);
-                    }
-                    else {
+                    } else {
                         loadFromCacheByInstanceId(loadEvent, instanceId);
                     }
                 }
@@ -80,8 +78,7 @@ public class BeaconRepository {
 
                 }
             });
-        }
-        catch (ApiException e) {
+        } catch (ApiException e) {
             e.printStackTrace();
             loadFromCacheByInstanceId(loadEvent, instanceId);
         }
@@ -110,8 +107,7 @@ public class BeaconRepository {
                             loadEvent.onSuccess(beacon);
                         }
                         insert(beacon, null);
-                    }
-                    else {
+                    } else {
                         loadFromCacheByMajorMinor(loadEvent, major, minor);
                     }
                 }
@@ -126,8 +122,7 @@ public class BeaconRepository {
 
                 }
             });
-        }
-        catch (ApiException e) {
+        } catch (ApiException e) {
             e.printStackTrace();
             loadFromCacheByMajorMinor(loadEvent, major, minor);
         }
@@ -185,7 +180,8 @@ public class BeaconRepository {
                                     @Override
                                     public void run() {
                                         beaconDao.insertMultiple(beacons);
-                                    }});
+                                    }
+                                });
                                 if (loadAllBeaconsEvent != null) {
                                     loadAllFromCache(loadAllBeaconsEvent);
                                 }
@@ -202,8 +198,7 @@ public class BeaconRepository {
 
                         }
                     });
-                }
-                catch (ApiException e) {
+                } catch (ApiException e) {
                     if (loadAllBeaconsEvent != null) {
                         loadAllFromCache(loadAllBeaconsEvent);
                     }
@@ -236,8 +231,7 @@ public class BeaconRepository {
             try {
                 asyncTaskDao.insert(params[0]);
                 return true;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 return false;
             }
         }
@@ -247,8 +241,7 @@ public class BeaconRepository {
             if (insertEvent != null) {
                 if (success) {
                     insertEvent.onSuccess();
-                }
-                else {
+                } else {
                     insertEvent.onError();
                 }
             }
@@ -275,8 +268,7 @@ public class BeaconRepository {
             if (loadEvent != null) {
                 if (beacon != null) {
                     loadEvent.onSuccess(beacon);
-                }
-                else {
+                } else {
                     loadEvent.onError();
                 }
             }
@@ -303,8 +295,7 @@ public class BeaconRepository {
             if (loadEvent != null) {
                 if (beacon != null) {
                     loadEvent.onSuccess(beacon);
-                }
-                else {
+                } else {
                     loadEvent.onError();
                 }
             }
@@ -331,8 +322,7 @@ public class BeaconRepository {
             if (loadEvent != null) {
                 if (beacon != null) {
                     loadEvent.onSuccess(beacon);
-                }
-                else {
+                } else {
                     loadEvent.onError();
                 }
             }
@@ -359,8 +349,7 @@ public class BeaconRepository {
             if (loadEvent != null) {
                 if (date != null) {
                     loadEvent.onSuccess(date);
-                }
-                else {
+                } else {
                     loadEvent.onError();
                 }
             }
@@ -387,8 +376,7 @@ public class BeaconRepository {
             if (loadEvent != null) {
                 if (beacons != null) {
                     loadEvent.onSuccess(beacons);
-                }
-                else {
+                } else {
                     loadEvent.onError();
                 }
             }
