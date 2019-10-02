@@ -50,7 +50,9 @@ public class BatteryLevelInfoRepository {
                     batteryLevelInfo.setLastSent(null);
                     batteryLevelInfoDao.insert(batteryLevelInfo);
                 } else {
-                    lastSent = batteryLevelInfo.getLastSent().getTime();
+                    if (batteryLevelInfo.getLastSent() != null) {
+                        lastSent = batteryLevelInfo.getLastSent().getTime();
+                    }
                     batteryLevelInfoDao.update(id, batteryLevel, System.currentTimeMillis());
                 }
 
