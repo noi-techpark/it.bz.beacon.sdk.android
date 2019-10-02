@@ -2,6 +2,7 @@ package it.bz.beacon.sdkandroid;
 
 import android.app.Application;
 import it.bz.beacon.beaconsuedtirolsdk.NearbyBeaconManager;
+import it.bz.beacon.beaconsuedtirolsdk.auth.TrustedAuth;
 
 public class MyApplication extends Application {
 
@@ -9,6 +10,6 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        NearbyBeaconManager.initialize(this);
+        NearbyBeaconManager.initialize(this, new TrustedAuth("user", "unauthorized"));
     }
 }
