@@ -199,6 +199,14 @@ public class NearbyBeaconManager implements SecureProfileListener {
     }
 
     /**
+     * Configure ScanMode for PromximityManager
+     */
+    public void configureScanMode(ScanMode scanMode) {
+        proximityManager.configuration()
+            .scanMode(scanMode);
+    }
+
+    /**
      * Stops scanning.
      */
     public void stopScanning() {
