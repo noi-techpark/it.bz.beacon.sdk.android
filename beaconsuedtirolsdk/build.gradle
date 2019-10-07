@@ -22,6 +22,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        snapshot {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
 }
 
@@ -106,6 +110,19 @@ publishing {
             credentials(AwsCredentials) {
                 accessKey "${System.getenv('S3_REPO_USERNAME')}"
                 secretKey "${System.getenv('S3_REPO_PASSWORD')}"
+            }
+            mavenContent {
+                releasesOnly()
+            }
+        }
+        maven {
+            url "s3://it.bz.opendatahub/snapshot"
+            credentials(AwsCredentials) {
+                accessKey "${System.getenv('S3_REPO_USERNAME')}"
+                secretKey "${System.getenv('S3_REPO_PASSWORD')}"
+            }
+            mavenContent {
+                snapshotsOnly()
             }
         }
     }

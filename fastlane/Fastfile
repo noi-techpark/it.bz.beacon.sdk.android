@@ -28,4 +28,20 @@ platform :android do
       task: ":beaconsuedtirolsdk:publish"
     )
   end
+
+  desc "Snapshot release of the package"
+  lane :snapshot do
+    gradle(task: "clean")
+
+    gradle(task: "test")
+
+    gradle(
+      task: ":beaconsuedtirolsdk:assemble",
+      build_type: "Snapshot",
+    )
+
+    gradle(
+      task: ":beaconsuedtirolsdk:publish"
+    )
+  end
 end
