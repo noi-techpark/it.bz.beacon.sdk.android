@@ -34,6 +34,7 @@ import androidx.work.Constraints;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import it.bz.beacon.beaconsuedtirolsdk.auth.TrustedAuth;
+import it.bz.beacon.beaconsuedtirolsdk.configuration.BluetoothMode;
 import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
 import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadAllBeaconsEvent;
 import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadBeaconEvent;
@@ -199,11 +200,23 @@ public class NearbyBeaconManager implements SecureProfileListener {
     }
 
     /**
-     * Configure ScanMode for PromximityManager
+     * Configure BluetoothMode for PromximityManager
      */
-    public void configureScanMode(ScanMode scanMode) {
+    public void configureScanMode(BluetoothMode bluetoothMode) {
         proximityManager.configuration()
-            .scanMode(scanMode);
+            .scanMode(convertScanMode(bluetoothMode));
+    }
+
+    private ScanMode convertScanMode(BluetoothMode bluetoothMode) {
+        switch (bluetoothMode) {
+            case low_power:
+                return ScanMode.LOW_POWER;
+            default:
+            case balanced:
+                return ScanMode.BALANCED;
+            case low_latency:
+                return ScanMode.LOW_LATENCY;
+        }
     }
 
     /**
