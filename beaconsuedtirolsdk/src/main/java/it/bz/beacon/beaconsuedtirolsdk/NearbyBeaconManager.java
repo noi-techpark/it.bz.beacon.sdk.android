@@ -6,6 +6,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+
+import com.kontakt.sdk.android.ble.configuration.ScanMode;
 import com.kontakt.sdk.android.ble.connection.OnServiceReadyListener;
 import com.kontakt.sdk.android.ble.device.BeaconRegion;
 import com.kontakt.sdk.android.ble.device.EddystoneNamespace;
@@ -33,6 +35,7 @@ import androidx.work.Constraints;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import it.bz.beacon.beaconsuedtirolsdk.auth.TrustedAuth;
+import it.bz.beacon.beaconsuedtirolsdk.configuration.BluetoothMode;
 import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
 import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadAllBeaconsEvent;
 import it.bz.beacon.beaconsuedtirolsdk.data.event.LoadBeaconEvent;
@@ -202,6 +205,26 @@ public class NearbyBeaconManager implements SecureProfileListener {
     private boolean isLocationPermissionGranted() {
         return (ContextCompat.checkSelfPermission(application, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED);
+    }
+
+    /**
+     * Configure BluetoothMode for PromximityManager
+     */
+    public void configureScanMode(BluetoothMode bluetoothMode) {
+        proximityManager.configuration()
+            .scanMode(convertScanMode(bluetoothMode));
+    }
+
+    private ScanMode convertScanMode(BluetoothMode bluetoothMode) {
+        switch (bluetoothMode) {
+            case low_power:
+                return ScanMode.LOW_POWER;
+            default:
+            case balanced:
+                return ScanMode.BALANCED;
+            case low_latency:
+                return ScanMode.LOW_LATENCY;
+        }
     }
 
     /**
