@@ -1,0 +1,43 @@
+pipeline {
+    agent {
+        node {
+            label 'mac'
+        }
+    }
+
+    parameters {
+        string(name: 'TAG', defaultValue: '1.0.0', description: 'Tag')
+        gitParameter name: 'BRANCH', branchFilter: 'origin/(.*)', defaultValue: 'development', type: 'PT_BRANCH'
+    }
+
+    environment {
+        S3_REPO_ID = 'maven-repo.opendatahub.bz.it'
+        S3_REPO_USERNAME = credentials('s3_repo_username')
+        S3_REPO_PASSWORD = credentials('s3_repo_password')
+    }
+
+    stages {
+        stage('Dependencies') {
+            steps {
+                ansiColor('xterm') {
+                    sh 'bundle install --path=vendor/bundle'
+                    sh 'bundle update'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                ansiColor('xterm') {
+                    sh 'bundle exec fastlane test'
+                }
+            }
+        }
+        stage('Release') {
+            steps {
+                ansiColor('xterm') {
+                    sh "TAG='${params.TAG}-SNAPSHOT' bundle exec fastlane appSnapshot"
+                }
+            }
+        }
+    }
+}
