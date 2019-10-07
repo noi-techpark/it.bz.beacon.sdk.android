@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import com.kontakt.sdk.android.ble.configuration.ScanMode;
 import com.kontakt.sdk.android.ble.connection.OnServiceReadyListener;
 import com.kontakt.sdk.android.ble.device.BeaconRegion;
 import com.kontakt.sdk.android.ble.device.EddystoneNamespace;
@@ -202,6 +203,14 @@ public class NearbyBeaconManager implements SecureProfileListener {
     private boolean isLocationPermissionGranted() {
         return (ContextCompat.checkSelfPermission(application, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED);
+    }
+
+    /**
+     * Configure ScanMode for PromximityManager
+     */
+    public void configureScanMode(ScanMode scanMode) {
+        proximityManager.configuration()
+            .scanMode(scanMode);
     }
 
     /**
