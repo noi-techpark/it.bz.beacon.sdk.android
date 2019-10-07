@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+
 import com.kontakt.sdk.android.ble.configuration.ScanMode;
 import com.kontakt.sdk.android.ble.connection.OnServiceReadyListener;
 import com.kontakt.sdk.android.ble.device.BeaconRegion;
@@ -159,6 +160,13 @@ public class NearbyBeaconManager implements SecureProfileListener {
                 proximityManager.startScanning();
             }
         });
+    }
+
+    /**
+     * Returns true if scan is currently in progress
+     */
+    public boolean isScanning() {
+        return proximityManager.isScanning();
     }
 
     @Override
