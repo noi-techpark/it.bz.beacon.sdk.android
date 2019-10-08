@@ -105,23 +105,10 @@ publishing {
     }
     repositories {
         maven {
-            url "s3://it.bz.opendatahub/release"
+            url "s3://it.bz.opendatahub/${System.getenv('VARIANT')}"
             credentials(AwsCredentials) {
                 accessKey "${System.getenv('S3_REPO_USERNAME')}"
                 secretKey "${System.getenv('S3_REPO_PASSWORD')}"
-            }
-            mavenContent {
-                releasesOnly()
-            }
-        }
-        maven {
-            url "s3://it.bz.opendatahub/snapshot"
-            credentials(AwsCredentials) {
-                accessKey "${System.getenv('S3_REPO_USERNAME')}"
-                secretKey "${System.getenv('S3_REPO_PASSWORD')}"
-            }
-            mavenContent {
-                snapshotsOnly()
             }
         }
     }
