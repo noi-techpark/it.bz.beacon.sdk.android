@@ -57,6 +57,8 @@ import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiClient;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.api.TrustedBeaconControllerApi;
 import it.bz.beacon.beaconsuedtirolsdk.workmanager.SynchronizationWorker;
 
+import static it.bz.beacon.beaconsuedtirolsdk.configuration.RangeDistance.fromProximity;
+
 public class NearbyBeaconManager implements SecureProfileListener {
 
     private static final String PERIODIC_INFO_REFRESH_WORK_REQUEST = "PERIODIC_INFO_REFRESH_WORK_REQUEST";
@@ -275,7 +277,7 @@ public class NearbyBeaconManager implements SecureProfileListener {
                     public void onSuccess(Beacon beacon) {
                         if (iBeaconListener != null) {
                             iBeaconListener.onIBeaconDiscovered(new IBeacon(device.getProximityUUID(),
-                                    device.getMajor(), device.getMinor(), beacon));
+                                    device.getMajor(), device.getMinor(), beacon), device.getDistance(), fromProximity(device.getProximity()));
                         }
                     }
 
