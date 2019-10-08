@@ -1,5 +1,6 @@
 package it.bz.beacon.beaconsuedtirolsdk.listener;
 
+import it.bz.beacon.beaconsuedtirolsdk.configuration.RangeDistance;
 import it.bz.beacon.beaconsuedtirolsdk.result.IBeacon;
 
 /**
@@ -14,6 +15,15 @@ public interface IBeaconListener {
      * @param iBeacon the iBeacon
      */
     void onIBeaconDiscovered(IBeacon iBeacon);
+
+    /**
+     * Called when a iBeacon is discovered for the first time.
+     * This will be called only once per scan or after beacon is reported lost.
+     * This listener also dispatch distance and Proximity information.
+     *
+     * @param iBeacon the iBeacon
+     */
+    void onIBeaconDiscovered(IBeacon iBeacon, double distance, RangeDistance rangeDistance);
 
     /**
      * Called when a iBeacon gets out of range.
