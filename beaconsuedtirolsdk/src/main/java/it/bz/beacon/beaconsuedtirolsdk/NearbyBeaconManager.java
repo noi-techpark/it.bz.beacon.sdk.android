@@ -6,7 +6,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
-
 import com.kontakt.sdk.android.ble.configuration.ScanMode;
 import com.kontakt.sdk.android.ble.connection.OnServiceReadyListener;
 import com.kontakt.sdk.android.ble.device.BeaconRegion;
@@ -52,6 +51,8 @@ import it.bz.beacon.beaconsuedtirolsdk.result.IBeacon;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiClient;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.api.TrustedBeaconControllerApi;
 import it.bz.beacon.beaconsuedtirolsdk.workmanager.SynchronizationWorker;
+
+import static it.bz.beacon.beaconsuedtirolsdk.configuration.RangeDistance.fromProximity;
 
 public class NearbyBeaconManager implements SecureProfileListener {
 
@@ -262,7 +263,7 @@ public class NearbyBeaconManager implements SecureProfileListener {
                     public void onSuccess(Beacon beacon) {
                         if (iBeaconListener != null) {
                             iBeaconListener.onIBeaconDiscovered(new IBeacon(device.getProximityUUID(),
-                                    device.getMajor(), device.getMinor(), beacon));
+                                    device.getMajor(), device.getMinor(), beacon), device.getDistance(), fromProximity(device.getProximity()));
                         }
                     }
 
