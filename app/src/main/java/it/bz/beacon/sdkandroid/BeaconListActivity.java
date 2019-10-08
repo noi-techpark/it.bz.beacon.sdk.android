@@ -5,6 +5,10 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Locale;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,12 +16,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import java.util.Locale;
-
 import it.bz.beacon.beaconsuedtirolsdk.NearbyBeaconManager;
+import it.bz.beacon.beaconsuedtirolsdk.configuration.RangeDistance;
 import it.bz.beacon.beaconsuedtirolsdk.exception.MissingLocationPermissionException;
 import it.bz.beacon.beaconsuedtirolsdk.exception.NoBluetoothException;
 import it.bz.beacon.beaconsuedtirolsdk.listener.EddystoneListener;
@@ -140,6 +140,16 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
 
     @Override
     public void onIBeaconDiscovered(final IBeacon iBeacon) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                adapter.addItem(iBeacon.getInfo());
+                setTitle();
+            }
+        });
+    }
+
+    @Override
+    public void onIBeaconDiscovered(final IBeacon iBeacon, double distance, RangeDistance rangeDistance) {
         runOnUiThread(new Runnable() {
             public void run() {
                 adapter.addItem(iBeacon.getInfo());
