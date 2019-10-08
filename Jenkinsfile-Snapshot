@@ -36,6 +36,7 @@ pipeline {
         stage('Release') {
             steps {
                 ansiColor('xterm') {
+                    sh "echo '${params.TAG}-SNAPSHOT'"
                     sh "TAG='${params.TAG}-SNAPSHOT' bundle exec fastlane appSnapshot"
                 }
             }
