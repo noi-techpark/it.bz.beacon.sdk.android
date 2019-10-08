@@ -15,6 +15,11 @@ platform :android do
 
   desc "Release the package"
   lane :release do
+    android_set_version_name(
+      version_name: ENV["TAG"],
+      gradle_file: "beaconsuedtirolsdk/build.gradle"
+    )
+
     gradle(task: "clean")
 
     gradle(task: "test")
@@ -31,6 +36,11 @@ platform :android do
 
   desc "Snapshot release of the package"
   lane :appSnapshot do
+    android_set_version_name(
+      version_name: ENV["TAG"],
+      gradle_file: "beaconsuedtirolsdk/build.gradle"
+    )
+
     gradle(task: "clean")
 
     gradle(task: "test")
