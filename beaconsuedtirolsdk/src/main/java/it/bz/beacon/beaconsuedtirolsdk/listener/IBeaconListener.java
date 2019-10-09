@@ -1,7 +1,9 @@
 package it.bz.beacon.beaconsuedtirolsdk.listener;
 
-import it.bz.beacon.beaconsuedtirolsdk.configuration.RangeDistance;
+import java.util.List;
+
 import it.bz.beacon.beaconsuedtirolsdk.result.IBeacon;
+import it.bz.beacon.beaconsuedtirolsdk.result.IBeaconExtended;
 
 /**
  * Listener used to report iBeacons scanning results.
@@ -23,7 +25,15 @@ public interface IBeaconListener {
      *
      * @param iBeacon the iBeacon
      */
-    void onIBeaconDiscovered(IBeacon iBeacon, double distance, RangeDistance rangeDistance);
+    void onIBeaconDiscovered(IBeaconExtended iBeacon);
+
+     /**
+     * Called when a List<iBeacon> is updated with new information.
+     * This listener also dispatch distance and Proximity data about every devices.
+     *
+     * @param iBeacons the list of iBeacon
+     */
+     void onIBeaconUpdated(List<IBeaconExtended> iBeacons);
 
     /**
      * Called when a iBeacon gets out of range.
