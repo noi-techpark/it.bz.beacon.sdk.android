@@ -28,11 +28,13 @@ public class BeaconRepository {
     private BeaconDao beaconDao;
     private InfoControllerApi infoControllerApi;
     private int timeout;
+    private int reduced_timeout;
 
     public BeaconRepository(Context context) {
         BeaconDatabase db = BeaconDatabase.getDatabase(context);
         beaconDao = db.beaconDao();
         timeout = context.getResources().getInteger(R.integer.timeout);
+        reduced_timeout = context.getResources().getInteger(R.integer.reduced_timeout);
 
         ApiClient apiClient = new ApiClient();
         apiClient.setConnectTimeout(timeout);
@@ -52,7 +54,44 @@ public class BeaconRepository {
     }
 
     public void getByMajorMinor(final int major, final int minor, final LoadBeaconEvent loadEvent) {
-        loadFromCacheByMajorMinor(loadEvent, major, minor);
+        try {
+            infoControllerApi.getApiClient().setConnectTimeout(reduced_timeout);
+            infoControllerApi.getApiClient().setReadTimeout(reduced_timeout);
+            infoControllerApi.getiBeaconUsingGETAsync(major, minor, new ApiCallback<Info>() {
+                @Override
+                public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
+                    loadFromCacheByMajorMinor(loadEvent, major, minor);
+                }
+
+                @Override
+                public void onSuccess(Info result, int statusCode, Map<String, List<String>> responseHeaders) {
+                    Beacon beacon = Beacon.fromInfo(result);
+                    if (beacon != null) {
+                        if (loadEvent != null) {
+                            loadEvent.onSuccess(beacon);
+                        }
+                        insert(beacon, null);
+                    }
+                    else {
+                        loadFromCacheByMajorMinor(loadEvent, major, minor);
+                    }
+                }
+
+                @Override
+                public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+
+                }
+
+                @Override
+                public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+
+                }
+            });
+        }
+        catch (ApiException e) {
+            e.printStackTrace();
+            loadFromCacheByMajorMinor(loadEvent, major, minor);
+        }
     }
 
     private void loadFromCacheByInstanceId(LoadBeaconEvent loadEvent, String instanceId) {

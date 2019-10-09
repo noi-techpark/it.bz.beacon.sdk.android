@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -17,13 +18,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import it.bz.beacon.beaconsuedtirolsdk.NearbyBeaconManager;
-import it.bz.beacon.beaconsuedtirolsdk.configuration.RangeDistance;
 import it.bz.beacon.beaconsuedtirolsdk.exception.MissingLocationPermissionException;
 import it.bz.beacon.beaconsuedtirolsdk.exception.NoBluetoothException;
 import it.bz.beacon.beaconsuedtirolsdk.listener.EddystoneListener;
 import it.bz.beacon.beaconsuedtirolsdk.listener.IBeaconListener;
 import it.bz.beacon.beaconsuedtirolsdk.result.Eddystone;
 import it.bz.beacon.beaconsuedtirolsdk.result.IBeacon;
+import it.bz.beacon.beaconsuedtirolsdk.result.IBeaconExtended;
 import it.bz.beacon.sdkandroid.adapter.InfoAdapter;
 
 public class BeaconListActivity extends AppCompatActivity implements IBeaconListener, EddystoneListener {
@@ -149,13 +150,27 @@ public class BeaconListActivity extends AppCompatActivity implements IBeaconList
     }
 
     @Override
-    public void onIBeaconDiscovered(final IBeacon iBeacon, double distance, RangeDistance rangeDistance) {
+    public void onIBeaconDiscovered(final IBeaconExtended iBeacon) {
         runOnUiThread(new Runnable() {
             public void run() {
                 adapter.addItem(iBeacon.getInfo());
                 setTitle();
             }
         });
+    }
+
+    @Override
+    public void onIBeaconUpdated(final List<IBeaconExtended> iBeacons) {
+        /* runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (IBeaconExtended b : iBeacons) {
+                    adapter.removeItem(b.getInfo());
+                    adapter.addItem(b.getInfo());
+                }
+                setTitle();
+            }
+        }); */
     }
 
     @Override

@@ -48,6 +48,7 @@ import it.bz.beacon.beaconsuedtirolsdk.listener.EddystoneListener;
 import it.bz.beacon.beaconsuedtirolsdk.listener.IBeaconListener;
 import it.bz.beacon.beaconsuedtirolsdk.result.Eddystone;
 import it.bz.beacon.beaconsuedtirolsdk.result.IBeacon;
+import it.bz.beacon.beaconsuedtirolsdk.result.IBeaconExtended;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiClient;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.api.TrustedBeaconControllerApi;
 import it.bz.beacon.beaconsuedtirolsdk.workmanager.SynchronizationWorker;
@@ -213,8 +214,16 @@ public class NearbyBeaconManager implements SecureProfileListener {
      */
     public void configureScanMode(BluetoothMode bluetoothMode) {
         proximityManager.configuration()
-            .scanMode(convertScanMode(bluetoothMode));
+                .scanMode(convertScanMode(bluetoothMode));
     }
+
+    /**
+     * Configure update callback interval
+     */
+    public void setDeviceupdateCallbackInterval(int seconds) {
+        proximityManager.configuration().deviceUpdateCallbackInterval(TimeUnit.SECONDS.toMillis(seconds));
+    }
+
 
     private ScanMode convertScanMode(BluetoothMode bluetoothMode) {
         switch (bluetoothMode) {
@@ -262,8 +271,8 @@ public class NearbyBeaconManager implements SecureProfileListener {
                     @Override
                     public void onSuccess(Beacon beacon) {
                         if (iBeaconListener != null) {
-                            iBeaconListener.onIBeaconDiscovered(new IBeacon(device.getProximityUUID(),
-                                    device.getMajor(), device.getMinor(), beacon), device.getDistance(), fromProximity(device.getProximity()));
+                            iBeaconListener.onIBeaconDiscovered(new IBeaconExtended(device.getProximityUUID(),
+                                    device.getMajor(), device.getMinor(), beacon, device.getDistance(), fromProximity(device.getProximity())));
                         }
                     }
 
@@ -275,6 +284,39 @@ public class NearbyBeaconManager implements SecureProfileListener {
                         }
                     }
                 });
+
+            }
+
+            @Override
+            public void onIBeaconsUpdated(final List<IBeaconDevice> devices, IBeaconRegion region) {
+                super.onIBeaconsUpdated(devices, region);
+
+                beaconRepository.getAll(new LoadAllBeaconsEvent() {
+                    @Override
+                    public void onSuccess(List<Beacon> beacons) {
+                        List<IBeaconExtended> updated = new ArrayList<>();
+
+                        for (IBeaconDevice d : devices) {
+                            updated.add(new IBeaconExtended(d.getProximityUUID(), d.getMajor(), d.getMinor(), findUsingEnhancedForLoop(d.getMajor(), d.getMinor(), beacons), d.getDistance(), fromProximity(d.getProximity())));
+                        }
+
+                        iBeaconListener.onIBeaconUpdated(updated);
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
+            }
+
+            private Beacon findUsingEnhancedForLoop(int major, int minor, List<Beacon> beacons) {
+                for (Beacon beacon : beacons) {
+                    if (beacon.getMajor() == major && beacon.getMinor() == minor) {
+                        return beacon;
+                    }
+                }
+                return null;
             }
 
             @Override
