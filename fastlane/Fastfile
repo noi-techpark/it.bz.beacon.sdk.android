@@ -9,7 +9,7 @@ platform :android do
 
     gradle(
       task: ":beaconsuedtirolsdk:assemble",
-      build_type: "Release",
+      build_type: "Release"
     )
   end
 
@@ -21,7 +21,23 @@ platform :android do
 
     gradle(
       task: ":beaconsuedtirolsdk:assemble",
-      build_type: "Release",
+      build_type: "Release"
+    )
+
+    gradle(
+      task: ":beaconsuedtirolsdk:publish"
+    )
+  end
+
+  desc "Snapshot release of the package"
+  lane :appSnapshot do
+    gradle(task: "clean")
+
+    gradle(task: "test")
+
+    gradle(
+      task: ":beaconsuedtirolsdk:assemble",
+      build_type: "Snapshot"
     )
 
     gradle(
