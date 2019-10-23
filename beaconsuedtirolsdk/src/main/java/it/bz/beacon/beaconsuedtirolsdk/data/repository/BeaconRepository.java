@@ -108,7 +108,7 @@ public class BeaconRepository {
                                     public void run() {
                                         beaconDao.insertMultiple(beacons);
                                     }
-                                });
+                                }).start();
                                 if (loadAllBeaconsEvent != null) {
                                     loadAllFromCache(loadAllBeaconsEvent);
                                 }
