@@ -38,12 +38,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.work.Constraints;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 import it.bz.beacon.beaconsuedtirolsdk.auth.TrustedAuth;
 import it.bz.beacon.beaconsuedtirolsdk.configuration.BluetoothMode;
 import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
@@ -231,7 +225,7 @@ public class NearbyBeaconManager implements SecureProfileListener {
      */
     public void configureScanMode(BluetoothMode bluetoothMode) {
         proximityManager.configuration()
-            .scanMode(convertScanMode(bluetoothMode));
+                .scanMode(convertScanMode(bluetoothMode));
     }
 
     private ScanMode convertScanMode(BluetoothMode bluetoothMode) {
