@@ -4,8 +4,18 @@ import android.Manifest;
 import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.kontakt.sdk.android.ble.configuration.ScanMode;
 import com.kontakt.sdk.android.ble.connection.OnServiceReadyListener;
@@ -28,12 +38,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.work.Constraints;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 import it.bz.beacon.beaconsuedtirolsdk.auth.TrustedAuth;
 import it.bz.beacon.beaconsuedtirolsdk.configuration.BluetoothMode;
 import it.bz.beacon.beaconsuedtirolsdk.data.entity.Beacon;
@@ -55,6 +59,7 @@ import it.bz.beacon.beaconsuedtirolsdk.workmanager.SynchronizationWorker;
 
 public class NearbyBeaconManager implements SecureProfileListener {
 
+    private static final String PERIODIC_INFO_REFRESH_WORK_REQUEST = "PERIODIC_INFO_REFRESH_WORK_REQUEST";
     private static volatile NearbyBeaconManager instance;
 
     private com.kontakt.sdk.android.ble.manager.ProximityManager proximityManager;
@@ -74,7 +79,6 @@ public class NearbyBeaconManager implements SecureProfileListener {
         if (instance != null) {
             throw new AlreadyInitializedException();
         }
-
         instance = new NearbyBeaconManager(application, auth);
     }
 
@@ -82,7 +86,6 @@ public class NearbyBeaconManager implements SecureProfileListener {
         if (instance == null) {
             throw new NotInitializedException();
         }
-
         return instance;
     }
 
@@ -107,14 +110,24 @@ public class NearbyBeaconManager implements SecureProfileListener {
     private void createPeriodicWorkRequest(Context context) {
         Constraints constraints = new Constraints.Builder()
                 .setRequiresBatteryNotLow(true)
+                .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
 
         PeriodicWorkRequest saveRequest =
-                new PeriodicWorkRequest.Builder(SynchronizationWorker.class, 30, TimeUnit.MINUTES)
+                new PeriodicWorkRequest.Builder(SynchronizationWorker.class, 12, TimeUnit.HOURS)
+                        .addTag(PERIODIC_INFO_REFRESH_WORK_REQUEST)
                         .setConstraints(constraints)
                         .build();
 
-        WorkManager.getInstance(context).enqueue(saveRequest);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean workManagerFixed = preferences.getBoolean("WORK_MANAGER_FIXED", false);
+        if (!workManagerFixed) {
+            WorkManager.getInstance(context).cancelAllWork();
+            preferences.edit().putBoolean("WORK_MANAGER_FIXED", true).apply();
+        }
+
+        WorkManager.getInstance(context)
+                .enqueueUniquePeriodicWork(PERIODIC_INFO_REFRESH_WORK_REQUEST, ExistingPeriodicWorkPolicy.KEEP, saveRequest);
     }
 
     public void setIBeaconListener(IBeaconListener iBeaconListener) {
@@ -212,7 +225,7 @@ public class NearbyBeaconManager implements SecureProfileListener {
      */
     public void configureScanMode(BluetoothMode bluetoothMode) {
         proximityManager.configuration()
-            .scanMode(convertScanMode(bluetoothMode));
+                .scanMode(convertScanMode(bluetoothMode));
     }
 
     private ScanMode convertScanMode(BluetoothMode bluetoothMode) {
