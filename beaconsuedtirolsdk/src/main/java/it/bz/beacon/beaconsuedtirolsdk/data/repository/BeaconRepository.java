@@ -37,10 +37,9 @@ public class BeaconRepository {
         ApiClient apiClient = new ApiClient();
         apiClient.setConnectTimeout(timeout);
         apiClient.setReadTimeout(timeout);
+        apiClient.setUserAgent(context.getPackageName());
         Configuration.setDefaultApiClient(apiClient);
         infoControllerApi = new InfoControllerApi();
-
-        refreshBeacons(null);
     }
 
     public void getByInstanceId(final String instanceId, final LoadBeaconEvent loadEvent) {
@@ -92,12 +91,12 @@ public class BeaconRepository {
                             if (loadAllBeaconsEvent != null) {
                                 loadAllFromCache(loadAllBeaconsEvent);
                             }
+                            Log.e("BeaconSDK", "refresh failed: " + e.getLocalizedMessage());
                         }
 
                         @Override
                         public void onSuccess(List<Info> result, int statusCode, Map<String, List<String>> responseHeaders) {
                             if (result != null) {
-//                                Log.d("SDK", "number of results: " + result.size());
                                 final List<Beacon> beacons = new ArrayList<>();
                                 for (int i = 0; i < result.size(); i++) {
                                     Beacon beacon = Beacon.fromInfo(result.get(i));
@@ -129,12 +128,13 @@ public class BeaconRepository {
                     if (loadAllBeaconsEvent != null) {
                         loadAllFromCache(loadAllBeaconsEvent);
                     }
+                    Log.e("BeaconSDK", "refresh failed: " + e.getLocalizedMessage());
                 }
             }
 
             @Override
             public void onError() {
-                Log.e("Beacon SDK", "error");
+                Log.e("BeaconSDK", "error in getMaxUpdatedAt()");
             }
         });
     }
