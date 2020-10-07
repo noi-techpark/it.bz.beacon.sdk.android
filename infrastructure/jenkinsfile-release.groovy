@@ -15,10 +15,10 @@ pipeline {
     }
 
     environment {
-        S3_REPO_ID = 'maven-repo.opendatahub.bz.it'
+        VARIANT = 'release'
+        S3_REPO_URL = "s3://it.bz.opendatahub/${VARIANT}"
         S3_REPO_USERNAME = credentials('s3_repo_username')
         S3_REPO_PASSWORD = credentials('s3_repo_password')
-        VARIANT = 'release'
     }
 
     stages {
@@ -36,6 +36,16 @@ pipeline {
         stage('Release') {
             steps {
                 sh "TAG='${params.TAG}' bundle exec fastlane release"
+            }
+        }
+        stage('Config jitpack.yml') {
+            steps {
+                sh """
+                    echo "Send environmental variables to jitpack.io"
+                    cp -f jitpack.dist.yml jitpack.yml
+                    sed -ie "s/__VARIANT__/${VARIANT}/g" jitpack.yml
+                    sed -ie "s/__TAG__/${params.TAG}/g" jitpack.yml
+                """
             }
         }
         stage('Tag') {

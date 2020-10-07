@@ -3,11 +3,18 @@ This repository contains the mobile Android SDK that can be used in order to rea
 
 ## Usage
 
-1. If you haven't already done it, add this line to your `project
-   build.gradle` under `repositories`: 
-
+1. If you haven't already done it, add this line to your `project build.gradle` under `repositories`: 
 	```
    maven { url "https://jitpack.io" }
+   ```
+   ...or...
+   ```
+   maven {
+      url "s3://it.bz.opendatahub/release"
+      authentication {
+            awsIm(AwsImAuthentication)
+      }
+   }
    ```
 2. Add this line to your app's `build.gradle` file (look for latest release in repository and replace "x.y.z" properly):
    ```
