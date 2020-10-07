@@ -38,6 +38,15 @@ pipeline {
                 sh "TAG='${params.TAG}' bundle exec fastlane release"
             }
         }
+        stage('Config jitpack.yml') {
+            steps {
+                sh """
+                    echo "Send environmental variables to jitpack.io"
+                    sed -i 's/__VARIANT__/${VARIANT}/g' jitpack.yml
+                    sed -i 's/__TAG__/${params.TAG}/g' jitpack.yml
+                """
+            }
+        }
         stage('Tag') {
             steps {
                 sshagent (credentials: ['jenkins_github_ssh_key']) {
