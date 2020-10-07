@@ -40,11 +40,11 @@ pipeline {
         }
         stage('Config jitpack.yml') {
             steps {
-                sh """
+                sh '''
                     echo "Send environmental variables to jitpack.io"
-                    sed -i 's/__VARIANT__/${VARIANT}/g' jitpack.yml
-                    sed -i 's/__TAG__/${params.TAG}/g' jitpack.yml
-                """
+                    sed -ie 's/__VARIANT__/${VARIANT}/g' jitpack.yml
+                    sed -ie 's/__TAG__/${params.TAG}/g' jitpack.yml
+                '''
             }
         }
         stage('Tag') {
