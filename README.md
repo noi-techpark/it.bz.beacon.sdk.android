@@ -50,7 +50,8 @@ NearbyBeaconManager.getInstance().startScanning();
 It is important to grant android users the permission to access bluetooth
 and the Internet connection; to do so, add the following lines to file
 `AndroidManifest.xml`, located in your project's `scr/main`  directory.
-```
+
+```xml
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -66,7 +67,7 @@ An example of this file is:
 		<http://schemas.android.com/apk/res/android>"
 	xmlns:tools="http://schemas.android.com/tools
 		<http://schemas.android.com/tools>"
-package="com.esempio.progetto>
+    package="com.example.project">
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 <uses-permission android:name="android.permission.WAKE_LOCK" />
