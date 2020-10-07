@@ -5,6 +5,10 @@ pipeline {
         }
     }
 
+    options {
+        ansiColor('xterm')
+    }
+
     parameters {
         string(name: 'TAG', defaultValue: '1.0.0', description: 'Tag')
         gitParameter name: 'BRANCH', branchFilter: 'origin/(.*)', defaultValue: 'development', type: 'PT_BRANCH'
@@ -20,24 +24,18 @@ pipeline {
     stages {
         stage('Dependencies') {
             steps {
-                ansiColor('xterm') {
-                    sh 'bundle install --path=vendor/bundle'
-                    sh 'bundle update'
-                }
+                sh 'bundle install --path=vendor/bundle'
+                sh 'bundle update'
             }
         }
         stage('Test') {
             steps {
-                ansiColor('xterm') {
-                    sh 'bundle exec fastlane test'
-                }
+                sh 'bundle exec fastlane test'
             }
         }
         stage('Release') {
             steps {
-                ansiColor('xterm') {
-                    sh "TAG='${params.TAG}-SNAPSHOT' bundle exec fastlane appSnapshot"
-                }
+                sh "TAG='${params.TAG}-SNAPSHOT' bundle exec fastlane appSnapshot"
             }
         }
     }
