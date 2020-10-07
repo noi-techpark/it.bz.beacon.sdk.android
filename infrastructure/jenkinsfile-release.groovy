@@ -15,10 +15,10 @@ pipeline {
     }
 
     environment {
-        S3_REPO_ID = 'maven-repo.opendatahub.bz.it'
+        VARIANT = 'release'
+        S3_REPO_URL = "s3://it.bz.opendatahub/${VARIANT}"
         S3_REPO_USERNAME = credentials('s3_repo_username')
         S3_REPO_PASSWORD = credentials('s3_repo_password')
-        VARIANT = 'release'
     }
 
     stages {
