@@ -15,7 +15,9 @@ pipeline {
     }
 
     environment {
-        VARIANT = 'snapshot'
+        BRANCH = "${params.BRANCH}"
+        VARIANT = "snapshot"
+        TAG = "${params.TAG}-SNAPSHOT"
         S3_REPO_URL = "s3://it.bz.opendatahub/${VARIANT}"
         S3_REPO_USERNAME = credentials('s3_repo_username')
         S3_REPO_PASSWORD = credentials('s3_repo_password')
@@ -35,30 +37,22 @@ pipeline {
         }
         stage('Release') {
             steps {
-                sh "TAG='${params.TAG}-SNAPSHOT' bundle exec fastlane appSnapshot"
-            }
-        }
-        stage('Config jitpack.yml') {
-            steps {
-                sh """
-                    echo "Send environmental variables to jitpack.io"
-                    cp -f jitpack.dist.yml jitpack.yml
-                    sed -ie "s/__VARIANT__/${VARIANT}/g" jitpack.yml
-                    sed -ie "s/__TAG__/${params.TAG}-SNAPSHOT/g" jitpack.yml
-                """
+                sh "bundle exec fastlane appSnapshot"
             }
         }
         stage('Tag') {
             steps {
                 sshagent (credentials: ['jenkins_github_ssh_key']) {
-                    sh "git config --global user.email 'info@opendatahub.bz.it'"
-                    sh "git config --global user.name 'Jenkins'"
-                    sh "git commit -a -m 'Version ${params.TAG}-SNAPSHOT' --allow-empty"
-                    sh "git tag -d ${params.TAG}-SNAPSHOT || true"
-                    sh "git tag -a ${params.TAG}-SNAPSHOT -m ${params.TAG}-SNAPSHOT"
-                    sh "mkdir -p ~/.ssh"
-                    sh "ssh-keyscan -H github.com >> ~/.ssh/known_hosts"
-                    sh "git push origin HEAD:${params.BRANCH} --follow-tags"
+                    sh """
+                        git config --global user.email 'info@opendatahub.bz.it'
+                        git config --global user.name 'Jenkins'
+                        git tag -d ${TAG} || true
+                        git push origin :${TAG} || true
+                        git tag -a ${TAG} -m ${TAG}
+                        mkdir -p ~/.ssh
+                        ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+                        git push --tags origin HEAD:${BRANCH}
+                    """
                 }
             }
         }
