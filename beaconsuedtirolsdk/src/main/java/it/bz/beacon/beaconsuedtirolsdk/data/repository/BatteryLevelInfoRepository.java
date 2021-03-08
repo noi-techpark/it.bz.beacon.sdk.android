@@ -33,6 +33,10 @@ public class BatteryLevelInfoRepository {
         Configuration.setDefaultApiClient(apiClient);
         trustedApi = new TrustedBeaconControllerApi();
         this.trustedAuth = trustedAuth;
+        if (this.trustedAuth != null) {
+            trustedApi.getApiClient().setUsername(this.trustedAuth.getUsername());
+            trustedApi.getApiClient().setPassword(this.trustedAuth.getPassword());
+        }
     }
 
     public void update(final String id, final int batteryLevel) {
