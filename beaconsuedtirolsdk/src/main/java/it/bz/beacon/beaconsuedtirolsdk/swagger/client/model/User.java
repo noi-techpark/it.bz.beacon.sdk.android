@@ -21,7 +21,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.UserRoleGroup;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User
@@ -33,6 +36,9 @@ public class User {
 
   @SerializedName("email")
   private String email = null;
+
+  @SerializedName("groups")
+  private List<UserRoleGroup> groups = null;
 
   @SerializedName("id")
   private Long id = null;
@@ -80,6 +86,32 @@ public class User {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public User groups(List<UserRoleGroup> groups) {
+    this.groups = groups;
+    return this;
+  }
+
+  public User addGroupsItem(UserRoleGroup groupsItem) {
+    if (this.groups == null) {
+      this.groups = new ArrayList<UserRoleGroup>();
+    }
+    this.groups.add(groupsItem);
+    return this;
+  }
+
+   /**
+   * Get groups
+   * @return groups
+  **/
+  @ApiModelProperty(value = "")
+  public List<UserRoleGroup> getGroups() {
+    return groups;
+  }
+
+  public void setGroups(List<UserRoleGroup> groups) {
+    this.groups = groups;
   }
 
   public User id(Long id) {
@@ -166,6 +198,7 @@ public class User {
     User user = (User) o;
     return Objects.equals(this.admin, user.admin) &&
         Objects.equals(this.email, user.email) &&
+        Objects.equals(this.groups, user.groups) &&
         Objects.equals(this.id, user.id) &&
         Objects.equals(this.name, user.name) &&
         Objects.equals(this.surname, user.surname) &&
@@ -174,7 +207,7 @@ public class User {
 
   @Override
   public int hashCode() {
-    return Objects.hash(admin, email, id, name, surname, username);
+    return Objects.hash(admin, email, groups, id, name, surname, username);
   }
 
 
@@ -185,6 +218,7 @@ public class User {
     
     sb.append("    admin: ").append(toIndentedString(admin)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
+    sb.append("    groups: ").append(toIndentedString(groups)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    surname: ").append(toIndentedString(surname)).append("\n");

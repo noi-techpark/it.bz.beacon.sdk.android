@@ -28,12 +28,13 @@ import java.io.IOException;
 
 
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.BaseMessage;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Group;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.GroupApiKey;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.PasswordChange;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.PasswordReset;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.User;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.UserCreation;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.UserUpdate;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.GroupAssignment;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.GroupUpdate;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.GroupUserRoleUpdate;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.UserRoleGroup;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.UserRoleMapping;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -41,14 +42,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserControllerApi {
+public class GroupControllerApi {
     private ApiClient apiClient;
 
-    public UserControllerApi() {
+    public GroupControllerApi() {
         this(Configuration.getDefaultApiClient());
     }
 
-    public UserControllerApi(ApiClient apiClient) {
+    public GroupControllerApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
@@ -61,20 +62,20 @@ public class UserControllerApi {
     }
 
     /**
-     * Build call for changePasswordUsingPATCH
-     * @param id id (required)
-     * @param passwordChange passwordChange (required)
+     * Build call for createUserUsingPATCH
+     * @param groupAssignment groupAssignment (required)
+     * @param groupId groupId (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call changePasswordUsingPATCHCall(Long id, PasswordChange passwordChange, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = passwordChange;
+    public com.squareup.okhttp.Call createUserUsingPATCHCall(GroupAssignment groupAssignment, Long groupId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = groupAssignment;
 
         // create path and map variables
-        String localVarPath = "/v1/admin/users/{id}/change-password"
-            .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
+        String localVarPath = "/v1/admin/groups/{groupId}/users"
+            .replaceAll("\\{" + "groupId" + "\\}", apiClient.escapeString(groupId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -112,61 +113,61 @@ public class UserControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call changePasswordUsingPATCHValidateBeforeCall(Long id, PasswordChange passwordChange, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call createUserUsingPATCHValidateBeforeCall(GroupAssignment groupAssignment, Long groupId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        // verify the required parameter 'id' is set
-        if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling changePasswordUsingPATCH(Async)");
+        // verify the required parameter 'groupAssignment' is set
+        if (groupAssignment == null) {
+            throw new ApiException("Missing the required parameter 'groupAssignment' when calling createUserUsingPATCH(Async)");
         }
         
-        // verify the required parameter 'passwordChange' is set
-        if (passwordChange == null) {
-            throw new ApiException("Missing the required parameter 'passwordChange' when calling changePasswordUsingPATCH(Async)");
+        // verify the required parameter 'groupId' is set
+        if (groupId == null) {
+            throw new ApiException("Missing the required parameter 'groupId' when calling createUserUsingPATCH(Async)");
         }
         
 
-        com.squareup.okhttp.Call call = changePasswordUsingPATCHCall(id, passwordChange, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = createUserUsingPATCHCall(groupAssignment, groupId, progressListener, progressRequestListener);
         return call;
 
     }
 
     /**
-     * Update a user
+     * Assign a user to a group
      * 
-     * @param id id (required)
-     * @param passwordChange passwordChange (required)
-     * @return BaseMessage
+     * @param groupAssignment groupAssignment (required)
+     * @param groupId groupId (required)
+     * @return UserRoleGroup
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public BaseMessage changePasswordUsingPATCH(Long id, PasswordChange passwordChange) throws ApiException {
-        ApiResponse<BaseMessage> resp = changePasswordUsingPATCHWithHttpInfo(id, passwordChange);
+    public UserRoleGroup createUserUsingPATCH(GroupAssignment groupAssignment, Long groupId) throws ApiException {
+        ApiResponse<UserRoleGroup> resp = createUserUsingPATCHWithHttpInfo(groupAssignment, groupId);
         return resp.getData();
     }
 
     /**
-     * Update a user
+     * Assign a user to a group
      * 
-     * @param id id (required)
-     * @param passwordChange passwordChange (required)
-     * @return ApiResponse&lt;BaseMessage&gt;
+     * @param groupAssignment groupAssignment (required)
+     * @param groupId groupId (required)
+     * @return ApiResponse&lt;UserRoleGroup&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<BaseMessage> changePasswordUsingPATCHWithHttpInfo(Long id, PasswordChange passwordChange) throws ApiException {
-        com.squareup.okhttp.Call call = changePasswordUsingPATCHValidateBeforeCall(id, passwordChange, null, null);
-        Type localVarReturnType = new TypeToken<BaseMessage>(){}.getType();
+    public ApiResponse<UserRoleGroup> createUserUsingPATCHWithHttpInfo(GroupAssignment groupAssignment, Long groupId) throws ApiException {
+        com.squareup.okhttp.Call call = createUserUsingPATCHValidateBeforeCall(groupAssignment, groupId, null, null);
+        Type localVarReturnType = new TypeToken<UserRoleGroup>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Update a user (asynchronously)
+     * Assign a user to a group (asynchronously)
      * 
-     * @param id id (required)
-     * @param passwordChange passwordChange (required)
+     * @param groupAssignment groupAssignment (required)
+     * @param groupId groupId (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call changePasswordUsingPATCHAsync(Long id, PasswordChange passwordChange, final ApiCallback<BaseMessage> callback) throws ApiException {
+    public com.squareup.okhttp.Call createUserUsingPATCHAsync(GroupAssignment groupAssignment, Long groupId, final ApiCallback<UserRoleGroup> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -187,24 +188,24 @@ public class UserControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = changePasswordUsingPATCHValidateBeforeCall(id, passwordChange, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<BaseMessage>(){}.getType();
+        com.squareup.okhttp.Call call = createUserUsingPATCHValidateBeforeCall(groupAssignment, groupId, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<UserRoleGroup>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
-     * Build call for createUsingPOST4
-     * @param userCreation userCreation (required)
+     * Build call for createUsingPOST1
+     * @param groupUpdate groupUpdate (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call createUsingPOST4Call(UserCreation userCreation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = userCreation;
+    public com.squareup.okhttp.Call createUsingPOST1Call(GroupUpdate groupUpdate, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = groupUpdate;
 
         // create path and map variables
-        String localVarPath = "/v1/admin/users";
+        String localVarPath = "/v1/admin/groups";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -242,53 +243,53 @@ public class UserControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call createUsingPOST4ValidateBeforeCall(UserCreation userCreation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call createUsingPOST1ValidateBeforeCall(GroupUpdate groupUpdate, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        // verify the required parameter 'userCreation' is set
-        if (userCreation == null) {
-            throw new ApiException("Missing the required parameter 'userCreation' when calling createUsingPOST4(Async)");
+        // verify the required parameter 'groupUpdate' is set
+        if (groupUpdate == null) {
+            throw new ApiException("Missing the required parameter 'groupUpdate' when calling createUsingPOST1(Async)");
         }
         
 
-        com.squareup.okhttp.Call call = createUsingPOST4Call(userCreation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = createUsingPOST1Call(groupUpdate, progressListener, progressRequestListener);
         return call;
 
     }
 
     /**
-     * Create a user
+     * Create a group
      * 
-     * @param userCreation userCreation (required)
-     * @return User
+     * @param groupUpdate groupUpdate (required)
+     * @return Group
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public User createUsingPOST4(UserCreation userCreation) throws ApiException {
-        ApiResponse<User> resp = createUsingPOST4WithHttpInfo(userCreation);
+    public Group createUsingPOST1(GroupUpdate groupUpdate) throws ApiException {
+        ApiResponse<Group> resp = createUsingPOST1WithHttpInfo(groupUpdate);
         return resp.getData();
     }
 
     /**
-     * Create a user
+     * Create a group
      * 
-     * @param userCreation userCreation (required)
-     * @return ApiResponse&lt;User&gt;
+     * @param groupUpdate groupUpdate (required)
+     * @return ApiResponse&lt;Group&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<User> createUsingPOST4WithHttpInfo(UserCreation userCreation) throws ApiException {
-        com.squareup.okhttp.Call call = createUsingPOST4ValidateBeforeCall(userCreation, null, null);
-        Type localVarReturnType = new TypeToken<User>(){}.getType();
+    public ApiResponse<Group> createUsingPOST1WithHttpInfo(GroupUpdate groupUpdate) throws ApiException {
+        com.squareup.okhttp.Call call = createUsingPOST1ValidateBeforeCall(groupUpdate, null, null);
+        Type localVarReturnType = new TypeToken<Group>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Create a user (asynchronously)
+     * Create a group (asynchronously)
      * 
-     * @param userCreation userCreation (required)
+     * @param groupUpdate groupUpdate (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call createUsingPOST4Async(UserCreation userCreation, final ApiCallback<User> callback) throws ApiException {
+    public com.squareup.okhttp.Call createUsingPOST1Async(GroupUpdate groupUpdate, final ApiCallback<Group> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -309,24 +310,157 @@ public class UserControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = createUsingPOST4ValidateBeforeCall(userCreation, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<User>(){}.getType();
+        com.squareup.okhttp.Call call = createUsingPOST1ValidateBeforeCall(groupUpdate, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<Group>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
-     * Build call for deleteUsingDELETE1
+     * Build call for deleteUserUsingDELETE
+     * @param groupId groupId (required)
+     * @param userId userId (required)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call deleteUserUsingDELETECall(Long groupId, Long userId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/v1/admin/groups/{groupId}/users/{userId}"
+            .replaceAll("\\{" + "groupId" + "\\}", apiClient.escapeString(groupId.toString()))
+            .replaceAll("\\{" + "userId" + "\\}", apiClient.escapeString(userId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] { "JWT" };
+        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call deleteUserUsingDELETEValidateBeforeCall(Long groupId, Long userId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'groupId' is set
+        if (groupId == null) {
+            throw new ApiException("Missing the required parameter 'groupId' when calling deleteUserUsingDELETE(Async)");
+        }
+        
+        // verify the required parameter 'userId' is set
+        if (userId == null) {
+            throw new ApiException("Missing the required parameter 'userId' when calling deleteUserUsingDELETE(Async)");
+        }
+        
+
+        com.squareup.okhttp.Call call = deleteUserUsingDELETECall(groupId, userId, progressListener, progressRequestListener);
+        return call;
+
+    }
+
+    /**
+     * Unassign a user from a group
+     * 
+     * @param groupId groupId (required)
+     * @param userId userId (required)
+     * @return BaseMessage
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public BaseMessage deleteUserUsingDELETE(Long groupId, Long userId) throws ApiException {
+        ApiResponse<BaseMessage> resp = deleteUserUsingDELETEWithHttpInfo(groupId, userId);
+        return resp.getData();
+    }
+
+    /**
+     * Unassign a user from a group
+     * 
+     * @param groupId groupId (required)
+     * @param userId userId (required)
+     * @return ApiResponse&lt;BaseMessage&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<BaseMessage> deleteUserUsingDELETEWithHttpInfo(Long groupId, Long userId) throws ApiException {
+        com.squareup.okhttp.Call call = deleteUserUsingDELETEValidateBeforeCall(groupId, userId, null, null);
+        Type localVarReturnType = new TypeToken<BaseMessage>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * Unassign a user from a group (asynchronously)
+     * 
+     * @param groupId groupId (required)
+     * @param userId userId (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call deleteUserUsingDELETEAsync(Long groupId, Long userId, final ApiCallback<BaseMessage> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = deleteUserUsingDELETEValidateBeforeCall(groupId, userId, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<BaseMessage>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /**
+     * Build call for deleteUsingDELETE
      * @param id id (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call deleteUsingDELETE1Call(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call deleteUsingDELETECall(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/v1/admin/users/{id}"
+        String localVarPath = "/v1/admin/groups/{id}"
             .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -365,53 +499,53 @@ public class UserControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call deleteUsingDELETE1ValidateBeforeCall(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call deleteUsingDELETEValidateBeforeCall(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'id' is set
         if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling deleteUsingDELETE1(Async)");
+            throw new ApiException("Missing the required parameter 'id' when calling deleteUsingDELETE(Async)");
         }
         
 
-        com.squareup.okhttp.Call call = deleteUsingDELETE1Call(id, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = deleteUsingDELETECall(id, progressListener, progressRequestListener);
         return call;
 
     }
 
     /**
-     * Delete a user
+     * Delete a group
      * 
      * @param id id (required)
      * @return BaseMessage
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public BaseMessage deleteUsingDELETE1(Long id) throws ApiException {
-        ApiResponse<BaseMessage> resp = deleteUsingDELETE1WithHttpInfo(id);
+    public BaseMessage deleteUsingDELETE(Long id) throws ApiException {
+        ApiResponse<BaseMessage> resp = deleteUsingDELETEWithHttpInfo(id);
         return resp.getData();
     }
 
     /**
-     * Delete a user
+     * Delete a group
      * 
      * @param id id (required)
      * @return ApiResponse&lt;BaseMessage&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<BaseMessage> deleteUsingDELETE1WithHttpInfo(Long id) throws ApiException {
-        com.squareup.okhttp.Call call = deleteUsingDELETE1ValidateBeforeCall(id, null, null);
+    public ApiResponse<BaseMessage> deleteUsingDELETEWithHttpInfo(Long id) throws ApiException {
+        com.squareup.okhttp.Call call = deleteUsingDELETEValidateBeforeCall(id, null, null);
         Type localVarReturnType = new TypeToken<BaseMessage>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Delete a user (asynchronously)
+     * Delete a group (asynchronously)
      * 
      * @param id id (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call deleteUsingDELETE1Async(Long id, final ApiCallback<BaseMessage> callback) throws ApiException {
+    public com.squareup.okhttp.Call deleteUsingDELETEAsync(Long id, final ApiCallback<BaseMessage> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -432,24 +566,24 @@ public class UserControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = deleteUsingDELETE1ValidateBeforeCall(id, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = deleteUsingDELETEValidateBeforeCall(id, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<BaseMessage>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
-     * Build call for getApiKeyUsingGET1
+     * Build call for getApiKeyUsingGET
      * @param id id (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getApiKeyUsingGET1Call(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getApiKeyUsingGETCall(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/v1/admin/users/{id}/apiKey"
+        String localVarPath = "/v1/admin/groups/{id}/apiKey"
             .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -488,53 +622,53 @@ public class UserControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getApiKeyUsingGET1ValidateBeforeCall(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getApiKeyUsingGETValidateBeforeCall(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'id' is set
         if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling getApiKeyUsingGET1(Async)");
+            throw new ApiException("Missing the required parameter 'id' when calling getApiKeyUsingGET(Async)");
         }
         
 
-        com.squareup.okhttp.Call call = getApiKeyUsingGET1Call(id, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getApiKeyUsingGETCall(id, progressListener, progressRequestListener);
         return call;
 
     }
 
     /**
-     * View a list of all the api key assigned to the groups that the user is member of
+     * View the assigned api key of a group
      * 
      * @param id id (required)
-     * @return List&lt;GroupApiKey&gt;
+     * @return GroupApiKey
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<GroupApiKey> getApiKeyUsingGET1(Long id) throws ApiException {
-        ApiResponse<List<GroupApiKey>> resp = getApiKeyUsingGET1WithHttpInfo(id);
+    public GroupApiKey getApiKeyUsingGET(Long id) throws ApiException {
+        ApiResponse<GroupApiKey> resp = getApiKeyUsingGETWithHttpInfo(id);
         return resp.getData();
     }
 
     /**
-     * View a list of all the api key assigned to the groups that the user is member of
+     * View the assigned api key of a group
      * 
      * @param id id (required)
-     * @return ApiResponse&lt;List&lt;GroupApiKey&gt;&gt;
+     * @return ApiResponse&lt;GroupApiKey&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<GroupApiKey>> getApiKeyUsingGET1WithHttpInfo(Long id) throws ApiException {
-        com.squareup.okhttp.Call call = getApiKeyUsingGET1ValidateBeforeCall(id, null, null);
-        Type localVarReturnType = new TypeToken<List<GroupApiKey>>(){}.getType();
+    public ApiResponse<GroupApiKey> getApiKeyUsingGETWithHttpInfo(Long id) throws ApiException {
+        com.squareup.okhttp.Call call = getApiKeyUsingGETValidateBeforeCall(id, null, null);
+        Type localVarReturnType = new TypeToken<GroupApiKey>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * View a list of all the api key assigned to the groups that the user is member of (asynchronously)
+     * View the assigned api key of a group (asynchronously)
      * 
      * @param id id (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getApiKeyUsingGET1Async(Long id, final ApiCallback<List<GroupApiKey>> callback) throws ApiException {
+    public com.squareup.okhttp.Call getApiKeyUsingGETAsync(Long id, final ApiCallback<GroupApiKey> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -555,23 +689,23 @@ public class UserControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getApiKeyUsingGET1ValidateBeforeCall(id, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<List<GroupApiKey>>(){}.getType();
+        com.squareup.okhttp.Call call = getApiKeyUsingGETValidateBeforeCall(id, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<GroupApiKey>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
-     * Build call for getListUsingGET6
+     * Build call for getListUsingGET1
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getListUsingGET6Call(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getListUsingGET1Call(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/v1/admin/users";
+        String localVarPath = "/v1/admin/groups";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -609,45 +743,45 @@ public class UserControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getListUsingGET6ValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getListUsingGET1ValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
 
-        com.squareup.okhttp.Call call = getListUsingGET6Call(progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getListUsingGET1Call(progressListener, progressRequestListener);
         return call;
 
     }
 
     /**
-     * View a list of available users
+     * View a list of available groups
      * 
-     * @return List&lt;User&gt;
+     * @return List&lt;Group&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<User> getListUsingGET6() throws ApiException {
-        ApiResponse<List<User>> resp = getListUsingGET6WithHttpInfo();
+    public List<Group> getListUsingGET1() throws ApiException {
+        ApiResponse<List<Group>> resp = getListUsingGET1WithHttpInfo();
         return resp.getData();
     }
 
     /**
-     * View a list of available users
+     * View a list of available groups
      * 
-     * @return ApiResponse&lt;List&lt;User&gt;&gt;
+     * @return ApiResponse&lt;List&lt;Group&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<User>> getListUsingGET6WithHttpInfo() throws ApiException {
-        com.squareup.okhttp.Call call = getListUsingGET6ValidateBeforeCall(null, null);
-        Type localVarReturnType = new TypeToken<List<User>>(){}.getType();
+    public ApiResponse<List<Group>> getListUsingGET1WithHttpInfo() throws ApiException {
+        com.squareup.okhttp.Call call = getListUsingGET1ValidateBeforeCall(null, null);
+        Type localVarReturnType = new TypeToken<List<Group>>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * View a list of available users (asynchronously)
+     * View a list of available groups (asynchronously)
      * 
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getListUsingGET6Async(final ApiCallback<List<User>> callback) throws ApiException {
+    public com.squareup.okhttp.Call getListUsingGET1Async(final ApiCallback<List<Group>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -668,24 +802,147 @@ public class UserControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getListUsingGET6ValidateBeforeCall(progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<List<User>>(){}.getType();
+        com.squareup.okhttp.Call call = getListUsingGET1ValidateBeforeCall(progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<List<Group>>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
-     * Build call for getUsingGET4
+     * Build call for getUserListUsingGET
+     * @param groupId groupId (required)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call getUserListUsingGETCall(Long groupId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/v1/admin/groups/{groupId}/users"
+            .replaceAll("\\{" + "groupId" + "\\}", apiClient.escapeString(groupId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] { "JWT" };
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call getUserListUsingGETValidateBeforeCall(Long groupId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'groupId' is set
+        if (groupId == null) {
+            throw new ApiException("Missing the required parameter 'groupId' when calling getUserListUsingGET(Async)");
+        }
+        
+
+        com.squareup.okhttp.Call call = getUserListUsingGETCall(groupId, progressListener, progressRequestListener);
+        return call;
+
+    }
+
+    /**
+     * View a list of all assigned user of a group
+     * 
+     * @param groupId groupId (required)
+     * @return List&lt;UserRoleMapping&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public List<UserRoleMapping> getUserListUsingGET(Long groupId) throws ApiException {
+        ApiResponse<List<UserRoleMapping>> resp = getUserListUsingGETWithHttpInfo(groupId);
+        return resp.getData();
+    }
+
+    /**
+     * View a list of all assigned user of a group
+     * 
+     * @param groupId groupId (required)
+     * @return ApiResponse&lt;List&lt;UserRoleMapping&gt;&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<List<UserRoleMapping>> getUserListUsingGETWithHttpInfo(Long groupId) throws ApiException {
+        com.squareup.okhttp.Call call = getUserListUsingGETValidateBeforeCall(groupId, null, null);
+        Type localVarReturnType = new TypeToken<List<UserRoleMapping>>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * View a list of all assigned user of a group (asynchronously)
+     * 
+     * @param groupId groupId (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call getUserListUsingGETAsync(Long groupId, final ApiCallback<List<UserRoleMapping>> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = getUserListUsingGETValidateBeforeCall(groupId, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<List<UserRoleMapping>>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /**
+     * Build call for getUsingGET1
      * @param id id (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getUsingGET4Call(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getUsingGET1Call(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/v1/admin/users/{id}"
+        String localVarPath = "/v1/admin/groups/{id}"
             .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -724,53 +981,53 @@ public class UserControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getUsingGET4ValidateBeforeCall(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getUsingGET1ValidateBeforeCall(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'id' is set
         if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling getUsingGET4(Async)");
+            throw new ApiException("Missing the required parameter 'id' when calling getUsingGET1(Async)");
         }
         
 
-        com.squareup.okhttp.Call call = getUsingGET4Call(id, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getUsingGET1Call(id, progressListener, progressRequestListener);
         return call;
 
     }
 
     /**
-     * Search a user with an ID
+     * Search a group with an ID
      * 
      * @param id id (required)
-     * @return User
+     * @return Group
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public User getUsingGET4(Long id) throws ApiException {
-        ApiResponse<User> resp = getUsingGET4WithHttpInfo(id);
+    public Group getUsingGET1(Long id) throws ApiException {
+        ApiResponse<Group> resp = getUsingGET1WithHttpInfo(id);
         return resp.getData();
     }
 
     /**
-     * Search a user with an ID
+     * Search a group with an ID
      * 
      * @param id id (required)
-     * @return ApiResponse&lt;User&gt;
+     * @return ApiResponse&lt;Group&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<User> getUsingGET4WithHttpInfo(Long id) throws ApiException {
-        com.squareup.okhttp.Call call = getUsingGET4ValidateBeforeCall(id, null, null);
-        Type localVarReturnType = new TypeToken<User>(){}.getType();
+    public ApiResponse<Group> getUsingGET1WithHttpInfo(Long id) throws ApiException {
+        com.squareup.okhttp.Call call = getUsingGET1ValidateBeforeCall(id, null, null);
+        Type localVarReturnType = new TypeToken<Group>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Search a user with an ID (asynchronously)
+     * Search a group with an ID (asynchronously)
      * 
      * @param id id (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getUsingGET4Async(Long id, final ApiCallback<User> callback) throws ApiException {
+    public com.squareup.okhttp.Call getUsingGET1Async(Long id, final ApiCallback<Group> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -791,25 +1048,167 @@ public class UserControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getUsingGET4ValidateBeforeCall(id, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<User>(){}.getType();
+        com.squareup.okhttp.Call call = getUsingGET1ValidateBeforeCall(id, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<Group>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
-     * Build call for resetPasswordUsingPATCH
-     * @param id id (required)
-     * @param passwordReset passwordReset (required)
+     * Build call for updateUserUsingPATCH
+     * @param groupId groupId (required)
+     * @param groupUserRoleUpdate groupUserRoleUpdate (required)
+     * @param userId userId (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call resetPasswordUsingPATCHCall(Long id, PasswordReset passwordReset, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = passwordReset;
+    public com.squareup.okhttp.Call updateUserUsingPATCHCall(Long groupId, GroupUserRoleUpdate groupUserRoleUpdate, Long userId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = groupUserRoleUpdate;
 
         // create path and map variables
-        String localVarPath = "/v1/admin/users/{id}/reset-password"
+        String localVarPath = "/v1/admin/groups/{groupId}/users/{userId}"
+            .replaceAll("\\{" + "groupId" + "\\}", apiClient.escapeString(groupId.toString()))
+            .replaceAll("\\{" + "userId" + "\\}", apiClient.escapeString(userId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] { "JWT" };
+        return apiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call updateUserUsingPATCHValidateBeforeCall(Long groupId, GroupUserRoleUpdate groupUserRoleUpdate, Long userId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'groupId' is set
+        if (groupId == null) {
+            throw new ApiException("Missing the required parameter 'groupId' when calling updateUserUsingPATCH(Async)");
+        }
+        
+        // verify the required parameter 'groupUserRoleUpdate' is set
+        if (groupUserRoleUpdate == null) {
+            throw new ApiException("Missing the required parameter 'groupUserRoleUpdate' when calling updateUserUsingPATCH(Async)");
+        }
+        
+        // verify the required parameter 'userId' is set
+        if (userId == null) {
+            throw new ApiException("Missing the required parameter 'userId' when calling updateUserUsingPATCH(Async)");
+        }
+        
+
+        com.squareup.okhttp.Call call = updateUserUsingPATCHCall(groupId, groupUserRoleUpdate, userId, progressListener, progressRequestListener);
+        return call;
+
+    }
+
+    /**
+     * Update the role of a user in a group
+     * 
+     * @param groupId groupId (required)
+     * @param groupUserRoleUpdate groupUserRoleUpdate (required)
+     * @param userId userId (required)
+     * @return UserRoleGroup
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public UserRoleGroup updateUserUsingPATCH(Long groupId, GroupUserRoleUpdate groupUserRoleUpdate, Long userId) throws ApiException {
+        ApiResponse<UserRoleGroup> resp = updateUserUsingPATCHWithHttpInfo(groupId, groupUserRoleUpdate, userId);
+        return resp.getData();
+    }
+
+    /**
+     * Update the role of a user in a group
+     * 
+     * @param groupId groupId (required)
+     * @param groupUserRoleUpdate groupUserRoleUpdate (required)
+     * @param userId userId (required)
+     * @return ApiResponse&lt;UserRoleGroup&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<UserRoleGroup> updateUserUsingPATCHWithHttpInfo(Long groupId, GroupUserRoleUpdate groupUserRoleUpdate, Long userId) throws ApiException {
+        com.squareup.okhttp.Call call = updateUserUsingPATCHValidateBeforeCall(groupId, groupUserRoleUpdate, userId, null, null);
+        Type localVarReturnType = new TypeToken<UserRoleGroup>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * Update the role of a user in a group (asynchronously)
+     * 
+     * @param groupId groupId (required)
+     * @param groupUserRoleUpdate groupUserRoleUpdate (required)
+     * @param userId userId (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call updateUserUsingPATCHAsync(Long groupId, GroupUserRoleUpdate groupUserRoleUpdate, Long userId, final ApiCallback<UserRoleGroup> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = updateUserUsingPATCHValidateBeforeCall(groupId, groupUserRoleUpdate, userId, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<UserRoleGroup>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /**
+     * Build call for updateUsingPATCH1
+     * @param groupUpdate groupUpdate (required)
+     * @param id id (required)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call updateUsingPATCH1Call(GroupUpdate groupUpdate, Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = groupUpdate;
+
+        // create path and map variables
+        String localVarPath = "/v1/admin/groups/{id}"
             .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -848,61 +1247,61 @@ public class UserControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call resetPasswordUsingPATCHValidateBeforeCall(Long id, PasswordReset passwordReset, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call updateUsingPATCH1ValidateBeforeCall(GroupUpdate groupUpdate, Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'groupUpdate' is set
+        if (groupUpdate == null) {
+            throw new ApiException("Missing the required parameter 'groupUpdate' when calling updateUsingPATCH1(Async)");
+        }
         
         // verify the required parameter 'id' is set
         if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling resetPasswordUsingPATCH(Async)");
-        }
-        
-        // verify the required parameter 'passwordReset' is set
-        if (passwordReset == null) {
-            throw new ApiException("Missing the required parameter 'passwordReset' when calling resetPasswordUsingPATCH(Async)");
+            throw new ApiException("Missing the required parameter 'id' when calling updateUsingPATCH1(Async)");
         }
         
 
-        com.squareup.okhttp.Call call = resetPasswordUsingPATCHCall(id, passwordReset, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updateUsingPATCH1Call(groupUpdate, id, progressListener, progressRequestListener);
         return call;
 
     }
 
     /**
-     * Update a user
+     * Update a group
      * 
+     * @param groupUpdate groupUpdate (required)
      * @param id id (required)
-     * @param passwordReset passwordReset (required)
-     * @return BaseMessage
+     * @return Group
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public BaseMessage resetPasswordUsingPATCH(Long id, PasswordReset passwordReset) throws ApiException {
-        ApiResponse<BaseMessage> resp = resetPasswordUsingPATCHWithHttpInfo(id, passwordReset);
+    public Group updateUsingPATCH1(GroupUpdate groupUpdate, Long id) throws ApiException {
+        ApiResponse<Group> resp = updateUsingPATCH1WithHttpInfo(groupUpdate, id);
         return resp.getData();
     }
 
     /**
-     * Update a user
+     * Update a group
      * 
+     * @param groupUpdate groupUpdate (required)
      * @param id id (required)
-     * @param passwordReset passwordReset (required)
-     * @return ApiResponse&lt;BaseMessage&gt;
+     * @return ApiResponse&lt;Group&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<BaseMessage> resetPasswordUsingPATCHWithHttpInfo(Long id, PasswordReset passwordReset) throws ApiException {
-        com.squareup.okhttp.Call call = resetPasswordUsingPATCHValidateBeforeCall(id, passwordReset, null, null);
-        Type localVarReturnType = new TypeToken<BaseMessage>(){}.getType();
+    public ApiResponse<Group> updateUsingPATCH1WithHttpInfo(GroupUpdate groupUpdate, Long id) throws ApiException {
+        com.squareup.okhttp.Call call = updateUsingPATCH1ValidateBeforeCall(groupUpdate, id, null, null);
+        Type localVarReturnType = new TypeToken<Group>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Update a user (asynchronously)
+     * Update a group (asynchronously)
      * 
+     * @param groupUpdate groupUpdate (required)
      * @param id id (required)
-     * @param passwordReset passwordReset (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call resetPasswordUsingPATCHAsync(Long id, PasswordReset passwordReset, final ApiCallback<BaseMessage> callback) throws ApiException {
+    public com.squareup.okhttp.Call updateUsingPATCH1Async(GroupUpdate groupUpdate, Long id, final ApiCallback<Group> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -923,140 +1322,8 @@ public class UserControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = resetPasswordUsingPATCHValidateBeforeCall(id, passwordReset, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<BaseMessage>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    /**
-     * Build call for updateUsingPATCH2
-     * @param id id (required)
-     * @param userUpdate userUpdate (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call updateUsingPATCH2Call(Long id, UserUpdate userUpdate, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = userUpdate;
-
-        // create path and map variables
-        String localVarPath = "/v1/admin/users/{id}"
-            .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] { "JWT" };
-        return apiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call updateUsingPATCH2ValidateBeforeCall(Long id, UserUpdate userUpdate, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'id' is set
-        if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling updateUsingPATCH2(Async)");
-        }
-        
-        // verify the required parameter 'userUpdate' is set
-        if (userUpdate == null) {
-            throw new ApiException("Missing the required parameter 'userUpdate' when calling updateUsingPATCH2(Async)");
-        }
-        
-
-        com.squareup.okhttp.Call call = updateUsingPATCH2Call(id, userUpdate, progressListener, progressRequestListener);
-        return call;
-
-    }
-
-    /**
-     * Update a user
-     * 
-     * @param id id (required)
-     * @param userUpdate userUpdate (required)
-     * @return User
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public User updateUsingPATCH2(Long id, UserUpdate userUpdate) throws ApiException {
-        ApiResponse<User> resp = updateUsingPATCH2WithHttpInfo(id, userUpdate);
-        return resp.getData();
-    }
-
-    /**
-     * Update a user
-     * 
-     * @param id id (required)
-     * @param userUpdate userUpdate (required)
-     * @return ApiResponse&lt;User&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<User> updateUsingPATCH2WithHttpInfo(Long id, UserUpdate userUpdate) throws ApiException {
-        com.squareup.okhttp.Call call = updateUsingPATCH2ValidateBeforeCall(id, userUpdate, null, null);
-        Type localVarReturnType = new TypeToken<User>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Update a user (asynchronously)
-     * 
-     * @param id id (required)
-     * @param userUpdate userUpdate (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call updateUsingPATCH2Async(Long id, UserUpdate userUpdate, final ApiCallback<User> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = updateUsingPATCH2ValidateBeforeCall(id, userUpdate, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<User>(){}.getType();
+        com.squareup.okhttp.Call call = updateUsingPATCH1ValidateBeforeCall(groupUpdate, id, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<Group>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }

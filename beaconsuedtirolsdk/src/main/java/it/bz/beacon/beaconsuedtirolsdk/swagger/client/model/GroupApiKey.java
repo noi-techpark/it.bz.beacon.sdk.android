@@ -24,17 +24,35 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * ManufacturerOrder
+ * GroupApiKey
  */
 
-public class ManufacturerOrder {
+public class GroupApiKey {
+  @SerializedName("apiKey")
+  private String apiKey = null;
+
   @SerializedName("groupId")
   private Long groupId = null;
 
-  @SerializedName("id")
-  private String id = null;
+  public GroupApiKey apiKey(String apiKey) {
+    this.apiKey = apiKey;
+    return this;
+  }
 
-  public ManufacturerOrder groupId(Long groupId) {
+   /**
+   * Get apiKey
+   * @return apiKey
+  **/
+  @ApiModelProperty(value = "")
+  public String getApiKey() {
+    return apiKey;
+  }
+
+  public void setApiKey(String apiKey) {
+    this.apiKey = apiKey;
+  }
+
+  public GroupApiKey groupId(Long groupId) {
     this.groupId = groupId;
     return this;
   }
@@ -52,24 +70,6 @@ public class ManufacturerOrder {
     this.groupId = groupId;
   }
 
-  public ManufacturerOrder id(String id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(required = true, value = "")
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -79,24 +79,24 @@ public class ManufacturerOrder {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ManufacturerOrder manufacturerOrder = (ManufacturerOrder) o;
-    return Objects.equals(this.groupId, manufacturerOrder.groupId) &&
-        Objects.equals(this.id, manufacturerOrder.id);
+    GroupApiKey groupApiKey = (GroupApiKey) o;
+    return Objects.equals(this.apiKey, groupApiKey.apiKey) &&
+        Objects.equals(this.groupId, groupApiKey.groupId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(groupId, id);
+    return Objects.hash(apiKey, groupId);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ManufacturerOrder {\n");
+    sb.append("class GroupApiKey {\n");
     
+    sb.append("    apiKey: ").append(toIndentedString(apiKey)).append("\n");
     sb.append("    groupId: ").append(toIndentedString(groupId)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -1,4 +1,5 @@
 {
   "modelPackage": "it.bz.beacon.beaconsuedtirolsdk.swagger.client.model",
-  "apiPackage": "it.bz.beacon.beaconsuedtirolsdk.swagger.client.api"
+  "apiPackage": "it.bz.beacon.beaconsuedtirolsdk.swagger.client.api",
+  "hideGenerationTimestamp": true
 }

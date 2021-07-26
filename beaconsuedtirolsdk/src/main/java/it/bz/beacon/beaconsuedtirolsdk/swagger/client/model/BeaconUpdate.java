@@ -21,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.InfoUpdate;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -47,8 +48,14 @@ public class BeaconUpdate {
   @SerializedName("eddystoneUrl")
   private Boolean eddystoneUrl = null;
 
+  @SerializedName("group")
+  private Long group = null;
+
   @SerializedName("iBeacon")
   private Boolean iBeacon = null;
+
+  @SerializedName("info")
+  private InfoUpdate info = null;
 
   @SerializedName("instanceId")
   private String instanceId = null;
@@ -247,6 +254,24 @@ public class BeaconUpdate {
     this.eddystoneUrl = eddystoneUrl;
   }
 
+  public BeaconUpdate group(Long group) {
+    this.group = group;
+    return this;
+  }
+
+   /**
+   * Get group
+   * @return group
+  **/
+  @ApiModelProperty(value = "")
+  public Long getGroup() {
+    return group;
+  }
+
+  public void setGroup(Long group) {
+    this.group = group;
+  }
+
   public BeaconUpdate iBeacon(Boolean iBeacon) {
     this.iBeacon = iBeacon;
     return this;
@@ -263,6 +288,24 @@ public class BeaconUpdate {
 
   public void setIBeacon(Boolean iBeacon) {
     this.iBeacon = iBeacon;
+  }
+
+  public BeaconUpdate info(InfoUpdate info) {
+    this.info = info;
+    return this;
+  }
+
+   /**
+   * Get info
+   * @return info
+  **/
+  @ApiModelProperty(value = "")
+  public InfoUpdate getInfo() {
+    return info;
+  }
+
+  public void setInfo(InfoUpdate info) {
+    this.info = info;
   }
 
   public BeaconUpdate instanceId(String instanceId) {
@@ -310,8 +353,8 @@ public class BeaconUpdate {
 
    /**
    * Get lat
-   * minimum: -90
-   * maximum: 90
+   * minimum: -90.0
+   * maximum: 90.0
    * @return lat
   **/
   @ApiModelProperty(required = true, value = "")
@@ -330,8 +373,8 @@ public class BeaconUpdate {
 
    /**
    * Get lng
-   * minimum: -180
-   * maximum: 180
+   * minimum: -180.0
+   * maximum: 180.0
    * @return lng
   **/
   @ApiModelProperty(required = true, value = "")
@@ -545,7 +588,9 @@ public class BeaconUpdate {
         Objects.equals(this.eddystoneTlm, beaconUpdate.eddystoneTlm) &&
         Objects.equals(this.eddystoneUid, beaconUpdate.eddystoneUid) &&
         Objects.equals(this.eddystoneUrl, beaconUpdate.eddystoneUrl) &&
+        Objects.equals(this.group, beaconUpdate.group) &&
         Objects.equals(this.iBeacon, beaconUpdate.iBeacon) &&
+        Objects.equals(this.info, beaconUpdate.info) &&
         Objects.equals(this.instanceId, beaconUpdate.instanceId) &&
         Objects.equals(this.interval, beaconUpdate.interval) &&
         Objects.equals(this.lat, beaconUpdate.lat) &&
@@ -564,7 +609,7 @@ public class BeaconUpdate {
 
   @Override
   public int hashCode() {
-    return Objects.hash(description, eddystoneEid, eddystoneEtlm, eddystoneTlm, eddystoneUid, eddystoneUrl, iBeacon, instanceId, interval, lat, lng, locationDescription, locationType, major, minor, name, namespace, telemetry, txPower, url, uuid);
+    return Objects.hash(description, eddystoneEid, eddystoneEtlm, eddystoneTlm, eddystoneUid, eddystoneUrl, group, iBeacon, info, instanceId, interval, lat, lng, locationDescription, locationType, major, minor, name, namespace, telemetry, txPower, url, uuid);
   }
 
 
@@ -579,7 +624,9 @@ public class BeaconUpdate {
     sb.append("    eddystoneTlm: ").append(toIndentedString(eddystoneTlm)).append("\n");
     sb.append("    eddystoneUid: ").append(toIndentedString(eddystoneUid)).append("\n");
     sb.append("    eddystoneUrl: ").append(toIndentedString(eddystoneUrl)).append("\n");
+    sb.append("    group: ").append(toIndentedString(group)).append("\n");
     sb.append("    iBeacon: ").append(toIndentedString(iBeacon)).append("\n");
+    sb.append("    info: ").append(toIndentedString(info)).append("\n");
     sb.append("    instanceId: ").append(toIndentedString(instanceId)).append("\n");
     sb.append("    interval: ").append(toIndentedString(interval)).append("\n");
     sb.append("    lat: ").append(toIndentedString(lat)).append("\n");

@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        node {
-            label 'mac'
-        }
-    }
+    agent any
 
     options {
         ansiColor('xterm')

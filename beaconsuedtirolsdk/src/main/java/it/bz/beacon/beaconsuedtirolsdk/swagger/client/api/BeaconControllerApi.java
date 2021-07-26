@@ -180,12 +180,13 @@ public class BeaconControllerApi {
     }
     /**
      * Build call for getListUsingGET
+     * @param groupId groupId (optional)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getListUsingGETCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getListUsingGETCall(Long groupId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -193,6 +194,8 @@ public class BeaconControllerApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (groupId != null)
+        localVarQueryParams.addAll(apiClient.parameterToPair("groupId", groupId));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -227,10 +230,10 @@ public class BeaconControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getListUsingGETValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getListUsingGETValidateBeforeCall(Long groupId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
 
-        com.squareup.okhttp.Call call = getListUsingGETCall(progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getListUsingGETCall(groupId, progressListener, progressRequestListener);
         return call;
 
     }
@@ -238,22 +241,24 @@ public class BeaconControllerApi {
     /**
      * View a list of available beacons
      * 
+     * @param groupId groupId (optional)
      * @return List&lt;Beacon&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<Beacon> getListUsingGET() throws ApiException {
-        ApiResponse<List<Beacon>> resp = getListUsingGETWithHttpInfo();
+    public List<Beacon> getListUsingGET(Long groupId) throws ApiException {
+        ApiResponse<List<Beacon>> resp = getListUsingGETWithHttpInfo(groupId);
         return resp.getData();
     }
 
     /**
      * View a list of available beacons
      * 
+     * @param groupId groupId (optional)
      * @return ApiResponse&lt;List&lt;Beacon&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<Beacon>> getListUsingGETWithHttpInfo() throws ApiException {
-        com.squareup.okhttp.Call call = getListUsingGETValidateBeforeCall(null, null);
+    public ApiResponse<List<Beacon>> getListUsingGETWithHttpInfo(Long groupId) throws ApiException {
+        com.squareup.okhttp.Call call = getListUsingGETValidateBeforeCall(groupId, null, null);
         Type localVarReturnType = new TypeToken<List<Beacon>>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -261,11 +266,12 @@ public class BeaconControllerApi {
     /**
      * View a list of available beacons (asynchronously)
      * 
+     * @param groupId groupId (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getListUsingGETAsync(final ApiCallback<List<Beacon>> callback) throws ApiException {
+    public com.squareup.okhttp.Call getListUsingGETAsync(Long groupId, final ApiCallback<List<Beacon>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -286,7 +292,7 @@ public class BeaconControllerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getListUsingGETValidateBeforeCall(progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getListUsingGETValidateBeforeCall(groupId, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<List<Beacon>>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

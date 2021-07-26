@@ -32,6 +32,9 @@ public class Info {
   @SerializedName("address")
   private String address = null;
 
+  @SerializedName("batteryLevel")
+  private Integer batteryLevel = null;
+
   @SerializedName("cap")
   private String cap = null;
 
@@ -65,6 +68,65 @@ public class Info {
   @SerializedName("namespace")
   private String namespace = null;
 
+  @SerializedName("online")
+  private Boolean online = null;
+
+  /**
+   * Gets or Sets status
+   */
+  @JsonAdapter(StatusEnum.Adapter.class)
+  public enum StatusEnum {
+    PLANNED("PLANNED"),
+    
+    INSTALLED("INSTALLED");
+
+    private String value;
+
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static StatusEnum fromValue(String text) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+
+    public static class Adapter extends TypeAdapter<StatusEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public StatusEnum read(final JsonReader jsonReader) throws IOException {
+        String value = jsonReader.nextString();
+        return StatusEnum.fromValue(String.valueOf(value));
+      }
+    }
+  }
+
+  @SerializedName("status")
+  private StatusEnum status = null;
+
+  @SerializedName("trustedUpdatedAt")
+  private Long trustedUpdatedAt = null;
+
+  @SerializedName("txPower")
+  private Integer txPower = null;
+
   @SerializedName("updatedAt")
   private Long updatedAt = null;
 
@@ -90,6 +152,24 @@ public class Info {
 
   public void setAddress(String address) {
     this.address = address;
+  }
+
+  public Info batteryLevel(Integer batteryLevel) {
+    this.batteryLevel = batteryLevel;
+    return this;
+  }
+
+   /**
+   * Get batteryLevel
+   * @return batteryLevel
+  **/
+  @ApiModelProperty(value = "")
+  public Integer getBatteryLevel() {
+    return batteryLevel;
+  }
+
+  public void setBatteryLevel(Integer batteryLevel) {
+    this.batteryLevel = batteryLevel;
   }
 
   public Info cap(String cap) {
@@ -290,6 +370,78 @@ public class Info {
     this.namespace = namespace;
   }
 
+  public Info online(Boolean online) {
+    this.online = online;
+    return this;
+  }
+
+   /**
+   * Get online
+   * @return online
+  **/
+  @ApiModelProperty(value = "")
+  public Boolean isOnline() {
+    return online;
+  }
+
+  public void setOnline(Boolean online) {
+    this.online = online;
+  }
+
+  public Info status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
+   /**
+   * Get status
+   * @return status
+  **/
+  @ApiModelProperty(value = "")
+  public StatusEnum getStatus() {
+    return status;
+  }
+
+  public void setStatus(StatusEnum status) {
+    this.status = status;
+  }
+
+  public Info trustedUpdatedAt(Long trustedUpdatedAt) {
+    this.trustedUpdatedAt = trustedUpdatedAt;
+    return this;
+  }
+
+   /**
+   * Get trustedUpdatedAt
+   * @return trustedUpdatedAt
+  **/
+  @ApiModelProperty(value = "")
+  public Long getTrustedUpdatedAt() {
+    return trustedUpdatedAt;
+  }
+
+  public void setTrustedUpdatedAt(Long trustedUpdatedAt) {
+    this.trustedUpdatedAt = trustedUpdatedAt;
+  }
+
+  public Info txPower(Integer txPower) {
+    this.txPower = txPower;
+    return this;
+  }
+
+   /**
+   * Get txPower
+   * @return txPower
+  **/
+  @ApiModelProperty(value = "")
+  public Integer getTxPower() {
+    return txPower;
+  }
+
+  public void setTxPower(Integer txPower) {
+    this.txPower = txPower;
+  }
+
   public Info updatedAt(Long updatedAt) {
     this.updatedAt = updatedAt;
     return this;
@@ -355,6 +507,7 @@ public class Info {
     }
     Info info = (Info) o;
     return Objects.equals(this.address, info.address) &&
+        Objects.equals(this.batteryLevel, info.batteryLevel) &&
         Objects.equals(this.cap, info.cap) &&
         Objects.equals(this.floor, info.floor) &&
         Objects.equals(this.id, info.id) &&
@@ -366,6 +519,10 @@ public class Info {
         Objects.equals(this.minor, info.minor) &&
         Objects.equals(this.name, info.name) &&
         Objects.equals(this.namespace, info.namespace) &&
+        Objects.equals(this.online, info.online) &&
+        Objects.equals(this.status, info.status) &&
+        Objects.equals(this.trustedUpdatedAt, info.trustedUpdatedAt) &&
+        Objects.equals(this.txPower, info.txPower) &&
         Objects.equals(this.updatedAt, info.updatedAt) &&
         Objects.equals(this.uuid, info.uuid) &&
         Objects.equals(this.website, info.website);
@@ -373,7 +530,7 @@ public class Info {
 
   @Override
   public int hashCode() {
-    return Objects.hash(address, cap, floor, id, instanceId, latitude, location, longitude, major, minor, name, namespace, updatedAt, uuid, website);
+    return Objects.hash(address, batteryLevel, cap, floor, id, instanceId, latitude, location, longitude, major, minor, name, namespace, online, status, trustedUpdatedAt, txPower, updatedAt, uuid, website);
   }
 
 
@@ -383,6 +540,7 @@ public class Info {
     sb.append("class Info {\n");
     
     sb.append("    address: ").append(toIndentedString(address)).append("\n");
+    sb.append("    batteryLevel: ").append(toIndentedString(batteryLevel)).append("\n");
     sb.append("    cap: ").append(toIndentedString(cap)).append("\n");
     sb.append("    floor: ").append(toIndentedString(floor)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
@@ -394,6 +552,10 @@ public class Info {
     sb.append("    minor: ").append(toIndentedString(minor)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    namespace: ").append(toIndentedString(namespace)).append("\n");
+    sb.append("    online: ").append(toIndentedString(online)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    trustedUpdatedAt: ").append(toIndentedString(trustedUpdatedAt)).append("\n");
+    sb.append("    txPower: ").append(toIndentedString(txPower)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    website: ").append(toIndentedString(website)).append("\n");

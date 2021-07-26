@@ -24,50 +24,29 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * ManufacturerOrder
+ * ResetPasswordRequest
  */
 
-public class ManufacturerOrder {
-  @SerializedName("groupId")
-  private Long groupId = null;
+public class ResetPasswordRequest {
+  @SerializedName("username")
+  private String username = null;
 
-  @SerializedName("id")
-  private String id = null;
-
-  public ManufacturerOrder groupId(Long groupId) {
-    this.groupId = groupId;
+  public ResetPasswordRequest username(String username) {
+    this.username = username;
     return this;
   }
 
    /**
-   * Get groupId
-   * @return groupId
-  **/
-  @ApiModelProperty(value = "")
-  public Long getGroupId() {
-    return groupId;
-  }
-
-  public void setGroupId(Long groupId) {
-    this.groupId = groupId;
-  }
-
-  public ManufacturerOrder id(String id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
+   * Get username
+   * @return username
   **/
   @ApiModelProperty(required = true, value = "")
-  public String getId() {
-    return id;
+  public String getUsername() {
+    return username;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setUsername(String username) {
+    this.username = username;
   }
 
 
@@ -79,24 +58,22 @@ public class ManufacturerOrder {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ManufacturerOrder manufacturerOrder = (ManufacturerOrder) o;
-    return Objects.equals(this.groupId, manufacturerOrder.groupId) &&
-        Objects.equals(this.id, manufacturerOrder.id);
+    ResetPasswordRequest resetPasswordRequest = (ResetPasswordRequest) o;
+    return Objects.equals(this.username, resetPasswordRequest.username);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(groupId, id);
+    return Objects.hash(username);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ManufacturerOrder {\n");
+    sb.append("class ResetPasswordRequest {\n");
     
-    sb.append("    groupId: ").append(toIndentedString(groupId)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("}");
     return sb.toString();
   }

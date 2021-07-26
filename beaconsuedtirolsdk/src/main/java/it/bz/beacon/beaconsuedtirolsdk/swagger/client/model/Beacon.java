@@ -21,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Group;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.PendingConfiguration;
 import java.io.IOException;
 import java.util.UUID;
@@ -51,11 +52,20 @@ public class Beacon {
   @SerializedName("eddystoneUrl")
   private Boolean eddystoneUrl = null;
 
+  @SerializedName("group")
+  private Group group = null;
+
   @SerializedName("iBeacon")
   private Boolean iBeacon = null;
 
   @SerializedName("id")
   private String id = null;
+
+  @SerializedName("info_lat")
+  private Double infoLat = null;
+
+  @SerializedName("info_lng")
+  private Double infoLng = null;
 
   @SerializedName("instanceId")
   private String instanceId = null;
@@ -205,9 +215,11 @@ public class Beacon {
     
     CONFIGURATION_PENDING("CONFIGURATION_PENDING"),
     
-    NO_SIGNAL("NO_SIGNAL"),
+    UNKNOWN_STATUS("UNKNOWN_STATUS"),
     
-    ISSUE("ISSUE");
+    ISSUE("ISSUE"),
+    
+    NOT_ACCESSIBLE("NOT_ACCESSIBLE");
 
     private String value;
 
@@ -252,6 +264,9 @@ public class Beacon {
 
   @SerializedName("telemetry")
   private Boolean telemetry = null;
+
+  @SerializedName("trustedUpdatedAt")
+  private Long trustedUpdatedAt = null;
 
   @SerializedName("txPower")
   private Integer txPower = null;
@@ -388,6 +403,24 @@ public class Beacon {
     this.eddystoneUrl = eddystoneUrl;
   }
 
+  public Beacon group(Group group) {
+    this.group = group;
+    return this;
+  }
+
+   /**
+   * Get group
+   * @return group
+  **/
+  @ApiModelProperty(value = "")
+  public Group getGroup() {
+    return group;
+  }
+
+  public void setGroup(Group group) {
+    this.group = group;
+  }
+
   public Beacon iBeacon(Boolean iBeacon) {
     this.iBeacon = iBeacon;
     return this;
@@ -422,6 +455,42 @@ public class Beacon {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public Beacon infoLat(Double infoLat) {
+    this.infoLat = infoLat;
+    return this;
+  }
+
+   /**
+   * Get infoLat
+   * @return infoLat
+  **/
+  @ApiModelProperty(value = "")
+  public Double getInfoLat() {
+    return infoLat;
+  }
+
+  public void setInfoLat(Double infoLat) {
+    this.infoLat = infoLat;
+  }
+
+  public Beacon infoLng(Double infoLng) {
+    this.infoLng = infoLng;
+    return this;
+  }
+
+   /**
+   * Get infoLng
+   * @return infoLng
+  **/
+  @ApiModelProperty(value = "")
+  public Double getInfoLng() {
+    return infoLng;
+  }
+
+  public void setInfoLng(Double infoLng) {
+    this.infoLng = infoLng;
   }
 
   public Beacon instanceId(String instanceId) {
@@ -730,6 +799,24 @@ public class Beacon {
     this.telemetry = telemetry;
   }
 
+  public Beacon trustedUpdatedAt(Long trustedUpdatedAt) {
+    this.trustedUpdatedAt = trustedUpdatedAt;
+    return this;
+  }
+
+   /**
+   * Get trustedUpdatedAt
+   * @return trustedUpdatedAt
+  **/
+  @ApiModelProperty(value = "")
+  public Long getTrustedUpdatedAt() {
+    return trustedUpdatedAt;
+  }
+
+  public void setTrustedUpdatedAt(Long trustedUpdatedAt) {
+    this.trustedUpdatedAt = trustedUpdatedAt;
+  }
+
   public Beacon txPower(Integer txPower) {
     this.txPower = txPower;
     return this;
@@ -801,8 +888,11 @@ public class Beacon {
         Objects.equals(this.eddystoneTlm, beacon.eddystoneTlm) &&
         Objects.equals(this.eddystoneUid, beacon.eddystoneUid) &&
         Objects.equals(this.eddystoneUrl, beacon.eddystoneUrl) &&
+        Objects.equals(this.group, beacon.group) &&
         Objects.equals(this.iBeacon, beacon.iBeacon) &&
         Objects.equals(this.id, beacon.id) &&
+        Objects.equals(this.infoLat, beacon.infoLat) &&
+        Objects.equals(this.infoLng, beacon.infoLng) &&
         Objects.equals(this.instanceId, beacon.instanceId) &&
         Objects.equals(this.internalName, beacon.internalName) &&
         Objects.equals(this.interval, beacon.interval) &&
@@ -820,6 +910,7 @@ public class Beacon {
         Objects.equals(this.pendingConfiguration, beacon.pendingConfiguration) &&
         Objects.equals(this.status, beacon.status) &&
         Objects.equals(this.telemetry, beacon.telemetry) &&
+        Objects.equals(this.trustedUpdatedAt, beacon.trustedUpdatedAt) &&
         Objects.equals(this.txPower, beacon.txPower) &&
         Objects.equals(this.url, beacon.url) &&
         Objects.equals(this.uuid, beacon.uuid);
@@ -827,7 +918,7 @@ public class Beacon {
 
   @Override
   public int hashCode() {
-    return Objects.hash(batteryLevel, description, eddystoneEid, eddystoneEtlm, eddystoneTlm, eddystoneUid, eddystoneUrl, iBeacon, id, instanceId, internalName, interval, lastSeen, lat, lng, locationDescription, locationType, major, manufacturer, manufacturerId, minor, name, namespace, pendingConfiguration, status, telemetry, txPower, url, uuid);
+    return Objects.hash(batteryLevel, description, eddystoneEid, eddystoneEtlm, eddystoneTlm, eddystoneUid, eddystoneUrl, group, iBeacon, id, infoLat, infoLng, instanceId, internalName, interval, lastSeen, lat, lng, locationDescription, locationType, major, manufacturer, manufacturerId, minor, name, namespace, pendingConfiguration, status, telemetry, trustedUpdatedAt, txPower, url, uuid);
   }
 
 
@@ -843,8 +934,11 @@ public class Beacon {
     sb.append("    eddystoneTlm: ").append(toIndentedString(eddystoneTlm)).append("\n");
     sb.append("    eddystoneUid: ").append(toIndentedString(eddystoneUid)).append("\n");
     sb.append("    eddystoneUrl: ").append(toIndentedString(eddystoneUrl)).append("\n");
+    sb.append("    group: ").append(toIndentedString(group)).append("\n");
     sb.append("    iBeacon: ").append(toIndentedString(iBeacon)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    infoLat: ").append(toIndentedString(infoLat)).append("\n");
+    sb.append("    infoLng: ").append(toIndentedString(infoLng)).append("\n");
     sb.append("    instanceId: ").append(toIndentedString(instanceId)).append("\n");
     sb.append("    internalName: ").append(toIndentedString(internalName)).append("\n");
     sb.append("    interval: ").append(toIndentedString(interval)).append("\n");
@@ -862,6 +956,7 @@ public class Beacon {
     sb.append("    pendingConfiguration: ").append(toIndentedString(pendingConfiguration)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    telemetry: ").append(toIndentedString(telemetry)).append("\n");
+    sb.append("    trustedUpdatedAt: ").append(toIndentedString(trustedUpdatedAt)).append("\n");
     sb.append("    txPower: ").append(toIndentedString(txPower)).append("\n");
     sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");

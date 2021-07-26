@@ -24,59 +24,35 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * UserUpdate
+ * GroupUpdate
  */
 
-public class UserUpdate {
-  @SerializedName("admin")
-  private Boolean admin = null;
-
-  @SerializedName("email")
-  private String email = null;
+public class GroupUpdate {
+  @SerializedName("apiKey")
+  private String apiKey = null;
 
   @SerializedName("name")
   private String name = null;
 
-  @SerializedName("surname")
-  private String surname = null;
-
-  public UserUpdate admin(Boolean admin) {
-    this.admin = admin;
+  public GroupUpdate apiKey(String apiKey) {
+    this.apiKey = apiKey;
     return this;
   }
 
    /**
-   * Get admin
-   * @return admin
+   * Get apiKey
+   * @return apiKey
   **/
   @ApiModelProperty(required = true, value = "")
-  public Boolean isAdmin() {
-    return admin;
+  public String getApiKey() {
+    return apiKey;
   }
 
-  public void setAdmin(Boolean admin) {
-    this.admin = admin;
+  public void setApiKey(String apiKey) {
+    this.apiKey = apiKey;
   }
 
-  public UserUpdate email(String email) {
-    this.email = email;
-    return this;
-  }
-
-   /**
-   * Get email
-   * @return email
-  **/
-  @ApiModelProperty(required = true, value = "")
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public UserUpdate name(String name) {
+  public GroupUpdate name(String name) {
     this.name = name;
     return this;
   }
@@ -94,24 +70,6 @@ public class UserUpdate {
     this.name = name;
   }
 
-  public UserUpdate surname(String surname) {
-    this.surname = surname;
-    return this;
-  }
-
-   /**
-   * Get surname
-   * @return surname
-  **/
-  @ApiModelProperty(required = true, value = "")
-  public String getSurname() {
-    return surname;
-  }
-
-  public void setSurname(String surname) {
-    this.surname = surname;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -121,28 +79,24 @@ public class UserUpdate {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UserUpdate userUpdate = (UserUpdate) o;
-    return Objects.equals(this.admin, userUpdate.admin) &&
-        Objects.equals(this.email, userUpdate.email) &&
-        Objects.equals(this.name, userUpdate.name) &&
-        Objects.equals(this.surname, userUpdate.surname);
+    GroupUpdate groupUpdate = (GroupUpdate) o;
+    return Objects.equals(this.apiKey, groupUpdate.apiKey) &&
+        Objects.equals(this.name, groupUpdate.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(admin, email, name, surname);
+    return Objects.hash(apiKey, name);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserUpdate {\n");
+    sb.append("class GroupUpdate {\n");
     
-    sb.append("    admin: ").append(toIndentedString(admin)).append("\n");
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
+    sb.append("    apiKey: ").append(toIndentedString(apiKey)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    surname: ").append(toIndentedString(surname)).append("\n");
     sb.append("}");
     return sb.toString();
   }

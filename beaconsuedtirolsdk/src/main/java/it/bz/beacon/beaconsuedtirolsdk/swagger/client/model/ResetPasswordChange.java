@@ -24,50 +24,50 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * ManufacturerOrder
+ * ResetPasswordChange
  */
 
-public class ManufacturerOrder {
-  @SerializedName("groupId")
-  private Long groupId = null;
+public class ResetPasswordChange {
+  @SerializedName("newPassword")
+  private String newPassword = null;
 
-  @SerializedName("id")
-  private String id = null;
+  @SerializedName("token")
+  private String token = null;
 
-  public ManufacturerOrder groupId(Long groupId) {
-    this.groupId = groupId;
+  public ResetPasswordChange newPassword(String newPassword) {
+    this.newPassword = newPassword;
     return this;
   }
 
    /**
-   * Get groupId
-   * @return groupId
-  **/
-  @ApiModelProperty(value = "")
-  public Long getGroupId() {
-    return groupId;
-  }
-
-  public void setGroupId(Long groupId) {
-    this.groupId = groupId;
-  }
-
-  public ManufacturerOrder id(String id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
+   * Get newPassword
+   * @return newPassword
   **/
   @ApiModelProperty(required = true, value = "")
-  public String getId() {
-    return id;
+  public String getNewPassword() {
+    return newPassword;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setNewPassword(String newPassword) {
+    this.newPassword = newPassword;
+  }
+
+  public ResetPasswordChange token(String token) {
+    this.token = token;
+    return this;
+  }
+
+   /**
+   * Get token
+   * @return token
+  **/
+  @ApiModelProperty(required = true, value = "")
+  public String getToken() {
+    return token;
+  }
+
+  public void setToken(String token) {
+    this.token = token;
   }
 
 
@@ -79,24 +79,24 @@ public class ManufacturerOrder {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ManufacturerOrder manufacturerOrder = (ManufacturerOrder) o;
-    return Objects.equals(this.groupId, manufacturerOrder.groupId) &&
-        Objects.equals(this.id, manufacturerOrder.id);
+    ResetPasswordChange resetPasswordChange = (ResetPasswordChange) o;
+    return Objects.equals(this.newPassword, resetPasswordChange.newPassword) &&
+        Objects.equals(this.token, resetPasswordChange.token);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(groupId, id);
+    return Objects.hash(newPassword, token);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ManufacturerOrder {\n");
+    sb.append("class ResetPasswordChange {\n");
     
-    sb.append("    groupId: ").append(toIndentedString(groupId)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    newPassword: ").append(toIndentedString(newPassword)).append("\n");
+    sb.append("    token: ").append(toIndentedString(token)).append("\n");
     sb.append("}");
     return sb.toString();
   }
