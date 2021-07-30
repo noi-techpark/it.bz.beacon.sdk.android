@@ -1,4 +1,4 @@
-/*
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,111 +10,66 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
+import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 
-/**
- * IssueCreation
- */
-
+@ApiModel(description = "")
 public class IssueCreation {
+  
   @SerializedName("beaconId")
   private String beaconId = null;
-
   @SerializedName("problem")
   private String problem = null;
-
   @SerializedName("problemDescription")
   private String problemDescription = null;
-
   @SerializedName("reporter")
   private String reporter = null;
 
-  public IssueCreation beaconId(String beaconId) {
-    this.beaconId = beaconId;
-    return this;
-  }
-
-   /**
-   * Get beaconId
-   * @return beaconId
-  **/
+  /**
+   **/
   @ApiModelProperty(required = true, value = "")
   public String getBeaconId() {
     return beaconId;
   }
-
   public void setBeaconId(String beaconId) {
     this.beaconId = beaconId;
   }
 
-  public IssueCreation problem(String problem) {
-    this.problem = problem;
-    return this;
-  }
-
-   /**
-   * Get problem
-   * @return problem
-  **/
+  /**
+   **/
   @ApiModelProperty(required = true, value = "")
   public String getProblem() {
     return problem;
   }
-
   public void setProblem(String problem) {
     this.problem = problem;
   }
 
-  public IssueCreation problemDescription(String problemDescription) {
-    this.problemDescription = problemDescription;
-    return this;
-  }
-
-   /**
-   * Get problemDescription
-   * @return problemDescription
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getProblemDescription() {
     return problemDescription;
   }
-
   public void setProblemDescription(String problemDescription) {
     this.problemDescription = problemDescription;
   }
 
-  public IssueCreation reporter(String reporter) {
-    this.reporter = reporter;
-    return this;
-  }
-
-   /**
-   * Get reporter
-   * @return reporter
-  **/
+  /**
+   **/
   @ApiModelProperty(required = true, value = "")
   public String getReporter() {
     return reporter;
   }
-
   public void setReporter(String reporter) {
     this.reporter = reporter;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -122,41 +77,32 @@ public class IssueCreation {
       return false;
     }
     IssueCreation issueCreation = (IssueCreation) o;
-    return Objects.equals(this.beaconId, issueCreation.beaconId) &&
-        Objects.equals(this.problem, issueCreation.problem) &&
-        Objects.equals(this.problemDescription, issueCreation.problemDescription) &&
-        Objects.equals(this.reporter, issueCreation.reporter);
+    return (this.beaconId == null ? issueCreation.beaconId == null : this.beaconId.equals(issueCreation.beaconId)) &&
+        (this.problem == null ? issueCreation.problem == null : this.problem.equals(issueCreation.problem)) &&
+        (this.problemDescription == null ? issueCreation.problemDescription == null : this.problemDescription.equals(issueCreation.problemDescription)) &&
+        (this.reporter == null ? issueCreation.reporter == null : this.reporter.equals(issueCreation.reporter));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(beaconId, problem, problemDescription, reporter);
+    int result = 17;
+    result = 31 * result + (this.beaconId == null ? 0: this.beaconId.hashCode());
+    result = 31 * result + (this.problem == null ? 0: this.problem.hashCode());
+    result = 31 * result + (this.problemDescription == null ? 0: this.problemDescription.hashCode());
+    result = 31 * result + (this.reporter == null ? 0: this.reporter.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class IssueCreation {\n");
     
-    sb.append("    beaconId: ").append(toIndentedString(beaconId)).append("\n");
-    sb.append("    problem: ").append(toIndentedString(problem)).append("\n");
-    sb.append("    problemDescription: ").append(toIndentedString(problemDescription)).append("\n");
-    sb.append("    reporter: ").append(toIndentedString(reporter)).append("\n");
-    sb.append("}");
+    sb.append("  beaconId: ").append(beaconId).append("\n");
+    sb.append("  problem: ").append(problem).append("\n");
+    sb.append("  problemDescription: ").append(problemDescription).append("\n");
+    sb.append("  reporter: ").append(reporter).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-

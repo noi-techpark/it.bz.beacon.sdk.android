@@ -1,4 +1,4 @@
-/*
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,50 +10,32 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
+import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 
-/**
- * BeaconBatteryLevelUpdate
- */
-
+@ApiModel(description = "")
 public class BeaconBatteryLevelUpdate {
+  
   @SerializedName("batteryLevel")
   private Integer batteryLevel = null;
 
-  public BeaconBatteryLevelUpdate batteryLevel(Integer batteryLevel) {
-    this.batteryLevel = batteryLevel;
-    return this;
-  }
-
-   /**
-   * Get batteryLevel
+  /**
    * minimum: 0
    * maximum: 100
-   * @return batteryLevel
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   public Integer getBatteryLevel() {
     return batteryLevel;
   }
-
   public void setBatteryLevel(Integer batteryLevel) {
     this.batteryLevel = batteryLevel;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -61,35 +43,23 @@ public class BeaconBatteryLevelUpdate {
       return false;
     }
     BeaconBatteryLevelUpdate beaconBatteryLevelUpdate = (BeaconBatteryLevelUpdate) o;
-    return Objects.equals(this.batteryLevel, beaconBatteryLevelUpdate.batteryLevel);
+    return (this.batteryLevel == null ? beaconBatteryLevelUpdate.batteryLevel == null : this.batteryLevel.equals(beaconBatteryLevelUpdate.batteryLevel));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(batteryLevel);
+    int result = 17;
+    result = 31 * result + (this.batteryLevel == null ? 0: this.batteryLevel.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class BeaconBatteryLevelUpdate {\n");
     
-    sb.append("    batteryLevel: ").append(toIndentedString(batteryLevel)).append("\n");
-    sb.append("}");
+    sb.append("  batteryLevel: ").append(batteryLevel).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-

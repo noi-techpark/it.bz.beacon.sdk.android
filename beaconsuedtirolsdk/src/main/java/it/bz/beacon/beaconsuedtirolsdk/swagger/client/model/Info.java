@@ -1,4 +1,4 @@
-/*
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,343 +10,262 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 import java.util.UUID;
+import io.swagger.annotations.*;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * Info
- */
-
+@ApiModel(description = "")
 public class Info {
+  
   @SerializedName("address")
   private String address = null;
-
+  @SerializedName("batteryLevel")
+  private Integer batteryLevel = null;
   @SerializedName("cap")
   private String cap = null;
-
   @SerializedName("floor")
   private String floor = null;
-
   @SerializedName("id")
   private String id = null;
-
   @SerializedName("instanceId")
   private String instanceId = null;
-
   @SerializedName("latitude")
   private Double latitude = null;
-
   @SerializedName("location")
   private String location = null;
-
   @SerializedName("longitude")
   private Double longitude = null;
-
   @SerializedName("major")
   private Integer major = null;
-
   @SerializedName("minor")
   private Integer minor = null;
-
   @SerializedName("name")
   private String name = null;
-
   @SerializedName("namespace")
   private String namespace = null;
-
+  @SerializedName("online")
+  private Boolean online = null;
+  public enum StatusEnum {
+     PLANNED,  INSTALLED, 
+  };
+  @SerializedName("status")
+  private StatusEnum status = null;
+  @SerializedName("trustedUpdatedAt")
+  private Long trustedUpdatedAt = null;
+  @SerializedName("txPower")
+  private Integer txPower = null;
   @SerializedName("updatedAt")
   private Long updatedAt = null;
-
   @SerializedName("uuid")
   private UUID uuid = null;
-
   @SerializedName("website")
   private String website = null;
 
-  public Info address(String address) {
-    this.address = address;
-    return this;
-  }
-
-   /**
-   * Get address
-   * @return address
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getAddress() {
     return address;
   }
-
   public void setAddress(String address) {
     this.address = address;
   }
 
-  public Info cap(String cap) {
-    this.cap = cap;
-    return this;
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public Integer getBatteryLevel() {
+    return batteryLevel;
+  }
+  public void setBatteryLevel(Integer batteryLevel) {
+    this.batteryLevel = batteryLevel;
   }
 
-   /**
-   * Get cap
-   * @return cap
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getCap() {
     return cap;
   }
-
   public void setCap(String cap) {
     this.cap = cap;
   }
 
-  public Info floor(String floor) {
-    this.floor = floor;
-    return this;
-  }
-
-   /**
-   * Get floor
-   * @return floor
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getFloor() {
     return floor;
   }
-
   public void setFloor(String floor) {
     this.floor = floor;
   }
 
-  public Info id(String id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getId() {
     return id;
   }
-
   public void setId(String id) {
     this.id = id;
   }
 
-  public Info instanceId(String instanceId) {
-    this.instanceId = instanceId;
-    return this;
-  }
-
-   /**
-   * Get instanceId
-   * @return instanceId
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getInstanceId() {
     return instanceId;
   }
-
   public void setInstanceId(String instanceId) {
     this.instanceId = instanceId;
   }
 
-  public Info latitude(Double latitude) {
-    this.latitude = latitude;
-    return this;
-  }
-
-   /**
-   * Get latitude
-   * @return latitude
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Double getLatitude() {
     return latitude;
   }
-
   public void setLatitude(Double latitude) {
     this.latitude = latitude;
   }
 
-  public Info location(String location) {
-    this.location = location;
-    return this;
-  }
-
-   /**
-   * Get location
-   * @return location
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getLocation() {
     return location;
   }
-
   public void setLocation(String location) {
     this.location = location;
   }
 
-  public Info longitude(Double longitude) {
-    this.longitude = longitude;
-    return this;
-  }
-
-   /**
-   * Get longitude
-   * @return longitude
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Double getLongitude() {
     return longitude;
   }
-
   public void setLongitude(Double longitude) {
     this.longitude = longitude;
   }
 
-  public Info major(Integer major) {
-    this.major = major;
-    return this;
-  }
-
-   /**
-   * Get major
-   * @return major
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Integer getMajor() {
     return major;
   }
-
   public void setMajor(Integer major) {
     this.major = major;
   }
 
-  public Info minor(Integer minor) {
-    this.minor = minor;
-    return this;
-  }
-
-   /**
-   * Get minor
-   * @return minor
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Integer getMinor() {
     return minor;
   }
-
   public void setMinor(Integer minor) {
     this.minor = minor;
   }
 
-  public Info name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Get name
-   * @return name
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getName() {
     return name;
   }
-
   public void setName(String name) {
     this.name = name;
   }
 
-  public Info namespace(String namespace) {
-    this.namespace = namespace;
-    return this;
-  }
-
-   /**
-   * Get namespace
-   * @return namespace
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getNamespace() {
     return namespace;
   }
-
   public void setNamespace(String namespace) {
     this.namespace = namespace;
   }
 
-  public Info updatedAt(Long updatedAt) {
-    this.updatedAt = updatedAt;
-    return this;
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public Boolean getOnline() {
+    return online;
+  }
+  public void setOnline(Boolean online) {
+    this.online = online;
   }
 
-   /**
-   * Get updatedAt
-   * @return updatedAt
-  **/
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public StatusEnum getStatus() {
+    return status;
+  }
+  public void setStatus(StatusEnum status) {
+    this.status = status;
+  }
+
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public Long getTrustedUpdatedAt() {
+    return trustedUpdatedAt;
+  }
+  public void setTrustedUpdatedAt(Long trustedUpdatedAt) {
+    this.trustedUpdatedAt = trustedUpdatedAt;
+  }
+
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public Integer getTxPower() {
+    return txPower;
+  }
+  public void setTxPower(Integer txPower) {
+    this.txPower = txPower;
+  }
+
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Long getUpdatedAt() {
     return updatedAt;
   }
-
   public void setUpdatedAt(Long updatedAt) {
     this.updatedAt = updatedAt;
   }
 
-  public Info uuid(UUID uuid) {
-    this.uuid = uuid;
-    return this;
-  }
-
-   /**
-   * Get uuid
-   * @return uuid
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public UUID getUuid() {
     return uuid;
   }
-
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
-  public Info website(String website) {
-    this.website = website;
-    return this;
-  }
-
-   /**
-   * Get website
-   * @return website
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getWebsite() {
     return website;
   }
-
   public void setWebsite(String website) {
     this.website = website;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -354,63 +273,80 @@ public class Info {
       return false;
     }
     Info info = (Info) o;
-    return Objects.equals(this.address, info.address) &&
-        Objects.equals(this.cap, info.cap) &&
-        Objects.equals(this.floor, info.floor) &&
-        Objects.equals(this.id, info.id) &&
-        Objects.equals(this.instanceId, info.instanceId) &&
-        Objects.equals(this.latitude, info.latitude) &&
-        Objects.equals(this.location, info.location) &&
-        Objects.equals(this.longitude, info.longitude) &&
-        Objects.equals(this.major, info.major) &&
-        Objects.equals(this.minor, info.minor) &&
-        Objects.equals(this.name, info.name) &&
-        Objects.equals(this.namespace, info.namespace) &&
-        Objects.equals(this.updatedAt, info.updatedAt) &&
-        Objects.equals(this.uuid, info.uuid) &&
-        Objects.equals(this.website, info.website);
+    return (this.address == null ? info.address == null : this.address.equals(info.address)) &&
+        (this.batteryLevel == null ? info.batteryLevel == null : this.batteryLevel.equals(info.batteryLevel)) &&
+        (this.cap == null ? info.cap == null : this.cap.equals(info.cap)) &&
+        (this.floor == null ? info.floor == null : this.floor.equals(info.floor)) &&
+        (this.id == null ? info.id == null : this.id.equals(info.id)) &&
+        (this.instanceId == null ? info.instanceId == null : this.instanceId.equals(info.instanceId)) &&
+        (this.latitude == null ? info.latitude == null : this.latitude.equals(info.latitude)) &&
+        (this.location == null ? info.location == null : this.location.equals(info.location)) &&
+        (this.longitude == null ? info.longitude == null : this.longitude.equals(info.longitude)) &&
+        (this.major == null ? info.major == null : this.major.equals(info.major)) &&
+        (this.minor == null ? info.minor == null : this.minor.equals(info.minor)) &&
+        (this.name == null ? info.name == null : this.name.equals(info.name)) &&
+        (this.namespace == null ? info.namespace == null : this.namespace.equals(info.namespace)) &&
+        (this.online == null ? info.online == null : this.online.equals(info.online)) &&
+        (this.status == null ? info.status == null : this.status.equals(info.status)) &&
+        (this.trustedUpdatedAt == null ? info.trustedUpdatedAt == null : this.trustedUpdatedAt.equals(info.trustedUpdatedAt)) &&
+        (this.txPower == null ? info.txPower == null : this.txPower.equals(info.txPower)) &&
+        (this.updatedAt == null ? info.updatedAt == null : this.updatedAt.equals(info.updatedAt)) &&
+        (this.uuid == null ? info.uuid == null : this.uuid.equals(info.uuid)) &&
+        (this.website == null ? info.website == null : this.website.equals(info.website));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(address, cap, floor, id, instanceId, latitude, location, longitude, major, minor, name, namespace, updatedAt, uuid, website);
+    int result = 17;
+    result = 31 * result + (this.address == null ? 0: this.address.hashCode());
+    result = 31 * result + (this.batteryLevel == null ? 0: this.batteryLevel.hashCode());
+    result = 31 * result + (this.cap == null ? 0: this.cap.hashCode());
+    result = 31 * result + (this.floor == null ? 0: this.floor.hashCode());
+    result = 31 * result + (this.id == null ? 0: this.id.hashCode());
+    result = 31 * result + (this.instanceId == null ? 0: this.instanceId.hashCode());
+    result = 31 * result + (this.latitude == null ? 0: this.latitude.hashCode());
+    result = 31 * result + (this.location == null ? 0: this.location.hashCode());
+    result = 31 * result + (this.longitude == null ? 0: this.longitude.hashCode());
+    result = 31 * result + (this.major == null ? 0: this.major.hashCode());
+    result = 31 * result + (this.minor == null ? 0: this.minor.hashCode());
+    result = 31 * result + (this.name == null ? 0: this.name.hashCode());
+    result = 31 * result + (this.namespace == null ? 0: this.namespace.hashCode());
+    result = 31 * result + (this.online == null ? 0: this.online.hashCode());
+    result = 31 * result + (this.status == null ? 0: this.status.hashCode());
+    result = 31 * result + (this.trustedUpdatedAt == null ? 0: this.trustedUpdatedAt.hashCode());
+    result = 31 * result + (this.txPower == null ? 0: this.txPower.hashCode());
+    result = 31 * result + (this.updatedAt == null ? 0: this.updatedAt.hashCode());
+    result = 31 * result + (this.uuid == null ? 0: this.uuid.hashCode());
+    result = 31 * result + (this.website == null ? 0: this.website.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Info {\n");
     
-    sb.append("    address: ").append(toIndentedString(address)).append("\n");
-    sb.append("    cap: ").append(toIndentedString(cap)).append("\n");
-    sb.append("    floor: ").append(toIndentedString(floor)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    instanceId: ").append(toIndentedString(instanceId)).append("\n");
-    sb.append("    latitude: ").append(toIndentedString(latitude)).append("\n");
-    sb.append("    location: ").append(toIndentedString(location)).append("\n");
-    sb.append("    longitude: ").append(toIndentedString(longitude)).append("\n");
-    sb.append("    major: ").append(toIndentedString(major)).append("\n");
-    sb.append("    minor: ").append(toIndentedString(minor)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    namespace: ").append(toIndentedString(namespace)).append("\n");
-    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    website: ").append(toIndentedString(website)).append("\n");
-    sb.append("}");
+    sb.append("  address: ").append(address).append("\n");
+    sb.append("  batteryLevel: ").append(batteryLevel).append("\n");
+    sb.append("  cap: ").append(cap).append("\n");
+    sb.append("  floor: ").append(floor).append("\n");
+    sb.append("  id: ").append(id).append("\n");
+    sb.append("  instanceId: ").append(instanceId).append("\n");
+    sb.append("  latitude: ").append(latitude).append("\n");
+    sb.append("  location: ").append(location).append("\n");
+    sb.append("  longitude: ").append(longitude).append("\n");
+    sb.append("  major: ").append(major).append("\n");
+    sb.append("  minor: ").append(minor).append("\n");
+    sb.append("  name: ").append(name).append("\n");
+    sb.append("  namespace: ").append(namespace).append("\n");
+    sb.append("  online: ").append(online).append("\n");
+    sb.append("  status: ").append(status).append("\n");
+    sb.append("  trustedUpdatedAt: ").append(trustedUpdatedAt).append("\n");
+    sb.append("  txPower: ").append(txPower).append("\n");
+    sb.append("  updatedAt: ").append(updatedAt).append("\n");
+    sb.append("  uuid: ").append(uuid).append("\n");
+    sb.append("  website: ").append(website).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-

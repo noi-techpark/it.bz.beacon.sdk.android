@@ -1,4 +1,4 @@
-/*
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,80 +10,44 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.BeaconOrderData;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import io.swagger.annotations.*;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * BeaconOrder
- */
-
+@ApiModel(description = "")
 public class BeaconOrder {
+  
   @SerializedName("beacons")
   private List<BeaconOrderData> beacons = null;
-
   @SerializedName("orderSymbol")
   private String orderSymbol = null;
 
-  public BeaconOrder beacons(List<BeaconOrderData> beacons) {
-    this.beacons = beacons;
-    return this;
-  }
-
-  public BeaconOrder addBeaconsItem(BeaconOrderData beaconsItem) {
-    if (this.beacons == null) {
-      this.beacons = new ArrayList<BeaconOrderData>();
-    }
-    this.beacons.add(beaconsItem);
-    return this;
-  }
-
-   /**
-   * Get beacons
-   * @return beacons
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public List<BeaconOrderData> getBeacons() {
     return beacons;
   }
-
   public void setBeacons(List<BeaconOrderData> beacons) {
     this.beacons = beacons;
   }
 
-  public BeaconOrder orderSymbol(String orderSymbol) {
-    this.orderSymbol = orderSymbol;
-    return this;
-  }
-
-   /**
-   * Get orderSymbol
-   * @return orderSymbol
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getOrderSymbol() {
     return orderSymbol;
   }
-
   public void setOrderSymbol(String orderSymbol) {
     this.orderSymbol = orderSymbol;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -91,37 +55,26 @@ public class BeaconOrder {
       return false;
     }
     BeaconOrder beaconOrder = (BeaconOrder) o;
-    return Objects.equals(this.beacons, beaconOrder.beacons) &&
-        Objects.equals(this.orderSymbol, beaconOrder.orderSymbol);
+    return (this.beacons == null ? beaconOrder.beacons == null : this.beacons.equals(beaconOrder.beacons)) &&
+        (this.orderSymbol == null ? beaconOrder.orderSymbol == null : this.orderSymbol.equals(beaconOrder.orderSymbol));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(beacons, orderSymbol);
+    int result = 17;
+    result = 31 * result + (this.beacons == null ? 0: this.beacons.hashCode());
+    result = 31 * result + (this.orderSymbol == null ? 0: this.orderSymbol.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class BeaconOrder {\n");
     
-    sb.append("    beacons: ").append(toIndentedString(beacons)).append("\n");
-    sb.append("    orderSymbol: ").append(toIndentedString(orderSymbol)).append("\n");
-    sb.append("}");
+    sb.append("  beacons: ").append(beacons).append("\n");
+    sb.append("  orderSymbol: ").append(orderSymbol).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">SDK Demo</string>
-    <string name="title_beacon_list">Beacons</string>
     <string name="title_beacon_detail">Beacon Detail</string>
     <string name="retry">Retry</string>
     <string name="open_website">Open Website</string>

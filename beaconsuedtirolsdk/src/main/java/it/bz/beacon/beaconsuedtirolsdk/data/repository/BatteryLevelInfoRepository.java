@@ -9,33 +9,27 @@ import it.bz.beacon.beaconsuedtirolsdk.auth.TrustedAuth;
 import it.bz.beacon.beaconsuedtirolsdk.data.BeaconDatabase;
 import it.bz.beacon.beaconsuedtirolsdk.data.dao.BatteryLevelInfoDao;
 import it.bz.beacon.beaconsuedtirolsdk.data.entity.BatteryLevelInfo;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiClient;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiException;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.Configuration;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.api.TrustedBeaconControllerApi;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.BeaconBatteryLevelUpdate;
 
 public class BatteryLevelInfoRepository {
 
-    private BatteryLevelInfoDao batteryLevelInfoDao;
-    private TrustedBeaconControllerApi trustedApi;
-    private TrustedAuth trustedAuth;
+    private final BatteryLevelInfoDao batteryLevelInfoDao;
+    private final TrustedBeaconControllerApi trustedApi;
+    private final TrustedAuth trustedAuth;
 
     public BatteryLevelInfoRepository(Context context, TrustedAuth trustedAuth) {
         BeaconDatabase db = BeaconDatabase.getDatabase(context);
         batteryLevelInfoDao = db.batteryLevelInfoDao();
         int reduced_timeout = context.getResources().getInteger(R.integer.reduced_timeout);
 
-        ApiClient apiClient = new ApiClient();
-        apiClient.setConnectTimeout(reduced_timeout);
-        apiClient.setReadTimeout(reduced_timeout);
-        Configuration.setDefaultApiClient(apiClient);
         trustedApi = new TrustedBeaconControllerApi();
+        trustedApi.getInvoker().setConnectionTimeout(reduced_timeout);
         this.trustedAuth = trustedAuth;
         if (this.trustedAuth != null) {
-            trustedApi.getApiClient().setUsername(this.trustedAuth.getUsername());
-            trustedApi.getApiClient().setPassword(this.trustedAuth.getPassword());
+            trustedApi.getInvoker().setUsername(this.trustedAuth.getUsername());
+            trustedApi.getInvoker().setPassword(this.trustedAuth.getPassword());
         }
     }
 
@@ -69,7 +63,7 @@ public class BatteryLevelInfoRepository {
                             if (result != null) {
                                 batteryLevelInfoDao.updateLastSent(id, System.currentTimeMillis());
                             }
-                        } catch (ApiException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }

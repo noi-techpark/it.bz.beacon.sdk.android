@@ -1,4 +1,4 @@
-/*
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,69 +10,42 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
+import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 
-/**
- * BeaconImage
- */
-
+@ApiModel(description = "")
 public class BeaconImage {
+  
   @SerializedName("fileName")
   private String fileName = null;
-
   @SerializedName("id")
   private Long id = null;
 
-  public BeaconImage fileName(String fileName) {
-    this.fileName = fileName;
-    return this;
-  }
-
-   /**
-   * Get fileName
-   * @return fileName
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getFileName() {
     return fileName;
   }
-
   public void setFileName(String fileName) {
     this.fileName = fileName;
   }
 
-  public BeaconImage id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
   }
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -80,37 +53,26 @@ public class BeaconImage {
       return false;
     }
     BeaconImage beaconImage = (BeaconImage) o;
-    return Objects.equals(this.fileName, beaconImage.fileName) &&
-        Objects.equals(this.id, beaconImage.id);
+    return (this.fileName == null ? beaconImage.fileName == null : this.fileName.equals(beaconImage.fileName)) &&
+        (this.id == null ? beaconImage.id == null : this.id.equals(beaconImage.id));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fileName, id);
+    int result = 17;
+    result = 31 * result + (this.fileName == null ? 0: this.fileName.hashCode());
+    result = 31 * result + (this.id == null ? 0: this.id.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class BeaconImage {\n");
     
-    sb.append("    fileName: ").append(toIndentedString(fileName)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("}");
+    sb.append("  fileName: ").append(fileName).append("\n");
+    sb.append("  id: ").append(id).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-

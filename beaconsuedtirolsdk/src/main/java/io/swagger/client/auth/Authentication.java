@@ -1,4 +1,4 @@
-/*
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,9 +10,14 @@
  * Do not edit the class manually.
  */
 
+package io.swagger.client.auth;
 
-package it.bz.beacon.beaconsuedtirolsdk.swagger.client.auth;
+import io.swagger.client.Pair;
 
-public enum OAuthFlow {
-    accessCode, implicit, password, application
+import java.util.Map;
+import java.util.List;
+
+public interface Authentication {
+  /** Apply authentication settings to header and query params. */
+  void applyToParams(List<Pair> queryParams, Map<String, String> headerParams);
 }

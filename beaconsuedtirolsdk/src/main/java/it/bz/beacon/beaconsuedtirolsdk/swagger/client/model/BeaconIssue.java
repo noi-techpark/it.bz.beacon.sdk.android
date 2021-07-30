@@ -1,4 +1,4 @@
-/*
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,259 +10,151 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon;
-import java.io.IOException;
+import io.swagger.annotations.*;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * BeaconIssue
- */
-
+@ApiModel(description = "")
 public class BeaconIssue {
+  
   @SerializedName("beacon")
   private Beacon beacon = null;
-
   @SerializedName("id")
   private Long id = null;
-
   @SerializedName("problem")
   private String problem = null;
-
   @SerializedName("problemDescription")
   private String problemDescription = null;
-
   @SerializedName("reportDate")
   private Long reportDate = null;
-
   @SerializedName("reporter")
   private String reporter = null;
-
   @SerializedName("resolveDate")
   private Long resolveDate = null;
-
   @SerializedName("resolved")
   private Boolean resolved = null;
-
   @SerializedName("resolver")
   private String resolver = null;
-
   @SerializedName("solution")
   private String solution = null;
-
   @SerializedName("solutionDescription")
   private String solutionDescription = null;
 
-  public BeaconIssue beacon(Beacon beacon) {
-    this.beacon = beacon;
-    return this;
-  }
-
-   /**
-   * Get beacon
-   * @return beacon
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Beacon getBeacon() {
     return beacon;
   }
-
   public void setBeacon(Beacon beacon) {
     this.beacon = beacon;
   }
 
-  public BeaconIssue id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
   }
-
   public void setId(Long id) {
     this.id = id;
   }
 
-  public BeaconIssue problem(String problem) {
-    this.problem = problem;
-    return this;
-  }
-
-   /**
-   * Get problem
-   * @return problem
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getProblem() {
     return problem;
   }
-
   public void setProblem(String problem) {
     this.problem = problem;
   }
 
-  public BeaconIssue problemDescription(String problemDescription) {
-    this.problemDescription = problemDescription;
-    return this;
-  }
-
-   /**
-   * Get problemDescription
-   * @return problemDescription
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getProblemDescription() {
     return problemDescription;
   }
-
   public void setProblemDescription(String problemDescription) {
     this.problemDescription = problemDescription;
   }
 
-  public BeaconIssue reportDate(Long reportDate) {
-    this.reportDate = reportDate;
-    return this;
-  }
-
-   /**
-   * Get reportDate
-   * @return reportDate
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Long getReportDate() {
     return reportDate;
   }
-
   public void setReportDate(Long reportDate) {
     this.reportDate = reportDate;
   }
 
-  public BeaconIssue reporter(String reporter) {
-    this.reporter = reporter;
-    return this;
-  }
-
-   /**
-   * Get reporter
-   * @return reporter
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getReporter() {
     return reporter;
   }
-
   public void setReporter(String reporter) {
     this.reporter = reporter;
   }
 
-  public BeaconIssue resolveDate(Long resolveDate) {
-    this.resolveDate = resolveDate;
-    return this;
-  }
-
-   /**
-   * Get resolveDate
-   * @return resolveDate
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Long getResolveDate() {
     return resolveDate;
   }
-
   public void setResolveDate(Long resolveDate) {
     this.resolveDate = resolveDate;
   }
 
-  public BeaconIssue resolved(Boolean resolved) {
-    this.resolved = resolved;
-    return this;
-  }
-
-   /**
-   * Get resolved
-   * @return resolved
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
-  public Boolean isResolved() {
+  public Boolean getResolved() {
     return resolved;
   }
-
   public void setResolved(Boolean resolved) {
     this.resolved = resolved;
   }
 
-  public BeaconIssue resolver(String resolver) {
-    this.resolver = resolver;
-    return this;
-  }
-
-   /**
-   * Get resolver
-   * @return resolver
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getResolver() {
     return resolver;
   }
-
   public void setResolver(String resolver) {
     this.resolver = resolver;
   }
 
-  public BeaconIssue solution(String solution) {
-    this.solution = solution;
-    return this;
-  }
-
-   /**
-   * Get solution
-   * @return solution
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getSolution() {
     return solution;
   }
-
   public void setSolution(String solution) {
     this.solution = solution;
   }
 
-  public BeaconIssue solutionDescription(String solutionDescription) {
-    this.solutionDescription = solutionDescription;
-    return this;
-  }
-
-   /**
-   * Get solutionDescription
-   * @return solutionDescription
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getSolutionDescription() {
     return solutionDescription;
   }
-
   public void setSolutionDescription(String solutionDescription) {
     this.solutionDescription = solutionDescription;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -270,55 +162,53 @@ public class BeaconIssue {
       return false;
     }
     BeaconIssue beaconIssue = (BeaconIssue) o;
-    return Objects.equals(this.beacon, beaconIssue.beacon) &&
-        Objects.equals(this.id, beaconIssue.id) &&
-        Objects.equals(this.problem, beaconIssue.problem) &&
-        Objects.equals(this.problemDescription, beaconIssue.problemDescription) &&
-        Objects.equals(this.reportDate, beaconIssue.reportDate) &&
-        Objects.equals(this.reporter, beaconIssue.reporter) &&
-        Objects.equals(this.resolveDate, beaconIssue.resolveDate) &&
-        Objects.equals(this.resolved, beaconIssue.resolved) &&
-        Objects.equals(this.resolver, beaconIssue.resolver) &&
-        Objects.equals(this.solution, beaconIssue.solution) &&
-        Objects.equals(this.solutionDescription, beaconIssue.solutionDescription);
+    return (this.beacon == null ? beaconIssue.beacon == null : this.beacon.equals(beaconIssue.beacon)) &&
+        (this.id == null ? beaconIssue.id == null : this.id.equals(beaconIssue.id)) &&
+        (this.problem == null ? beaconIssue.problem == null : this.problem.equals(beaconIssue.problem)) &&
+        (this.problemDescription == null ? beaconIssue.problemDescription == null : this.problemDescription.equals(beaconIssue.problemDescription)) &&
+        (this.reportDate == null ? beaconIssue.reportDate == null : this.reportDate.equals(beaconIssue.reportDate)) &&
+        (this.reporter == null ? beaconIssue.reporter == null : this.reporter.equals(beaconIssue.reporter)) &&
+        (this.resolveDate == null ? beaconIssue.resolveDate == null : this.resolveDate.equals(beaconIssue.resolveDate)) &&
+        (this.resolved == null ? beaconIssue.resolved == null : this.resolved.equals(beaconIssue.resolved)) &&
+        (this.resolver == null ? beaconIssue.resolver == null : this.resolver.equals(beaconIssue.resolver)) &&
+        (this.solution == null ? beaconIssue.solution == null : this.solution.equals(beaconIssue.solution)) &&
+        (this.solutionDescription == null ? beaconIssue.solutionDescription == null : this.solutionDescription.equals(beaconIssue.solutionDescription));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(beacon, id, problem, problemDescription, reportDate, reporter, resolveDate, resolved, resolver, solution, solutionDescription);
+    int result = 17;
+    result = 31 * result + (this.beacon == null ? 0: this.beacon.hashCode());
+    result = 31 * result + (this.id == null ? 0: this.id.hashCode());
+    result = 31 * result + (this.problem == null ? 0: this.problem.hashCode());
+    result = 31 * result + (this.problemDescription == null ? 0: this.problemDescription.hashCode());
+    result = 31 * result + (this.reportDate == null ? 0: this.reportDate.hashCode());
+    result = 31 * result + (this.reporter == null ? 0: this.reporter.hashCode());
+    result = 31 * result + (this.resolveDate == null ? 0: this.resolveDate.hashCode());
+    result = 31 * result + (this.resolved == null ? 0: this.resolved.hashCode());
+    result = 31 * result + (this.resolver == null ? 0: this.resolver.hashCode());
+    result = 31 * result + (this.solution == null ? 0: this.solution.hashCode());
+    result = 31 * result + (this.solutionDescription == null ? 0: this.solutionDescription.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class BeaconIssue {\n");
     
-    sb.append("    beacon: ").append(toIndentedString(beacon)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    problem: ").append(toIndentedString(problem)).append("\n");
-    sb.append("    problemDescription: ").append(toIndentedString(problemDescription)).append("\n");
-    sb.append("    reportDate: ").append(toIndentedString(reportDate)).append("\n");
-    sb.append("    reporter: ").append(toIndentedString(reporter)).append("\n");
-    sb.append("    resolveDate: ").append(toIndentedString(resolveDate)).append("\n");
-    sb.append("    resolved: ").append(toIndentedString(resolved)).append("\n");
-    sb.append("    resolver: ").append(toIndentedString(resolver)).append("\n");
-    sb.append("    solution: ").append(toIndentedString(solution)).append("\n");
-    sb.append("    solutionDescription: ").append(toIndentedString(solutionDescription)).append("\n");
-    sb.append("}");
+    sb.append("  beacon: ").append(beacon).append("\n");
+    sb.append("  id: ").append(id).append("\n");
+    sb.append("  problem: ").append(problem).append("\n");
+    sb.append("  problemDescription: ").append(problemDescription).append("\n");
+    sb.append("  reportDate: ").append(reportDate).append("\n");
+    sb.append("  reporter: ").append(reporter).append("\n");
+    sb.append("  resolveDate: ").append(resolveDate).append("\n");
+    sb.append("  resolved: ").append(resolved).append("\n");
+    sb.append("  resolver: ").append(resolver).append("\n");
+    sb.append("  solution: ").append(solution).append("\n");
+    sb.append("  solutionDescription: ").append(solutionDescription).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-

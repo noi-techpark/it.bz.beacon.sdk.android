@@ -1,4 +1,4 @@
-/*
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,48 +10,30 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
+import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 
-/**
- * BaseMessage
- */
-
+@ApiModel(description = "")
 public class BaseMessage {
+  
   @SerializedName("message")
   private String message = null;
 
-  public BaseMessage message(String message) {
-    this.message = message;
-    return this;
-  }
-
-   /**
-   * Get message
-   * @return message
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getMessage() {
     return message;
   }
-
   public void setMessage(String message) {
     this.message = message;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -59,35 +41,23 @@ public class BaseMessage {
       return false;
     }
     BaseMessage baseMessage = (BaseMessage) o;
-    return Objects.equals(this.message, baseMessage.message);
+    return (this.message == null ? baseMessage.message == null : this.message.equals(baseMessage.message));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(message);
+    int result = 17;
+    result = 31 * result + (this.message == null ? 0: this.message.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class BaseMessage {\n");
     
-    sb.append("    message: ").append(toIndentedString(message)).append("\n");
-    sb.append("}");
+    sb.append("  message: ").append(message).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-

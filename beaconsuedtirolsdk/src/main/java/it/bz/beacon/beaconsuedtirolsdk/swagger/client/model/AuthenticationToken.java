@@ -1,4 +1,4 @@
-/*
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,48 +10,30 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
+import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 
-/**
- * AuthenticationToken
- */
-
+@ApiModel(description = "")
 public class AuthenticationToken {
+  
   @SerializedName("token")
   private String token = null;
 
-  public AuthenticationToken token(String token) {
-    this.token = token;
-    return this;
-  }
-
-   /**
-   * Get token
-   * @return token
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getToken() {
     return token;
   }
-
   public void setToken(String token) {
     this.token = token;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -59,35 +41,23 @@ public class AuthenticationToken {
       return false;
     }
     AuthenticationToken authenticationToken = (AuthenticationToken) o;
-    return Objects.equals(this.token, authenticationToken.token);
+    return (this.token == null ? authenticationToken.token == null : this.token.equals(authenticationToken.token));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(token);
+    int result = 17;
+    result = 31 * result + (this.token == null ? 0: this.token.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class AuthenticationToken {\n");
     
-    sb.append("    token: ").append(toIndentedString(token)).append("\n");
-    sb.append("}");
+    sb.append("  token: ").append(token).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-

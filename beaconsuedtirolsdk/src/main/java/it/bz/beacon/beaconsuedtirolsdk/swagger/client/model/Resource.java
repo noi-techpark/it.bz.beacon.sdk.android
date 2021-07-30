@@ -1,4 +1,4 @@
-/*
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,198 +10,118 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.InputStream;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.URI;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.URL;
-import java.io.IOException;
+import java.io.File;
+import io.swagger.annotations.*;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * Resource
- */
-
+@ApiModel(description = "")
 public class Resource {
+  
   @SerializedName("description")
   private String description = null;
-
   @SerializedName("file")
-  private java.io.File file = null;
-
+  private File file = null;
   @SerializedName("filename")
   private String filename = null;
-
   @SerializedName("inputStream")
   private InputStream inputStream = null;
-
   @SerializedName("open")
   private Boolean open = null;
-
   @SerializedName("readable")
   private Boolean readable = null;
-
   @SerializedName("uri")
   private URI uri = null;
-
   @SerializedName("url")
   private URL url = null;
 
-  public Resource description(String description) {
-    this.description = description;
-    return this;
-  }
-
-   /**
-   * Get description
-   * @return description
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getDescription() {
     return description;
   }
-
   public void setDescription(String description) {
     this.description = description;
   }
 
-  public Resource file(java.io.File file) {
-    this.file = file;
-    return this;
-  }
-
-   /**
-   * Get file
-   * @return file
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
-  public java.io.File getFile() {
+  public File getFile() {
     return file;
   }
-
-  public void setFile(java.io.File file) {
+  public void setFile(File file) {
     this.file = file;
   }
 
-  public Resource filename(String filename) {
-    this.filename = filename;
-    return this;
-  }
-
-   /**
-   * Get filename
-   * @return filename
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getFilename() {
     return filename;
   }
-
   public void setFilename(String filename) {
     this.filename = filename;
   }
 
-  public Resource inputStream(InputStream inputStream) {
-    this.inputStream = inputStream;
-    return this;
-  }
-
-   /**
-   * Get inputStream
-   * @return inputStream
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public InputStream getInputStream() {
     return inputStream;
   }
-
   public void setInputStream(InputStream inputStream) {
     this.inputStream = inputStream;
   }
 
-  public Resource open(Boolean open) {
-    this.open = open;
-    return this;
-  }
-
-   /**
-   * Get open
-   * @return open
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
-  public Boolean isOpen() {
+  public Boolean getOpen() {
     return open;
   }
-
   public void setOpen(Boolean open) {
     this.open = open;
   }
 
-  public Resource readable(Boolean readable) {
-    this.readable = readable;
-    return this;
-  }
-
-   /**
-   * Get readable
-   * @return readable
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
-  public Boolean isReadable() {
+  public Boolean getReadable() {
     return readable;
   }
-
   public void setReadable(Boolean readable) {
     this.readable = readable;
   }
 
-  public Resource uri(URI uri) {
-    this.uri = uri;
-    return this;
-  }
-
-   /**
-   * Get uri
-   * @return uri
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public URI getUri() {
     return uri;
   }
-
   public void setUri(URI uri) {
     this.uri = uri;
   }
 
-  public Resource url(URL url) {
-    this.url = url;
-    return this;
-  }
-
-   /**
-   * Get url
-   * @return url
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public URL getUrl() {
     return url;
   }
-
   public void setUrl(URL url) {
     this.url = url;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -209,49 +129,44 @@ public class Resource {
       return false;
     }
     Resource resource = (Resource) o;
-    return Objects.equals(this.description, resource.description) &&
-        Objects.equals(this.file, resource.file) &&
-        Objects.equals(this.filename, resource.filename) &&
-        Objects.equals(this.inputStream, resource.inputStream) &&
-        Objects.equals(this.open, resource.open) &&
-        Objects.equals(this.readable, resource.readable) &&
-        Objects.equals(this.uri, resource.uri) &&
-        Objects.equals(this.url, resource.url);
+    return (this.description == null ? resource.description == null : this.description.equals(resource.description)) &&
+        (this.file == null ? resource.file == null : this.file.equals(resource.file)) &&
+        (this.filename == null ? resource.filename == null : this.filename.equals(resource.filename)) &&
+        (this.inputStream == null ? resource.inputStream == null : this.inputStream.equals(resource.inputStream)) &&
+        (this.open == null ? resource.open == null : this.open.equals(resource.open)) &&
+        (this.readable == null ? resource.readable == null : this.readable.equals(resource.readable)) &&
+        (this.uri == null ? resource.uri == null : this.uri.equals(resource.uri)) &&
+        (this.url == null ? resource.url == null : this.url.equals(resource.url));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(description, file, filename, inputStream, open, readable, uri, url);
+    int result = 17;
+    result = 31 * result + (this.description == null ? 0: this.description.hashCode());
+    result = 31 * result + (this.file == null ? 0: this.file.hashCode());
+    result = 31 * result + (this.filename == null ? 0: this.filename.hashCode());
+    result = 31 * result + (this.inputStream == null ? 0: this.inputStream.hashCode());
+    result = 31 * result + (this.open == null ? 0: this.open.hashCode());
+    result = 31 * result + (this.readable == null ? 0: this.readable.hashCode());
+    result = 31 * result + (this.uri == null ? 0: this.uri.hashCode());
+    result = 31 * result + (this.url == null ? 0: this.url.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Resource {\n");
     
-    sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    file: ").append(toIndentedString(file)).append("\n");
-    sb.append("    filename: ").append(toIndentedString(filename)).append("\n");
-    sb.append("    inputStream: ").append(toIndentedString(inputStream)).append("\n");
-    sb.append("    open: ").append(toIndentedString(open)).append("\n");
-    sb.append("    readable: ").append(toIndentedString(readable)).append("\n");
-    sb.append("    uri: ").append(toIndentedString(uri)).append("\n");
-    sb.append("    url: ").append(toIndentedString(url)).append("\n");
-    sb.append("}");
+    sb.append("  description: ").append(description).append("\n");
+    sb.append("  file: ").append(file).append("\n");
+    sb.append("  filename: ").append(filename).append("\n");
+    sb.append("  inputStream: ").append(inputStream).append("\n");
+    sb.append("  open: ").append(open).append("\n");
+    sb.append("  readable: ").append(readable).append("\n");
+    sb.append("  uri: ").append(uri).append("\n");
+    sb.append("  url: ").append(url).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-

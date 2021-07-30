@@ -1,4 +1,4 @@
-/*
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,69 +10,42 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
+import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 
-/**
- * AuthenticationTokenCheck
- */
-
+@ApiModel(description = "")
 public class AuthenticationTokenCheck {
+  
   @SerializedName("token")
   private String token = null;
-
   @SerializedName("valid")
   private Boolean valid = null;
 
-  public AuthenticationTokenCheck token(String token) {
-    this.token = token;
-    return this;
-  }
-
-   /**
-   * Get token
-   * @return token
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getToken() {
     return token;
   }
-
   public void setToken(String token) {
     this.token = token;
   }
 
-  public AuthenticationTokenCheck valid(Boolean valid) {
-    this.valid = valid;
-    return this;
-  }
-
-   /**
-   * Get valid
-   * @return valid
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
-  public Boolean isValid() {
+  public Boolean getValid() {
     return valid;
   }
-
   public void setValid(Boolean valid) {
     this.valid = valid;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -80,37 +53,26 @@ public class AuthenticationTokenCheck {
       return false;
     }
     AuthenticationTokenCheck authenticationTokenCheck = (AuthenticationTokenCheck) o;
-    return Objects.equals(this.token, authenticationTokenCheck.token) &&
-        Objects.equals(this.valid, authenticationTokenCheck.valid);
+    return (this.token == null ? authenticationTokenCheck.token == null : this.token.equals(authenticationTokenCheck.token)) &&
+        (this.valid == null ? authenticationTokenCheck.valid == null : this.valid.equals(authenticationTokenCheck.valid));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(token, valid);
+    int result = 17;
+    result = 31 * result + (this.token == null ? 0: this.token.hashCode());
+    result = 31 * result + (this.valid == null ? 0: this.valid.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class AuthenticationTokenCheck {\n");
     
-    sb.append("    token: ").append(toIndentedString(token)).append("\n");
-    sb.append("    valid: ").append(toIndentedString(valid)).append("\n");
-    sb.append("}");
+    sb.append("  token: ").append(token).append("\n");
+    sb.append("  valid: ").append(valid).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-

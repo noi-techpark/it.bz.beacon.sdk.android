@@ -1,4 +1,4 @@
-/*
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,196 +10,115 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 import java.util.UUID;
+import io.swagger.annotations.*;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * BeaconOrderData
- */
-
+@ApiModel(description = "")
 public class BeaconOrderData {
+  
   @SerializedName("beaconId")
   private String beaconId = null;
-
   @SerializedName("instanceId")
   private String instanceId = null;
-
   @SerializedName("major")
   private Integer major = null;
-
   @SerializedName("minor")
   private Integer minor = null;
-
   @SerializedName("namespace")
   private String namespace = null;
-
   @SerializedName("uuid")
   private UUID uuid = null;
-
   @SerializedName("zoneCode")
   private String zoneCode = null;
-
   @SerializedName("zoneId")
   private Integer zoneId = null;
 
-  public BeaconOrderData beaconId(String beaconId) {
-    this.beaconId = beaconId;
-    return this;
-  }
-
-   /**
-   * Get beaconId
-   * @return beaconId
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getBeaconId() {
     return beaconId;
   }
-
   public void setBeaconId(String beaconId) {
     this.beaconId = beaconId;
   }
 
-  public BeaconOrderData instanceId(String instanceId) {
-    this.instanceId = instanceId;
-    return this;
-  }
-
-   /**
-   * Get instanceId
-   * @return instanceId
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getInstanceId() {
     return instanceId;
   }
-
   public void setInstanceId(String instanceId) {
     this.instanceId = instanceId;
   }
 
-  public BeaconOrderData major(Integer major) {
-    this.major = major;
-    return this;
-  }
-
-   /**
-   * Get major
-   * @return major
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Integer getMajor() {
     return major;
   }
-
   public void setMajor(Integer major) {
     this.major = major;
   }
 
-  public BeaconOrderData minor(Integer minor) {
-    this.minor = minor;
-    return this;
-  }
-
-   /**
-   * Get minor
-   * @return minor
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Integer getMinor() {
     return minor;
   }
-
   public void setMinor(Integer minor) {
     this.minor = minor;
   }
 
-  public BeaconOrderData namespace(String namespace) {
-    this.namespace = namespace;
-    return this;
-  }
-
-   /**
-   * Get namespace
-   * @return namespace
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getNamespace() {
     return namespace;
   }
-
   public void setNamespace(String namespace) {
     this.namespace = namespace;
   }
 
-  public BeaconOrderData uuid(UUID uuid) {
-    this.uuid = uuid;
-    return this;
-  }
-
-   /**
-   * Get uuid
-   * @return uuid
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public UUID getUuid() {
     return uuid;
   }
-
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
-  public BeaconOrderData zoneCode(String zoneCode) {
-    this.zoneCode = zoneCode;
-    return this;
-  }
-
-   /**
-   * Get zoneCode
-   * @return zoneCode
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getZoneCode() {
     return zoneCode;
   }
-
   public void setZoneCode(String zoneCode) {
     this.zoneCode = zoneCode;
   }
 
-  public BeaconOrderData zoneId(Integer zoneId) {
-    this.zoneId = zoneId;
-    return this;
-  }
-
-   /**
-   * Get zoneId
-   * @return zoneId
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Integer getZoneId() {
     return zoneId;
   }
-
   public void setZoneId(Integer zoneId) {
     this.zoneId = zoneId;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -207,49 +126,44 @@ public class BeaconOrderData {
       return false;
     }
     BeaconOrderData beaconOrderData = (BeaconOrderData) o;
-    return Objects.equals(this.beaconId, beaconOrderData.beaconId) &&
-        Objects.equals(this.instanceId, beaconOrderData.instanceId) &&
-        Objects.equals(this.major, beaconOrderData.major) &&
-        Objects.equals(this.minor, beaconOrderData.minor) &&
-        Objects.equals(this.namespace, beaconOrderData.namespace) &&
-        Objects.equals(this.uuid, beaconOrderData.uuid) &&
-        Objects.equals(this.zoneCode, beaconOrderData.zoneCode) &&
-        Objects.equals(this.zoneId, beaconOrderData.zoneId);
+    return (this.beaconId == null ? beaconOrderData.beaconId == null : this.beaconId.equals(beaconOrderData.beaconId)) &&
+        (this.instanceId == null ? beaconOrderData.instanceId == null : this.instanceId.equals(beaconOrderData.instanceId)) &&
+        (this.major == null ? beaconOrderData.major == null : this.major.equals(beaconOrderData.major)) &&
+        (this.minor == null ? beaconOrderData.minor == null : this.minor.equals(beaconOrderData.minor)) &&
+        (this.namespace == null ? beaconOrderData.namespace == null : this.namespace.equals(beaconOrderData.namespace)) &&
+        (this.uuid == null ? beaconOrderData.uuid == null : this.uuid.equals(beaconOrderData.uuid)) &&
+        (this.zoneCode == null ? beaconOrderData.zoneCode == null : this.zoneCode.equals(beaconOrderData.zoneCode)) &&
+        (this.zoneId == null ? beaconOrderData.zoneId == null : this.zoneId.equals(beaconOrderData.zoneId));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(beaconId, instanceId, major, minor, namespace, uuid, zoneCode, zoneId);
+    int result = 17;
+    result = 31 * result + (this.beaconId == null ? 0: this.beaconId.hashCode());
+    result = 31 * result + (this.instanceId == null ? 0: this.instanceId.hashCode());
+    result = 31 * result + (this.major == null ? 0: this.major.hashCode());
+    result = 31 * result + (this.minor == null ? 0: this.minor.hashCode());
+    result = 31 * result + (this.namespace == null ? 0: this.namespace.hashCode());
+    result = 31 * result + (this.uuid == null ? 0: this.uuid.hashCode());
+    result = 31 * result + (this.zoneCode == null ? 0: this.zoneCode.hashCode());
+    result = 31 * result + (this.zoneId == null ? 0: this.zoneId.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class BeaconOrderData {\n");
     
-    sb.append("    beaconId: ").append(toIndentedString(beaconId)).append("\n");
-    sb.append("    instanceId: ").append(toIndentedString(instanceId)).append("\n");
-    sb.append("    major: ").append(toIndentedString(major)).append("\n");
-    sb.append("    minor: ").append(toIndentedString(minor)).append("\n");
-    sb.append("    namespace: ").append(toIndentedString(namespace)).append("\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    zoneCode: ").append(toIndentedString(zoneCode)).append("\n");
-    sb.append("    zoneId: ").append(toIndentedString(zoneId)).append("\n");
-    sb.append("}");
+    sb.append("  beaconId: ").append(beaconId).append("\n");
+    sb.append("  instanceId: ").append(instanceId).append("\n");
+    sb.append("  major: ").append(major).append("\n");
+    sb.append("  minor: ").append(minor).append("\n");
+    sb.append("  namespace: ").append(namespace).append("\n");
+    sb.append("  uuid: ").append(uuid).append("\n");
+    sb.append("  zoneCode: ").append(zoneCode).append("\n");
+    sb.append("  zoneId: ").append(zoneId).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-

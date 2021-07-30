@@ -54,7 +54,6 @@ import it.bz.beacon.beaconsuedtirolsdk.listener.IBeaconListener;
 import it.bz.beacon.beaconsuedtirolsdk.result.Eddystone;
 import it.bz.beacon.beaconsuedtirolsdk.result.IBeacon;
 import it.bz.beacon.beaconsuedtirolsdk.result.IBeaconExtended;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiClient;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.api.TrustedBeaconControllerApi;
 import it.bz.beacon.beaconsuedtirolsdk.workmanager.SynchronizationWorker;
 
@@ -99,13 +98,13 @@ public class NearbyBeaconManager implements SecureProfileListener {
         batteryLevelInfoRepository = new BatteryLevelInfoRepository(application, trustedAuth);
         KontaktSDK.initialize(" ");
         proximityManager = ProximityManagerFactory.create(application);
-        trustedApi = new TrustedBeaconControllerApi(new ApiClient());
+        trustedApi = new TrustedBeaconControllerApi();
         if (this.trustedAuth != null) {
-            trustedApi.getApiClient().setUsername(this.trustedAuth.getUsername());
-            trustedApi.getApiClient().setPassword(this.trustedAuth.getPassword());
+            trustedApi.getInvoker().setUsername(this.trustedAuth.getUsername());
+            trustedApi.getInvoker().setPassword(this.trustedAuth.getPassword());
         } else {
-            trustedApi.getApiClient().setUsername(null);
-            trustedApi.getApiClient().setPassword(null);
+            trustedApi.getInvoker().setUsername(null);
+            trustedApi.getInvoker().setPassword(null);
         }
         createPeriodicWorkRequest(application);
     }
