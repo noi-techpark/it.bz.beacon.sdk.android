@@ -1,6 +1,8 @@
 # Beacon Suedtirol - Alto Adige SDK Android
 This repository contains the mobile Android SDK that can be used in order to read the beacons installed within the Beacon Suedtirol project.
 
+[![CI](https://github.com/noi-techpark/it.bz.beacon.sdk.android/actions/workflows/ci.yml/badge.svg)](https://github.com/noi-techpark/it.bz.beacon.sdk.android/actions/workflows/ci.yml)
+
 ## Usage
 
 1. If you haven't already done it, add this line to your `project build.gradle` under `repositories`: 
