@@ -3,6 +3,6 @@ Upstream-Name: it.bz.beacon.admin
 Upstream-Contact: NOI Techpark <digital@noi.bz.it>
 Source: https://github.com/noi-techpark/it.bz.beacon.admin
 
-Files: infrastructure/* .gitignore beaconsuedtirolsdk/.gitignore app/.gitignore LICENSE.md Gemfile *.properties gradlew swagger/* gradle/* fastlane/* config/* app/proguard-rules.pro beaconsuedtirolsdk/proguard-rules.pro app/src/main/res/**/*.png beaconsuedtirolsdk/schemas/*
+Files: infrastructure/* .gitignore beaconsuedtirolsdk/.gitignore app/.gitignore LICENSE.md Gemfile *.properties gradlew swagger/* gradle/* fastlane/* app/proguard-rules.pro beaconsuedtirolsdk/proguard-rules.pro app/src/main/res/**/*.png beaconsuedtirolsdk/schemas/*
 Copyright: (c) NOI Techpark <digital@noi.bz.it>
 License: CC0-1.0
