@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 # Beacon Suedtirol - Alto Adige SDK Android
 This repository contains the mobile Android SDK that can be used in order to read the beacons installed within the Beacon Suedtirol project.
 
