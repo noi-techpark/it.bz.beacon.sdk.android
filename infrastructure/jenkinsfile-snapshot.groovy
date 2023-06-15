@@ -44,7 +44,7 @@ pipeline {
             steps {
                 sshagent (credentials: ['jenkins_github_ssh_key']) {
                     sh """
-                        git config --global user.email 'info@opendatahub.bz.it'
+                        git config --global user.email 'info@opendatahub.com'
                         git config --global user.name 'Jenkins'
                         git tag -d ${TAG} || true
                         git push origin :${TAG} || true
