@@ -1,4 +1,8 @@
-/*
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,181 +14,184 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.api;
 
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiCallback;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiClient;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiException;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiResponse;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.Configuration;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.Pair;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ProgressRequestBody;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ProgressResponseBody;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
-import com.google.gson.reflect.TypeToken;
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 
-import java.io.IOException;
-
-
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.BeaconBatteryLevelUpdate;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
+
+import io.swagger.client.ApiException;
+import io.swagger.client.ApiInvoker;
+import io.swagger.client.Pair;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.Beacon;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.BeaconBatteryLevelUpdate;
 
 public class TrustedBeaconControllerApi {
-    private ApiClient apiClient;
+  String basePath = "https://api.beacon.bz.it";
+  ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
-    public TrustedBeaconControllerApi() {
-        this(Configuration.getDefaultApiClient());
+  public void addHeader(String key, String value) {
+    getInvoker().addDefaultHeader(key, value);
+  }
+
+  public ApiInvoker getInvoker() {
+    return apiInvoker;
+  }
+
+  public void setBasePath(String basePath) {
+    this.basePath = basePath;
+  }
+
+  public String getBasePath() {
+    return basePath;
+  }
+
+  /**
+  * Update battery level of beacon
+  * 
+   * @param batteryLevelUpdate batteryLevelUpdate
+   * @param id id
+   * @return Beacon
+  */
+  public Beacon updateUsingPATCH1 (BeaconBatteryLevelUpdate batteryLevelUpdate, String id) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = batteryLevelUpdate;
+    // verify the required parameter 'batteryLevelUpdate' is set
+    if (batteryLevelUpdate == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'batteryLevelUpdate' when calling updateUsingPATCH1",
+        new ApiException(400, "Missing the required parameter 'batteryLevelUpdate' when calling updateUsingPATCH1"));
+    }
+    // verify the required parameter 'id' is set
+    if (id == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'id' when calling updateUsingPATCH1",
+        new ApiException(400, "Missing the required parameter 'id' when calling updateUsingPATCH1"));
     }
 
-    public TrustedBeaconControllerApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+    // create path and map variables
+    String path = "/v1/trusted/beacons/{id}/batteryLevel".replaceAll("\\{" + "id" + "\\}", apiInvoker.escapeString(id.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+      "application/json"
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
     }
 
-    public ApiClient getApiClient() {
-        return apiClient;
-    }
+    String[] authNames = new String[] { "TrustedAuth" };
 
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    /**
-     * Build call for updateUsingPATCH1
-     * @param batteryLevelUpdate batteryLevelUpdate (required)
-     * @param id id (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call updateUsingPATCH1Call(BeaconBatteryLevelUpdate batteryLevelUpdate, String id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = batteryLevelUpdate;
-
-        // create path and map variables
-        String localVarPath = "/v1/trusted/beacons/{id}/batteryLevel"
-            .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "PATCH", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (Beacon) ApiInvoker.deserialize(localVarResponse, "", Beacon.class);
+      } else {
+         return null;
+      }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+      if (ex.getCause() instanceof VolleyError) {
+        VolleyError volleyError = (VolleyError)ex.getCause();
+        if (volleyError.networkResponse != null) {
+          throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
         }
+      }
+      throw ex;
+    } catch (TimeoutException ex) {
+      throw ex;
+    }
+  }
 
-        String[] localVarAuthNames = new String[] { "TrustedAuth" };
-        return apiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+      /**
+   * Update battery level of beacon
+   * 
+   * @param batteryLevelUpdate batteryLevelUpdate   * @param id id
+  */
+  public void updateUsingPATCH1 (BeaconBatteryLevelUpdate batteryLevelUpdate, String id, final Response.Listener<Beacon> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = batteryLevelUpdate;
+
+    // verify the required parameter 'batteryLevelUpdate' is set
+    if (batteryLevelUpdate == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'batteryLevelUpdate' when calling updateUsingPATCH1",
+        new ApiException(400, "Missing the required parameter 'batteryLevelUpdate' when calling updateUsingPATCH1"));
+    }
+    // verify the required parameter 'id' is set
+    if (id == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'id' when calling updateUsingPATCH1",
+        new ApiException(400, "Missing the required parameter 'id' when calling updateUsingPATCH1"));
     }
 
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call updateUsingPATCH1ValidateBeforeCall(BeaconBatteryLevelUpdate batteryLevelUpdate, String id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'batteryLevelUpdate' is set
-        if (batteryLevelUpdate == null) {
-            throw new ApiException("Missing the required parameter 'batteryLevelUpdate' when calling updateUsingPATCH1(Async)");
-        }
-        
-        // verify the required parameter 'id' is set
-        if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling updateUsingPATCH1(Async)");
-        }
-        
+    // create path and map variables
+    String path = "/v1/trusted/beacons/{id}/batteryLevel".replaceAll("\\{format\\}","json").replaceAll("\\{" + "id" + "\\}", apiInvoker.escapeString(id.toString()));
 
-        com.squareup.okhttp.Call call = updateUsingPATCH1Call(batteryLevelUpdate, id, progressListener, progressRequestListener);
-        return call;
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
+
+
+    String[] contentTypes = {
+      "application/json"
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+          }
+
+    String[] authNames = new String[] { "TrustedAuth" };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "PATCH", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            try {
+              responseListener.onResponse((Beacon) ApiInvoker.deserialize(localVarResponse,  "", Beacon.class));
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
     }
-
-    /**
-     * Update battery level of beacon
-     * 
-     * @param batteryLevelUpdate batteryLevelUpdate (required)
-     * @param id id (required)
-     * @return Beacon
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public Beacon updateUsingPATCH1(BeaconBatteryLevelUpdate batteryLevelUpdate, String id) throws ApiException {
-        ApiResponse<Beacon> resp = updateUsingPATCH1WithHttpInfo(batteryLevelUpdate, id);
-        return resp.getData();
-    }
-
-    /**
-     * Update battery level of beacon
-     * 
-     * @param batteryLevelUpdate batteryLevelUpdate (required)
-     * @param id id (required)
-     * @return ApiResponse&lt;Beacon&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<Beacon> updateUsingPATCH1WithHttpInfo(BeaconBatteryLevelUpdate batteryLevelUpdate, String id) throws ApiException {
-        com.squareup.okhttp.Call call = updateUsingPATCH1ValidateBeforeCall(batteryLevelUpdate, id, null, null);
-        Type localVarReturnType = new TypeToken<Beacon>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Update battery level of beacon (asynchronously)
-     * 
-     * @param batteryLevelUpdate batteryLevelUpdate (required)
-     * @param id id (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call updateUsingPATCH1Async(BeaconBatteryLevelUpdate batteryLevelUpdate, String id, final ApiCallback<Beacon> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = updateUsingPATCH1ValidateBeforeCall(batteryLevelUpdate, id, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<Beacon>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
+  }
 }

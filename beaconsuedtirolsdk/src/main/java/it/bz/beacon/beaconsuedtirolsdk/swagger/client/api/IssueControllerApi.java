@@ -1,4 +1,8 @@
-/*
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,675 +14,694 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.api;
 
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiCallback;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiClient;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiException;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ApiResponse;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.Configuration;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.Pair;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ProgressRequestBody;
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.ProgressResponseBody;
+import io.swagger.client.ApiInvoker;
+import io.swagger.client.ApiException;
+import io.swagger.client.Pair;
 
-import com.google.gson.reflect.TypeToken;
+import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.*;
 
-import java.io.IOException;
+import java.util.*;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.BeaconIssue;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.IssueCreation;
 import it.bz.beacon.beaconsuedtirolsdk.swagger.client.model.IssueSolution;
 
-import java.lang.reflect.Type;
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 public class IssueControllerApi {
-    private ApiClient apiClient;
+  String basePath = "https://api.beacon.bz.it";
+  ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
-    public IssueControllerApi() {
-        this(Configuration.getDefaultApiClient());
+  public void addHeader(String key, String value) {
+    getInvoker().addDefaultHeader(key, value);
+  }
+
+  public ApiInvoker getInvoker() {
+    return apiInvoker;
+  }
+
+  public void setBasePath(String basePath) {
+    this.basePath = basePath;
+  }
+
+  public String getBasePath() {
+    return basePath;
+  }
+
+  /**
+  * Create a issue
+  * 
+   * @param issueCreation issueCreation
+   * @return BeaconIssue
+  */
+  public BeaconIssue createUsingPOST2 (IssueCreation issueCreation) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = issueCreation;
+    // verify the required parameter 'issueCreation' is set
+    if (issueCreation == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'issueCreation' when calling createUsingPOST2",
+        new ApiException(400, "Missing the required parameter 'issueCreation' when calling createUsingPOST2"));
     }
 
-    public IssueControllerApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+    // create path and map variables
+    String path = "/v1/admin/issues";
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+      "application/json"
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
     }
 
-    public ApiClient getApiClient() {
-        return apiClient;
-    }
+    String[] authNames = new String[] { "JWT" };
 
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    /**
-     * Build call for createUsingPOST2
-     * @param issueCreation issueCreation (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call createUsingPOST2Call(IssueCreation issueCreation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = issueCreation;
-
-        // create path and map variables
-        String localVarPath = "/v1/admin/issues";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (BeaconIssue) ApiInvoker.deserialize(localVarResponse, "", BeaconIssue.class);
+      } else {
+         return null;
+      }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+      if (ex.getCause() instanceof VolleyError) {
+        VolleyError volleyError = (VolleyError)ex.getCause();
+        if (volleyError.networkResponse != null) {
+          throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
         }
+      }
+      throw ex;
+    } catch (TimeoutException ex) {
+      throw ex;
+    }
+  }
 
-        String[] localVarAuthNames = new String[] { "JWT" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+      /**
+   * Create a issue
+   * 
+   * @param issueCreation issueCreation
+  */
+  public void createUsingPOST2 (IssueCreation issueCreation, final Response.Listener<BeaconIssue> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = issueCreation;
+
+    // verify the required parameter 'issueCreation' is set
+    if (issueCreation == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'issueCreation' when calling createUsingPOST2",
+        new ApiException(400, "Missing the required parameter 'issueCreation' when calling createUsingPOST2"));
     }
 
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call createUsingPOST2ValidateBeforeCall(IssueCreation issueCreation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'issueCreation' is set
-        if (issueCreation == null) {
-            throw new ApiException("Missing the required parameter 'issueCreation' when calling createUsingPOST2(Async)");
+    // create path and map variables
+    String path = "/v1/admin/issues".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+
+
+
+    String[] contentTypes = {
+      "application/json"
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+          }
+
+    String[] authNames = new String[] { "JWT" };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            try {
+              responseListener.onResponse((BeaconIssue) ApiInvoker.deserialize(localVarResponse,  "", BeaconIssue.class));
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  /**
+  * View a list of available issues
+  * 
+   * @param onlyUnresolved onlyUnresolved
+   * @return List<BeaconIssue>
+  */
+  public List<BeaconIssue> getListUsingGET3 (Boolean onlyUnresolved) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = null;
+
+    // create path and map variables
+    String path = "/v1/admin/issues";
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "onlyUnresolved", onlyUnresolved));
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+    }
+
+    String[] authNames = new String[] { "JWT" };
+
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (List<BeaconIssue>) ApiInvoker.deserialize(localVarResponse, "array", BeaconIssue.class);
+      } else {
+         return null;
+      }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+      if (ex.getCause() instanceof VolleyError) {
+        VolleyError volleyError = (VolleyError)ex.getCause();
+        if (volleyError.networkResponse != null) {
+          throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
         }
-        
+      }
+      throw ex;
+    } catch (TimeoutException ex) {
+      throw ex;
+    }
+  }
 
-        com.squareup.okhttp.Call call = createUsingPOST2Call(issueCreation, progressListener, progressRequestListener);
-        return call;
+      /**
+   * View a list of available issues
+   * 
+   * @param onlyUnresolved onlyUnresolved
+  */
+  public void getListUsingGET3 (Boolean onlyUnresolved, final Response.Listener<List<BeaconIssue>> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = null;
 
+
+    // create path and map variables
+    String path = "/v1/admin/issues".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "onlyUnresolved", onlyUnresolved));
+
+
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+          }
+
+    String[] authNames = new String[] { "JWT" };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            try {
+              responseListener.onResponse((List<BeaconIssue>) ApiInvoker.deserialize(localVarResponse,  "array", BeaconIssue.class));
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  /**
+  * View a list of available issues for the specified beacon ID
+  * 
+   * @param beaconId beaconId
+   * @param onlyUnresolved onlyUnresolved
+   * @return List<BeaconIssue>
+  */
+  public List<BeaconIssue> getListUsingGET4 (String beaconId, Boolean onlyUnresolved) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = null;
+    // verify the required parameter 'beaconId' is set
+    if (beaconId == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'beaconId' when calling getListUsingGET4",
+        new ApiException(400, "Missing the required parameter 'beaconId' when calling getListUsingGET4"));
     }
 
-    /**
-     * Create a issue
-     * 
-     * @param issueCreation issueCreation (required)
-     * @return BeaconIssue
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public BeaconIssue createUsingPOST2(IssueCreation issueCreation) throws ApiException {
-        ApiResponse<BeaconIssue> resp = createUsingPOST2WithHttpInfo(issueCreation);
-        return resp.getData();
+    // create path and map variables
+    String path = "/v1/admin/beacons/{beaconId}/issues".replaceAll("\\{" + "beaconId" + "\\}", apiInvoker.escapeString(beaconId.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "onlyUnresolved", onlyUnresolved));
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
     }
 
-    /**
-     * Create a issue
-     * 
-     * @param issueCreation issueCreation (required)
-     * @return ApiResponse&lt;BeaconIssue&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<BeaconIssue> createUsingPOST2WithHttpInfo(IssueCreation issueCreation) throws ApiException {
-        com.squareup.okhttp.Call call = createUsingPOST2ValidateBeforeCall(issueCreation, null, null);
-        Type localVarReturnType = new TypeToken<BeaconIssue>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
+    String[] authNames = new String[] { "JWT" };
 
-    /**
-     * Create a issue (asynchronously)
-     * 
-     * @param issueCreation issueCreation (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call createUsingPOST2Async(IssueCreation issueCreation, final ApiCallback<BeaconIssue> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (List<BeaconIssue>) ApiInvoker.deserialize(localVarResponse, "array", BeaconIssue.class);
+      } else {
+         return null;
+      }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+      if (ex.getCause() instanceof VolleyError) {
+        VolleyError volleyError = (VolleyError)ex.getCause();
+        if (volleyError.networkResponse != null) {
+          throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
         }
-
-        com.squareup.okhttp.Call call = createUsingPOST2ValidateBeforeCall(issueCreation, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<BeaconIssue>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+      }
+      throw ex;
+    } catch (TimeoutException ex) {
+      throw ex;
     }
-    /**
-     * Build call for getListUsingGET3
-     * @param onlyUnresolved onlyUnresolved (optional, default to false)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call getListUsingGET3Call(Boolean onlyUnresolved, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
+  }
 
-        // create path and map variables
-        String localVarPath = "/v1/admin/issues";
+      /**
+   * View a list of available issues for the specified beacon ID
+   * 
+   * @param beaconId beaconId   * @param onlyUnresolved onlyUnresolved
+  */
+  public void getListUsingGET4 (String beaconId, Boolean onlyUnresolved, final Response.Listener<List<BeaconIssue>> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = null;
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        if (onlyUnresolved != null)
-        localVarQueryParams.addAll(apiClient.parameterToPair("onlyUnresolved", onlyUnresolved));
+    // verify the required parameter 'beaconId' is set
+    if (beaconId == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'beaconId' when calling getListUsingGET4",
+        new ApiException(400, "Missing the required parameter 'beaconId' when calling getListUsingGET4"));
+    }
 
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    // create path and map variables
+    String path = "/v1/admin/beacons/{beaconId}/issues".replaceAll("\\{format\\}","json").replaceAll("\\{" + "beaconId" + "\\}", apiInvoker.escapeString(beaconId.toString()));
 
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "onlyUnresolved", onlyUnresolved));
 
-        final String[] localVarContentTypes = {
-            
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+          }
+
+    String[] authNames = new String[] { "JWT" };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            try {
+              responseListener.onResponse((List<BeaconIssue>) ApiInvoker.deserialize(localVarResponse,  "array", BeaconIssue.class));
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  /**
+  * Search a issue with an ID
+  * 
+   * @param id id
+   * @return BeaconIssue
+  */
+  public BeaconIssue getUsingGET2 (Long id) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = null;
+    // verify the required parameter 'id' is set
+    if (id == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'id' when calling getUsingGET2",
+        new ApiException(400, "Missing the required parameter 'id' when calling getUsingGET2"));
+    }
+
+    // create path and map variables
+    String path = "/v1/admin/issues/{id}".replaceAll("\\{" + "id" + "\\}", apiInvoker.escapeString(id.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+    }
+
+    String[] authNames = new String[] { "JWT" };
+
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (BeaconIssue) ApiInvoker.deserialize(localVarResponse, "", BeaconIssue.class);
+      } else {
+         return null;
+      }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+      if (ex.getCause() instanceof VolleyError) {
+        VolleyError volleyError = (VolleyError)ex.getCause();
+        if (volleyError.networkResponse != null) {
+          throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
         }
+      }
+      throw ex;
+    } catch (TimeoutException ex) {
+      throw ex;
+    }
+  }
 
-        String[] localVarAuthNames = new String[] { "JWT" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+      /**
+   * Search a issue with an ID
+   * 
+   * @param id id
+  */
+  public void getUsingGET2 (Long id, final Response.Listener<BeaconIssue> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = null;
+
+    // verify the required parameter 'id' is set
+    if (id == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'id' when calling getUsingGET2",
+        new ApiException(400, "Missing the required parameter 'id' when calling getUsingGET2"));
     }
 
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getListUsingGET3ValidateBeforeCall(Boolean onlyUnresolved, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
+    // create path and map variables
+    String path = "/v1/admin/issues/{id}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "id" + "\\}", apiInvoker.escapeString(id.toString()));
 
-        com.squareup.okhttp.Call call = getListUsingGET3Call(onlyUnresolved, progressListener, progressRequestListener);
-        return call;
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
+
+
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+          }
+
+    String[] authNames = new String[] { "JWT" };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            try {
+              responseListener.onResponse((BeaconIssue) ApiInvoker.deserialize(localVarResponse,  "", BeaconIssue.class));
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  /**
+  * Update a issue
+  * 
+   * @param id id
+   * @param issueSolution issueSolution
+   * @return BeaconIssue
+  */
+  public BeaconIssue updateUsingPOST (Long id, IssueSolution issueSolution) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = issueSolution;
+    // verify the required parameter 'id' is set
+    if (id == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'id' when calling updateUsingPOST",
+        new ApiException(400, "Missing the required parameter 'id' when calling updateUsingPOST"));
+    }
+    // verify the required parameter 'issueSolution' is set
+    if (issueSolution == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'issueSolution' when calling updateUsingPOST",
+        new ApiException(400, "Missing the required parameter 'issueSolution' when calling updateUsingPOST"));
     }
 
-    /**
-     * View a list of available issues
-     * 
-     * @param onlyUnresolved onlyUnresolved (optional, default to false)
-     * @return List&lt;BeaconIssue&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public List<BeaconIssue> getListUsingGET3(Boolean onlyUnresolved) throws ApiException {
-        ApiResponse<List<BeaconIssue>> resp = getListUsingGET3WithHttpInfo(onlyUnresolved);
-        return resp.getData();
+    // create path and map variables
+    String path = "/v1/admin/issues/{id}/resolve".replaceAll("\\{" + "id" + "\\}", apiInvoker.escapeString(id.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+      "application/json"
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
     }
 
-    /**
-     * View a list of available issues
-     * 
-     * @param onlyUnresolved onlyUnresolved (optional, default to false)
-     * @return ApiResponse&lt;List&lt;BeaconIssue&gt;&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<List<BeaconIssue>> getListUsingGET3WithHttpInfo(Boolean onlyUnresolved) throws ApiException {
-        com.squareup.okhttp.Call call = getListUsingGET3ValidateBeforeCall(onlyUnresolved, null, null);
-        Type localVarReturnType = new TypeToken<List<BeaconIssue>>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
+    String[] authNames = new String[] { "JWT" };
 
-    /**
-     * View a list of available issues (asynchronously)
-     * 
-     * @param onlyUnresolved onlyUnresolved (optional, default to false)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call getListUsingGET3Async(Boolean onlyUnresolved, final ApiCallback<List<BeaconIssue>> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (BeaconIssue) ApiInvoker.deserialize(localVarResponse, "", BeaconIssue.class);
+      } else {
+         return null;
+      }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+      if (ex.getCause() instanceof VolleyError) {
+        VolleyError volleyError = (VolleyError)ex.getCause();
+        if (volleyError.networkResponse != null) {
+          throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
         }
-
-        com.squareup.okhttp.Call call = getListUsingGET3ValidateBeforeCall(onlyUnresolved, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<List<BeaconIssue>>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+      }
+      throw ex;
+    } catch (TimeoutException ex) {
+      throw ex;
     }
-    /**
-     * Build call for getListUsingGET4
-     * @param beaconId beaconId (required)
-     * @param onlyUnresolved onlyUnresolved (optional, default to false)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call getListUsingGET4Call(String beaconId, Boolean onlyUnresolved, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
+  }
 
-        // create path and map variables
-        String localVarPath = "/v1/admin/beacons/{beaconId}/issues"
-            .replaceAll("\\{" + "beaconId" + "\\}", apiClient.escapeString(beaconId.toString()));
+      /**
+   * Update a issue
+   * 
+   * @param id id   * @param issueSolution issueSolution
+  */
+  public void updateUsingPOST (Long id, IssueSolution issueSolution, final Response.Listener<BeaconIssue> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = issueSolution;
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        if (onlyUnresolved != null)
-        localVarQueryParams.addAll(apiClient.parameterToPair("onlyUnresolved", onlyUnresolved));
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] { "JWT" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    // verify the required parameter 'id' is set
+    if (id == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'id' when calling updateUsingPOST",
+        new ApiException(400, "Missing the required parameter 'id' when calling updateUsingPOST"));
+    }
+    // verify the required parameter 'issueSolution' is set
+    if (issueSolution == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'issueSolution' when calling updateUsingPOST",
+        new ApiException(400, "Missing the required parameter 'issueSolution' when calling updateUsingPOST"));
     }
 
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getListUsingGET4ValidateBeforeCall(String beaconId, Boolean onlyUnresolved, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'beaconId' is set
-        if (beaconId == null) {
-            throw new ApiException("Missing the required parameter 'beaconId' when calling getListUsingGET4(Async)");
-        }
-        
+    // create path and map variables
+    String path = "/v1/admin/issues/{id}/resolve".replaceAll("\\{format\\}","json").replaceAll("\\{" + "id" + "\\}", apiInvoker.escapeString(id.toString()));
 
-        com.squareup.okhttp.Call call = getListUsingGET4Call(beaconId, onlyUnresolved, progressListener, progressRequestListener);
-        return call;
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
+
+
+    String[] contentTypes = {
+      "application/json"
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+          }
+
+    String[] authNames = new String[] { "JWT" };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            try {
+              responseListener.onResponse((BeaconIssue) ApiInvoker.deserialize(localVarResponse,  "", BeaconIssue.class));
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
     }
-
-    /**
-     * View a list of available issues for the specified beacon ID
-     * 
-     * @param beaconId beaconId (required)
-     * @param onlyUnresolved onlyUnresolved (optional, default to false)
-     * @return List&lt;BeaconIssue&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public List<BeaconIssue> getListUsingGET4(String beaconId, Boolean onlyUnresolved) throws ApiException {
-        ApiResponse<List<BeaconIssue>> resp = getListUsingGET4WithHttpInfo(beaconId, onlyUnresolved);
-        return resp.getData();
-    }
-
-    /**
-     * View a list of available issues for the specified beacon ID
-     * 
-     * @param beaconId beaconId (required)
-     * @param onlyUnresolved onlyUnresolved (optional, default to false)
-     * @return ApiResponse&lt;List&lt;BeaconIssue&gt;&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<List<BeaconIssue>> getListUsingGET4WithHttpInfo(String beaconId, Boolean onlyUnresolved) throws ApiException {
-        com.squareup.okhttp.Call call = getListUsingGET4ValidateBeforeCall(beaconId, onlyUnresolved, null, null);
-        Type localVarReturnType = new TypeToken<List<BeaconIssue>>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * View a list of available issues for the specified beacon ID (asynchronously)
-     * 
-     * @param beaconId beaconId (required)
-     * @param onlyUnresolved onlyUnresolved (optional, default to false)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call getListUsingGET4Async(String beaconId, Boolean onlyUnresolved, final ApiCallback<List<BeaconIssue>> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = getListUsingGET4ValidateBeforeCall(beaconId, onlyUnresolved, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<List<BeaconIssue>>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    /**
-     * Build call for getUsingGET2
-     * @param id id (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call getUsingGET2Call(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/v1/admin/issues/{id}"
-            .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] { "JWT" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getUsingGET2ValidateBeforeCall(Long id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'id' is set
-        if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling getUsingGET2(Async)");
-        }
-        
-
-        com.squareup.okhttp.Call call = getUsingGET2Call(id, progressListener, progressRequestListener);
-        return call;
-
-    }
-
-    /**
-     * Search a issue with an ID
-     * 
-     * @param id id (required)
-     * @return BeaconIssue
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public BeaconIssue getUsingGET2(Long id) throws ApiException {
-        ApiResponse<BeaconIssue> resp = getUsingGET2WithHttpInfo(id);
-        return resp.getData();
-    }
-
-    /**
-     * Search a issue with an ID
-     * 
-     * @param id id (required)
-     * @return ApiResponse&lt;BeaconIssue&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<BeaconIssue> getUsingGET2WithHttpInfo(Long id) throws ApiException {
-        com.squareup.okhttp.Call call = getUsingGET2ValidateBeforeCall(id, null, null);
-        Type localVarReturnType = new TypeToken<BeaconIssue>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Search a issue with an ID (asynchronously)
-     * 
-     * @param id id (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call getUsingGET2Async(Long id, final ApiCallback<BeaconIssue> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = getUsingGET2ValidateBeforeCall(id, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<BeaconIssue>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    /**
-     * Build call for updateUsingPOST
-     * @param id id (required)
-     * @param issueSolution issueSolution (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call updateUsingPOSTCall(Long id, IssueSolution issueSolution, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = issueSolution;
-
-        // create path and map variables
-        String localVarPath = "/v1/admin/issues/{id}/resolve"
-            .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] { "JWT" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call updateUsingPOSTValidateBeforeCall(Long id, IssueSolution issueSolution, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'id' is set
-        if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling updateUsingPOST(Async)");
-        }
-        
-        // verify the required parameter 'issueSolution' is set
-        if (issueSolution == null) {
-            throw new ApiException("Missing the required parameter 'issueSolution' when calling updateUsingPOST(Async)");
-        }
-        
-
-        com.squareup.okhttp.Call call = updateUsingPOSTCall(id, issueSolution, progressListener, progressRequestListener);
-        return call;
-
-    }
-
-    /**
-     * Update a issue
-     * 
-     * @param id id (required)
-     * @param issueSolution issueSolution (required)
-     * @return BeaconIssue
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public BeaconIssue updateUsingPOST(Long id, IssueSolution issueSolution) throws ApiException {
-        ApiResponse<BeaconIssue> resp = updateUsingPOSTWithHttpInfo(id, issueSolution);
-        return resp.getData();
-    }
-
-    /**
-     * Update a issue
-     * 
-     * @param id id (required)
-     * @param issueSolution issueSolution (required)
-     * @return ApiResponse&lt;BeaconIssue&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<BeaconIssue> updateUsingPOSTWithHttpInfo(Long id, IssueSolution issueSolution) throws ApiException {
-        com.squareup.okhttp.Call call = updateUsingPOSTValidateBeforeCall(id, issueSolution, null, null);
-        Type localVarReturnType = new TypeToken<BeaconIssue>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Update a issue (asynchronously)
-     * 
-     * @param id id (required)
-     * @param issueSolution issueSolution (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call updateUsingPOSTAsync(Long id, IssueSolution issueSolution, final ApiCallback<BeaconIssue> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = updateUsingPOSTValidateBeforeCall(id, issueSolution, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<BeaconIssue>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
+  }
 }

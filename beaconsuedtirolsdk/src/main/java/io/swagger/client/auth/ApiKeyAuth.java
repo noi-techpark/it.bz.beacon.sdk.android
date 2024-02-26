@@ -1,4 +1,8 @@
-/*
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,14 +14,12 @@
  * Do not edit the class manually.
  */
 
+package io.swagger.client.auth;
 
-package it.bz.beacon.beaconsuedtirolsdk.swagger.client.auth;
-
-import it.bz.beacon.beaconsuedtirolsdk.swagger.client.Pair;
+import io.swagger.client.Pair;
 
 import java.util.Map;
 import java.util.List;
-
 
 public class ApiKeyAuth implements Authentication {
   private final String location;
@@ -57,10 +59,10 @@ public class ApiKeyAuth implements Authentication {
 
   @Override
   public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
+    String value;
     if (apiKey == null) {
       return;
     }
-    String value;
     if (apiKeyPrefix != null) {
       value = apiKeyPrefix + " " + apiKey;
     } else {

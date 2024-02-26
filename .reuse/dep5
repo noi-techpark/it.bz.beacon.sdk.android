@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: it.bz.beacon.sdk.android
+Upstream-Contact: NOI Techpark <digital@noi.bz.it>
+Source: https://github.com/noi-techpark/it.bz.beacon.sdk.android
+
+Files: infrastructure/* .gitignore beaconsuedtirolsdk/.gitignore app/.gitignore LICENSE.md Gemfile *.properties gradlew swagger/* gradle/* fastlane/* app/proguard-rules.pro beaconsuedtirolsdk/proguard-rules.pro app/src/main/res/**/*.png beaconsuedtirolsdk/schemas/*
+Copyright: (c) NOI Techpark <digital@noi.bz.it>
+License: CC0-1.0

@@ -1,4 +1,8 @@
-/*
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,90 +14,54 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
+import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 
-/**
- * IssueSolution
- */
-
+@ApiModel(description = "")
 public class IssueSolution {
+  
   @SerializedName("resolver")
   private String resolver = null;
-
   @SerializedName("solution")
   private String solution = null;
-
   @SerializedName("solutionDescription")
   private String solutionDescription = null;
 
-  public IssueSolution resolver(String resolver) {
-    this.resolver = resolver;
-    return this;
-  }
-
-   /**
-   * Get resolver
-   * @return resolver
-  **/
+  /**
+   **/
   @ApiModelProperty(required = true, value = "")
   public String getResolver() {
     return resolver;
   }
-
   public void setResolver(String resolver) {
     this.resolver = resolver;
   }
 
-  public IssueSolution solution(String solution) {
-    this.solution = solution;
-    return this;
-  }
-
-   /**
-   * Get solution
-   * @return solution
-  **/
+  /**
+   **/
   @ApiModelProperty(required = true, value = "")
   public String getSolution() {
     return solution;
   }
-
   public void setSolution(String solution) {
     this.solution = solution;
   }
 
-  public IssueSolution solutionDescription(String solutionDescription) {
-    this.solutionDescription = solutionDescription;
-    return this;
-  }
-
-   /**
-   * Get solutionDescription
-   * @return solutionDescription
-  **/
+  /**
+   **/
   @ApiModelProperty(value = "")
   public String getSolutionDescription() {
     return solutionDescription;
   }
-
   public void setSolutionDescription(String solutionDescription) {
     this.solutionDescription = solutionDescription;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -101,39 +69,29 @@ public class IssueSolution {
       return false;
     }
     IssueSolution issueSolution = (IssueSolution) o;
-    return Objects.equals(this.resolver, issueSolution.resolver) &&
-        Objects.equals(this.solution, issueSolution.solution) &&
-        Objects.equals(this.solutionDescription, issueSolution.solutionDescription);
+    return (this.resolver == null ? issueSolution.resolver == null : this.resolver.equals(issueSolution.resolver)) &&
+        (this.solution == null ? issueSolution.solution == null : this.solution.equals(issueSolution.solution)) &&
+        (this.solutionDescription == null ? issueSolution.solutionDescription == null : this.solutionDescription.equals(issueSolution.solutionDescription));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(resolver, solution, solutionDescription);
+    int result = 17;
+    result = 31 * result + (this.resolver == null ? 0: this.resolver.hashCode());
+    result = 31 * result + (this.solution == null ? 0: this.solution.hashCode());
+    result = 31 * result + (this.solutionDescription == null ? 0: this.solutionDescription.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class IssueSolution {\n");
     
-    sb.append("    resolver: ").append(toIndentedString(resolver)).append("\n");
-    sb.append("    solution: ").append(toIndentedString(solution)).append("\n");
-    sb.append("    solutionDescription: ").append(toIndentedString(solutionDescription)).append("\n");
-    sb.append("}");
+    sb.append("  resolver: ").append(resolver).append("\n");
+    sb.append("  solution: ").append(solution).append("\n");
+    sb.append("  solutionDescription: ").append(solutionDescription).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-

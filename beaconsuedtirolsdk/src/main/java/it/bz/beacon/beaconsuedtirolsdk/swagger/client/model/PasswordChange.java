@@ -1,4 +1,8 @@
-/*
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+/**
  * Beacon Suedtirol API
  * The API for the Beacon Suedtirol project for configuring beacons and accessing beacon data.
  *
@@ -10,69 +14,42 @@
  * Do not edit the class manually.
  */
 
-
 package it.bz.beacon.beaconsuedtirolsdk.swagger.client.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
+import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 
-/**
- * PasswordChange
- */
-
+@ApiModel(description = "")
 public class PasswordChange {
+  
   @SerializedName("newPassword")
   private String newPassword = null;
-
   @SerializedName("oldPassword")
   private String oldPassword = null;
 
-  public PasswordChange newPassword(String newPassword) {
-    this.newPassword = newPassword;
-    return this;
-  }
-
-   /**
-   * Get newPassword
-   * @return newPassword
-  **/
+  /**
+   **/
   @ApiModelProperty(required = true, value = "")
   public String getNewPassword() {
     return newPassword;
   }
-
   public void setNewPassword(String newPassword) {
     this.newPassword = newPassword;
   }
 
-  public PasswordChange oldPassword(String oldPassword) {
-    this.oldPassword = oldPassword;
-    return this;
-  }
-
-   /**
-   * Get oldPassword
-   * @return oldPassword
-  **/
+  /**
+   **/
   @ApiModelProperty(required = true, value = "")
   public String getOldPassword() {
     return oldPassword;
   }
-
   public void setOldPassword(String oldPassword) {
     this.oldPassword = oldPassword;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -80,37 +57,26 @@ public class PasswordChange {
       return false;
     }
     PasswordChange passwordChange = (PasswordChange) o;
-    return Objects.equals(this.newPassword, passwordChange.newPassword) &&
-        Objects.equals(this.oldPassword, passwordChange.oldPassword);
+    return (this.newPassword == null ? passwordChange.newPassword == null : this.newPassword.equals(passwordChange.newPassword)) &&
+        (this.oldPassword == null ? passwordChange.oldPassword == null : this.oldPassword.equals(passwordChange.oldPassword));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(newPassword, oldPassword);
+    int result = 17;
+    result = 31 * result + (this.newPassword == null ? 0: this.newPassword.hashCode());
+    result = 31 * result + (this.oldPassword == null ? 0: this.oldPassword.hashCode());
+    return result;
   }
 
-
   @Override
-  public String toString() {
+  public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class PasswordChange {\n");
     
-    sb.append("    newPassword: ").append(toIndentedString(newPassword)).append("\n");
-    sb.append("    oldPassword: ").append(toIndentedString(oldPassword)).append("\n");
-    sb.append("}");
+    sb.append("  newPassword: ").append(newPassword).append("\n");
+    sb.append("  oldPassword: ").append(oldPassword).append("\n");
+    sb.append("}\n");
     return sb.toString();
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
-
