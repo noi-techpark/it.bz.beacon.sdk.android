@@ -25,6 +25,10 @@ android {
         exclude 'META-INF/DEPENDENCIES'
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -46,7 +50,7 @@ configurations.all {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.kontaktio:sdk:4.0.3'
+    implementation 'io.kontakt.mvn:sdk:7.1.13'
     implementation 'io.swagger:swagger-annotations:1.5.22'
     implementation 'com.squareup.okhttp:okhttp:2.7.5'
     implementation 'com.squareup.okhttp:logging-interceptor:2.7.5'
